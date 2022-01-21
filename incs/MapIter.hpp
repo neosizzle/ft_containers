@@ -45,7 +45,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			curr_class &operator++ () { ptr = ptr_next(ptr) ; return *this ; }
 			curr_class &operator-- () { ptr = ptr_prev(ptr) ; return *this ; }
 			curr_class operator++ (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
-			curr_class operator-- (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
+			curr_class operator-- (int) { curr_class temp(*this) ; this->operator--() ; return temp ; }
 
 		private :
 			//in-order traversal to get next node
@@ -120,10 +120,10 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			value_type *operator-> () { return &ptr->pair ; }
 			bool operator== ( const curr_class& that ) const { return ptr == that.ptr ; }
 			bool operator!= ( const curr_class& that ) const { return ptr != that.ptr ; }
-			curr_class &operator++ () { ptr = ptr_next(ptr) ; return *this ; }
-			curr_class &operator-- () { ptr = ptr_prev(ptr) ; return *this ; }
+			curr_class &operator++ () { ptr = ptr_prev(ptr) ; return *this ; }
+			curr_class &operator-- () { ptr = ptr_next(ptr) ; return *this ; }
 			curr_class operator++ (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
-			curr_class operator-- (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
+			curr_class operator-- (int) { curr_class temp(*this) ; this->operator--() ; return temp ; }
 
 		private :
 			//in-order traversal to get next node

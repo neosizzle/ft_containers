@@ -17,12 +17,14 @@ namespace ft
 	}
 
 	/// Class std::map wrapper with performance instrumentation.
-	// Refer for c++ map source code
+	// Refer for c++ map reference (https://en.cppreference.com/w/cpp/container/map)
+	// Refer for c++ map source code (https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-3.4/stl__map_8h-source.html)
 	template <class Key, class T, class Compare = std::less<Key>,
 	class Allocator = std::allocator<std::pair<const Key, T> >
 	>
 	class Map
 	{
+		//Member types & functions
 		public :
 			//typedefs (refer to sourcecode)
 			typedef Key										key_type;
@@ -32,9 +34,36 @@ namespace ft
 			typedef Allocator								allocator_type;
 			typedef T& 										reference;
 			typedef const T& 								const_reference;
+			typedef T*										pointer;
+			typedef	const	T*								const_pointer;
 			typedef size_t									size_type;
 			typedef BSTNode<key_type, mapped_type>			*node;
-			//todo define iterator
+			typedef MapIter<key_type, mapped_type, pointer, reference>						iterator;
+			typedef ReverseMapIter<key_type, mapped_type, pointer, reference>				reverse_iterator;
+			typedef MapIter<key_type, mapped_type, const_pointer, const_reference>			const_iterator;
+			typedef ReverseMapIter<key_type, mapped_type, const_pointer, const_reference>	const_reverse_iterator;
+
+			//binary function for C++98 implementation
+			class value_compare : public std::binary_function<value_type, value_type, bool>
+			{
+				friend class Map<Key, T, Compare, Alloc>;
+				protected : 
+					Compare cmp; // compare is the maps compare object
+					value_compare (Compare c) : comp(c) {}
+				public :
+					typedef bool result_type;
+					typedef value_type first_argument_type;
+					typedef value_type second_argument_type;
+					bool operator() (const value_type& left, const value_type& right) const
+						return comp(left.first, right.first);
+			}
+
+			//helpers and attributes
+			private :
+
+			//member functions & access operations
+			public :
+
 	};
 }//ft
 
