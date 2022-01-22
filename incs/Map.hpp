@@ -66,10 +66,68 @@ namespace ft
 				size_type		_len;
 
 				//node _new_node(key_type key, mapped_type value, node parent, bool is_leaf = false)
+				//creates and initializes new node and returns the pointer to that node
+				node _new_node(key_type key, mapped_type value, node parent, bool is_leaf = false)
+				{
+					node	res;
+
+					res = new BSTNode<key_type, value_type>();
+					res.pair = std::make_pair(key, value);
+					res.left = 0;
+					res.right = 0;
+					res.parent = parent;
+					res.is_leaf = is_leaf;
+
+					return res;
+				}
 
 				//void	free_tree(node n);
+				void	_free_tree(node n)
+				{
+					if (n->left)
+						_free_tree(n->left);
+					if (n->right)
+						_free_tree(n->right);
+					delete n;
+				}
 
 				//node _insert_node(node n, key_type key, mapped_type value, bool is_leaf = false)
+				//insert node n into bst (n is not null)
+				//base case: check if node is leaf . If it is, add to left or right subtree
+				//recurse left if value is smaller than curr node
+				//vice versa if larger
+				node _insert_node(node n, key_type key, mapped_type value, bool is_leaf = false)
+				{
+					if (!n->left && !n->right)
+					{
+						if (key < n->pair.first)
+						{
+							n->left = _new_node(key, value, n);
+							return n->left;
+						}
+						else
+						{
+							n->right = _new_node(key, value, n);
+							return n->right;							
+						}
+					}
+					if (key < n->pair.first)
+					{
+						if (n->left)
+							return _insert_node(n->left, key, value);
+						else
+							n->left = _new_node(key, value, n);
+						return n->left;
+					}
+					if (key > n->pair.first)
+					{
+						if (n->right)
+							return _insert_node(n->right, key, value);
+						else
+							n->right = _new_node(key, value, n);
+						return n->right;						
+					}
+				}
 
 				//node _find(node n, key_type key) const
 
