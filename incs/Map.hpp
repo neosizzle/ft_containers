@@ -60,6 +60,25 @@ namespace ft
 
 			//helpers and attributes
 			private :
+				allocator_type	_allocator;
+				node			_root;
+				key_compare		_compare;
+				size_type		_len;
+
+				//node _new_node(key_type key, mapped_type value, node parent, bool is_leaf = false)
+
+				//void	free_tree(node n);
+
+				//node _insert_node(node n, key_type key, mapped_type value, bool is_leaf = false)
+
+				//node _find(node n, key_type key) const
+
+				//void _delete_node(node n)
+
+				//void _init_tree(void)
+
+
+				//node _end(void) const 
 
 			//member functions & access operations
 			public :

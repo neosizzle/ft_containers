@@ -10,7 +10,7 @@ struct BSTNode
 	BSTNode *left;
 	BSTNode *right;
 	BSTNode *parent;
-	bool end;
+	bool is_leaf;
 };
 
 //custom iterator class requirements:(https://www.cplusplus.com/forum/general/225835/)
