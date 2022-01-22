@@ -130,6 +130,17 @@ namespace ft
 				}
 
 				//node _find(node n, key_type key) const
+				//if curr nodes key is equal to key, return curr node (base case)
+				node _find(node n, key_type key) const
+				{
+					if (!n || n->pair.first == key)
+						return n;
+					if (n->right && key > n->pair.first)
+						return _find(n->right, key);
+					if (n->left && key < n->pair.first)
+						return _find(n->left, key);
+					return 0;
+				}
 
 				//void _delete_node(node n)
 
