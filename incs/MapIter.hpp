@@ -1,17 +1,7 @@
 #ifndef __MAP_ITER__H
 #define __MAP_ITER__H
 #include "main.hpp"
-
-//BST node
-template <class Key, class T>
-struct BSTNode
-{
-	std::pair<Key, T> pair;
-	BSTNode *left;
-	BSTNode *right;
-	BSTNode *parent;
-	bool is_leaf;
-};
+#include "MapUtils.hpp"
 
 //custom iterator class requirements:(https://www.cplusplus.com/forum/general/225835/)
 template <typename K, typename T, typename Pointer, typename Reference>
@@ -19,8 +9,8 @@ template <typename K, typename T, typename Pointer, typename Reference>
 	{
 		public :
 			//type defs follow https://www.cplusplus.com/forum/general/225835/
-			typedef std::pair<K, T>							value_type;
-			typedef std::pair<K, T>&						reference;
+			typedef ft::pair<K, T>							value_type;
+			typedef ft::pair<K, T>&						reference;
 			typedef BSTNode<K, T>*							pointer;
 			typedef MapIter<K, T, Pointer, Reference>		curr_class;
 			typedef MapIter<K, T, T*, T&>					iterator;
@@ -46,6 +36,9 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			curr_class &operator-- () { ptr = ptr_prev(ptr) ; return *this ; }
 			curr_class operator++ (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
 			curr_class operator-- (int) { curr_class temp(*this) ; this->operator--() ; return temp ; }
+
+			//mem funcs
+			pointer node(void) { return (ptr);}
 
 		private :
 			//in-order traversal to get next node
@@ -97,8 +90,8 @@ template <typename K, typename T, typename Pointer, typename Reference>
 	{
 		public :
 			//type defs follow https://www.cplusplus.com/forum/general/225835/
-			typedef std::pair<K, T>							value_type;
-			typedef std::pair<K, T>&						reference;
+			typedef ft::pair<K, T>							value_type;
+			typedef ft::pair<K, T>&						reference;
 			typedef BSTNode<K, T>*							pointer;
 			typedef ReverseMapIter<K, T, Pointer, Reference>		curr_class;
 			typedef ReverseMapIter<K, T, T*, T&>					iterator;
