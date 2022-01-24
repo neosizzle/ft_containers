@@ -342,6 +342,64 @@ namespace ft
 		return (const_reverse_iterator(n));
 	}
 
+	//modifiers definitions
+	template <class Key, class T, class Compare, class Alloc >
+	void Map<Key, T, Compare, Alloc>::erase(iterator position)
+	{
+		node	n;
+
+		n = position.node();
+		_delete_node(n);
+		--this->_len;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	void Map<Key, T, Compare, Alloc>::erase(iterator first, iterator last)
+	{
+		while (first != last)
+			this->erase(first++);
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	size_t Map<Key, T, Compare, Alloc>::erase( const Key& key )
+	{
+		//todo iterator find
+		return 0;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	void Map<Key, T, Compare, Alloc>::clear()
+	{
+		iterator	first;
+		iterator	last;
+
+		first = this->begin();
+		last = this->end();
+		while (first != last)
+			this->erase(first++);
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	ft::pair<typename Map<Key, T, Compare, Alloc>::iterator, bool> Map<Key, T, Compare, Alloc>::insert( const value_type& value )
+	{
+		//todo iterator find
+		return 0;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::iterator Map<Key, T, Compare, Alloc>::insert( iterator hint, const value_type& value )
+	{
+		//todo iterator find
+		return 0;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	void Map<Key, T, Compare, Alloc>::swap( Map& other )
+	{
+		Map<Key, T, Compare, Alloc> temp = *this;
+		*this = other;
+		other = temp;
+	}
 }//ft
 
 #endif  //!__MAP__H

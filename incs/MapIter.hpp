@@ -118,6 +118,9 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			curr_class operator++ (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
 			curr_class operator-- (int) { curr_class temp(*this) ; this->operator--() ; return temp ; }
 
+			//mem funcs
+			pointer node(void) { return (ptr);}
+
 		private :
 			//in-order traversal to get next node
 			pointer	ptr_next(pointer ptr)
