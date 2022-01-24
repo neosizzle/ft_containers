@@ -20,4 +20,5 @@ int	main()
 	std::cout << "pair > pair2 " << (pair > pair2) << "\n";
 	std::cout << "pair3 > pair4 " << (pair3 > pair4) << "\n";
 	std::cout << "pair4 < pair3 " << (pair4 < pair3) << "\n";
+	std::cout << GREEN << "hello world" << RESET << std::endl;
 }
