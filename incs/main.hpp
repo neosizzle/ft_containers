@@ -18,8 +18,31 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+//general
+#include <string>
+#include <stdlib.h>
+#include <iostream>
+
+//for map
 #include <utility>
 #include <functional>
 #include <memory>
 #include <limits>
+#include <cstddef>
+
+//for vect
+
+//for stack
+
+//for set
+
+//for testing
+
+template <class T1>
+void	test_line(std::string cmd, T1 expected, T1 actual);
+
+template <class T1, class T2>
+void	test_line_diffclass(std::string cmd, T1 expected, T2 actual);
+
+void	run_map_tests(void);
 #endif  //!__MAIN__H

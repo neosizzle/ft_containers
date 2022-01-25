@@ -2,17 +2,6 @@
 #define __MAPUTILS__H__
 #include <main.hpp>
 
-//BST node
-template <class Key, class T>
-struct BSTNode
-{
-	std::pair<Key, T> pair;
-	BSTNode *left;
-	BSTNode *right;
-	BSTNode *parent;
-	// bool is_end; need extra end node for iter?
-};
-
 namespace ft
 {
 	//pair , replacement for std::pair
@@ -106,5 +95,19 @@ namespace ft
 	}
 	
 }//ft
+
+//BST node
+template <class Key, class T>
+struct BSTNode
+{
+	BSTNode *left;
+	BSTNode *right;
+	BSTNode *parent;
+	ft::pair<Key, T> pair;
+	// bool is_end; need extra end node for iter?
+};
+
+//‘BSTNode<std::__cxx11::basic_string<char>, ft::pair<const std::__cxx11::basic_string<char>, int> >*’
+// ‘BSTNode<std::__cxx11::basic_string<char>, int>*’
 
 #endif  //!__MAPUTILS__H__

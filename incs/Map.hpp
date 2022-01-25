@@ -74,11 +74,11 @@ namespace ft
 			{
 				node	res;
 
-				res = new BSTNode<key_type, value_type>();
-				res.pair = ft::make_pair(key, value);
-				res.left = 0;
-				res.right = 0;
-				res.parent = parent;
+				res = new BSTNode<key_type, mapped_type>();
+				res->pair = ft::make_pair(key, value);
+				res->left = 0;
+				res->right = 0;
+				res->parent = parent;
 
 				return res;
 			}
@@ -191,8 +191,8 @@ namespace ft
 			//void _init_tree(void)
 			void _init_tree(void)
 			{
-				this._root = _new_node(key_type(), mapped_type(), 0);
-				this._length = 0;
+				this->_root = _new_node(key_type(), mapped_type(), 0);
+				this->_len = 0;
 			}
 
 
@@ -255,7 +255,7 @@ namespace ft
 	Map<Key, T, Compare, Alloc>::Map(const key_compare &comp, const allocator_type alloc)
 	{
 		this->_allocator = alloc;
-		this->_comp = comp;
+		this->_compare = comp;
 		this->_init_tree();
 	}
 
@@ -275,7 +275,9 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc >
 	Map<Key, T, Compare, Alloc> &Map<Key, T, Compare, Alloc>::operator=(const Map<Key, T> &other)
 	{
-		//todo with insert
+		this->clear();
+		this->insert(other.begin(), other.end());
+		return (*this);
 	}
 
 	//element access definitions
@@ -363,8 +365,18 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc >
 	size_t Map<Key, T, Compare, Alloc>::erase( const Key& key )
 	{
-		//todo iterator find
-		return 0;
+		size_type	i;
+		iterator	iter;
+
+		i = 0;
+		iter = this->find(key);
+		while (iter != this->end())
+		{
+			this->erase(iter);
+			++i;
+			iter = this->find(key);
+		}
+		return i;
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
@@ -382,15 +394,25 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc >
 	ft::pair<typename Map<Key, T, Compare, Alloc>::iterator, bool> Map<Key, T, Compare, Alloc>::insert( const value_type& value )
 	{
-		//todo iterator find
-		return 0;
+		iterator	iter;
+
+		iter = this->find(value.first);
+		if (iter != this->end())
+			return (std::make_pair(iter, false));
+		++this->len;
+		return (std::make_pair(iter, false));
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
 	typename Map<Key, T, Compare, Alloc>::iterator Map<Key, T, Compare, Alloc>::insert( iterator hint, const value_type& value )
 	{
-		//todo iterator find
-		return 0;
+		iterator	iter;
+
+		iter = this->find(value.first);
+		if (iter != this->end())
+			return (iter);
+		++this->len;
+		return (iterator(this->_insert_node(hint.node(), value.first, value.second)));
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
@@ -400,6 +422,123 @@ namespace ft
 		*this = other;
 		other = temp;
 	}
+
+	//lookup definitions
+	template <class Key, class T, class Compare, class Alloc >
+	size_t Map<Key, T, Compare, Alloc>::count( const Key& key ) const
+	{
+		node	found;
+
+		found = _find(this->_root, key);
+		if (found)
+			return 1;
+		return 0;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::iterator  Map<Key, T, Compare, Alloc>::find( const Key& key )
+	{
+		node	found;
+
+		if (this->empty())
+			return this->end();
+		found = _find(this->_root, key);
+		return iterator(found);
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::const_iterator Map<Key, T, Compare, Alloc>::find( const Key& key ) const
+	{
+		node	found;
+
+		if (this->empty())
+			return this->end();
+		found = _find(this->_root, key);
+		return const_iterator(found);
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::iterator Map<Key, T, Compare, Alloc>::lower_bound( const Key& key )
+	{
+		iterator begin;
+		iterator end;
+
+		begin = this->begin();
+		end = this->end();
+		while (begin != end)
+		{
+			if (this->_comp(begin->first, key) <= 0)
+				return begin;
+			++begin;
+		}
+		return end;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::const_iterator Map<Key, T, Compare, Alloc>::lower_bound( const Key& key ) const
+	{
+		const_iterator begin;
+		const_iterator end;
+
+		begin = this->cbegin();
+		end = this->cend();
+		while (begin != end)
+		{
+			if (this->_comp(begin->first, key) <= 0)
+				return begin;
+			++begin;
+		}
+		return end;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::iterator Map<Key, T, Compare, Alloc>::upper_bound( const Key& key )
+	{
+		iterator begin;
+		iterator end;
+
+		begin = this->begin();
+		end = this->end();
+		while (begin != end)
+		{
+			if (begin->first != key && this->_comp(begin->first, key) <= 0)
+				return begin;
+			++begin;
+		}
+		return end;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::const_iterator Map<Key, T, Compare, Alloc>::upper_bound( const Key& key ) const
+	{
+		const_iterator begin;
+		const_iterator end;
+
+		begin = this->cbegin();
+		end = this->cend();
+		while (begin != end)
+		{
+			if (begin->first != key && this->_comp(begin->first, key) <= 0)
+				return begin;
+			++begin;
+		}
+		return end;
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename ft::pair<typename Map<Key, T, Compare, Alloc>::iterator, typename Map<Key, T, Compare, Alloc>::iterator>
+	Map<Key, T, Compare, Alloc>::equal_range( const Key& key )
+	{
+		return (ft::make_pair(this->lower_bound(key), this->upper_bound(key)));
+	}
+
+	template <class Key, class T, class Compare, class Alloc >
+	typename ft::pair<typename Map<Key, T, Compare, Alloc>::const_iterator, typename Map<Key, T, Compare, Alloc>::const_iterator>
+	Map<Key, T, Compare, Alloc>::equal_range( const Key& key ) const
+	{
+		return (ft::make_pair(this->lower_bound(key), this->upper_bound(key)));
+	}
+	
 }//ft
 
 #endif  //!__MAP__H
