@@ -1,6 +1,6 @@
 #include "Map.hpp"
-#include "main.hpp"
 #include <map>
+#include "main.hpp"
 
 class CustomClass
 {
@@ -54,5 +54,8 @@ void	run_map_tests()
 	test_init_map("ft_map::<NULL, int>", 0, NULL, 1);
 	test_init_map("ft_map::<CustomClass, CustomClass>", 0, cc, cc);
 	test_init_map("ft_map::<CustomClass, int>", 0, cc, 1);
-	
+
+	std::cout << "==========Modifiers test==============\n";
+	 
+	test_line_diffclass("mine.insert(pairmine)", builtin.insert(pairbuiltin), mine.insert(pairmine));
 }

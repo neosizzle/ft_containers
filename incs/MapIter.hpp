@@ -20,7 +20,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			MapIter(void) : ptr(0){}
 			~MapIter(void){}
 			MapIter(const pointer ptr): ptr(ptr) {}
-			MapIter(const iterator iter){*this = iter;}
+			MapIter(const iterator &iter){*this = iter;}
 
 			//operators
 			MapIter &operator=(const iterator &iter)

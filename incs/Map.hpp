@@ -398,9 +398,9 @@ namespace ft
 
 		iter = this->find(value.first);
 		if (iter != this->end())
-			return (std::make_pair(iter, false));
-		++this->len;
-		return (std::make_pair(iter, false));
+			return (ft::make_pair(iter, false));
+		++this->_len;
+		return (ft::make_pair(iter, false));
 	}
 
 	template <class Key, class T, class Compare, class Alloc >

@@ -23,12 +23,16 @@
 #include <stdlib.h>
 #include <iostream>
 
+//for testing
+#include "TestUtils.hpp"
+
 //for map
 #include <utility>
 #include <functional>
 #include <memory>
 #include <limits>
 #include <cstddef>
+void	run_map_tests(void);
 
 //for vect
 
@@ -36,13 +40,6 @@
 
 //for set
 
-//for testing
 
-template <class T1>
-void	test_line(std::string cmd, T1 expected, T1 actual);
 
-template <class T1, class T2>
-void	test_line_diffclass(std::string cmd, T1 expected, T2 actual);
-
-void	run_map_tests(void);
 #endif  //!__MAIN__H
