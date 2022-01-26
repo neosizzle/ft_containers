@@ -121,7 +121,7 @@ namespace ft
 						n->left = _new_node(key, value, n);
 					return n->left;
 				}
-				if (key > n->pair.first)
+				else if (key > n->pair.first)
 				{
 					if (n->right)
 						return _insert_node(n->right, key, value);
@@ -129,6 +129,7 @@ namespace ft
 						n->right = _new_node(key, value, n);
 					return n->right;						
 				}
+				return 0;
 			}
 
 			//node _find(node n, key_type key) const
@@ -316,7 +317,7 @@ namespace ft
 	{
 		node n = this->_root;
 		if (!n->left && !n->right)
-			return (iterator(n));
+			return (const_iterator(n));
 		while (n->left)
 			n = n->left;
 		return (const_iterator(n));
@@ -398,9 +399,18 @@ namespace ft
 
 		iter = this->find(value.first);
 		if (iter != this->end())
+		{
+			std::cout << "dup found insert()\n";
 			return (ft::make_pair(iter, false));
+		}
 		++this->_len;
-		return (ft::make_pair(iter, false));
+		if (this->_len == 1)
+		{
+			delete this->_root;
+			this->_root = _new_node(value.first, value.second, 0);
+			return (ft::make_pair(iterator(this->_root), true));
+		}
+		return (ft::make_pair(iterator(this->_insert_node(this->_root, value.first, value.second)), true));
 	}
 
 	template <class Key, class T, class Compare, class Alloc >

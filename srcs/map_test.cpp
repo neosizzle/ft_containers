@@ -1,4 +1,6 @@
 #include "Map.hpp"
+#include "main.hpp"
+#include "TestUtils.hpp"
 #include <map>
 #include "main.hpp"
 
@@ -55,7 +57,19 @@ void	run_map_tests()
 	test_init_map("ft_map::<CustomClass, CustomClass>", 0, cc, cc);
 	test_init_map("ft_map::<CustomClass, int>", 0, cc, 1);
 
-	std::cout << "==========Modifiers test==============\n";
-	 
-	test_line_diffclass("mine.insert(pairmine)", builtin.insert(pairbuiltin), mine.insert(pairmine));
+	std::cout << "==========Iterator and operation test==============\n";
+	std::map<int, std::string> builtin;
+	ft::Map<int, std::string> mine;
+	// std::cout << mine.begin()->first << "\n";
+	// std::cout << mine.begin()->second << "\n";
+	test_line("mine.insert(ft::make_pair(1, \"one\")).second ", builtin.insert(std::make_pair(1, "one")).second, mine.insert(ft::make_pair(1, "one")).second);
+	test_line("mine.begin()->first", builtin.begin()->first, mine.begin()->first);
+	test_line("mine.begin()->second", builtin.begin()->second, mine.begin()->second);
+	test_line("mine.insert(ft::make_pair(2, \"two\")).second ", builtin.insert(std::make_pair(2, "two")).second, mine.insert(ft::make_pair(2, "two")).second);
+	test_line("mine.begin()->first", builtin.begin()->first, mine.begin()->first);
+	test_line("mine.begin()->second", builtin.begin()->second, mine.begin()->second);
+	builtin.insert(std::make_pair(1, "two"));
+	builtin.insert(std::make_pair(1, "three"));
+	std::cout << builtin.find(1)->second << "\n";
+	// std::cout << builtin.insert(std::make_pair(1, 1.0)).second << "\n";
 }
