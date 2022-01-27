@@ -153,14 +153,16 @@ namespace ft
 			{
 				node	successor;
 
-				if (!n->left && !n->right)
+				// std::cout << "deleting (" << n->pair.first << ", " << n->pair.second << ") \n";
+				if (n->parent && !n->left && !n->right)
 				{
+					std::cout << "hit 2\n";
 					if (n->parent->left == n)
 						n->parent->left = 0;
 					else if (n->parent->right == n)
 						n->parent->right = 0;
 				}
-				else if (!n->left && n->right)
+				else if (n->parent && !n->left && n->right)
 				{
 					successor = n->right;
 					if (n->parent->left == n)
@@ -168,7 +170,7 @@ namespace ft
 					else if (n->parent->right == n)
 						n->parent->right = successor;
 				}
-				else if (n->left && !n->right)
+				else if (n->parent && n->left && !n->right)
 				{
 					successor = n->left;
 					if (n->parent->left == n)
@@ -178,6 +180,7 @@ namespace ft
 				}
 				else
 				{
+					std::cout << "hit 1\n";
 					successor = (++iterator(n)).node();
 					if (!successor)
 						successor = (--iterator(n)).node();
@@ -205,7 +208,7 @@ namespace ft
 			explicit Map(const key_compare &comp = key_compare(), const allocator_type alloc = allocator_type());
 			Map(const Map<Key, T> &other);
 			~Map();
-			Map &operator=(const Map<Key, T> &other);
+			Map &operator=(Map<Key, T> &other);
 			allocator_type	get_allocator() {return allocator_type();}
 
 			//element access
@@ -238,6 +241,17 @@ namespace ft
 			void erase( iterator first, iterator last );
 			size_type erase( const Key& key );
 			void swap( Map& other );
+
+			template <class InputIterator>
+			void insert(InputIterator first, InputIterator last)
+			{
+				while (first != last)
+				{
+					std::cout << "inserting (" << first->first << ", " << first->second << ") \n";
+					this->insert(*first);
+					++first;
+				}
+			}
 
 			//lookup
 			size_type count( const Key& key ) const;
@@ -273,9 +287,10 @@ namespace ft
 		this->_free_tree(this->_root);
 	}
 
+
 	template <class Key, class T, class Compare, class Alloc >
-	Map<Key, T, Compare, Alloc> &Map<Key, T, Compare, Alloc>::operator=(const Map<Key, T> &other)
-	{
+	Map<Key, T, Compare, Alloc> &Map<Key, T, Compare, Alloc>::operator= (Map<Key, T> &other)
+	{	
 		this->clear();
 		this->insert(other.begin(), other.end());
 		return (*this);
@@ -295,7 +310,7 @@ namespace ft
 	}
 	
 	template <class Key, class T, class Compare, class Alloc >
-	typename Map<Key, T, Compare, Alloc> ::mapped_type &Map<Key, T, Compare, Alloc>::operator[](const key_type& k)
+	typename Map<Key, T, Compare, Alloc> ::mapped_type &Map<Key, T, Compare, Alloc>::operator [] (const key_type& k)
 	{
 		return this->at(k);
 	}
@@ -389,7 +404,11 @@ namespace ft
 		first = this->begin();
 		last = this->end();
 		while (first != last)
+		{
+			std::cout << first == 0 << "\n";
+			// std::cout << "erasing node (" << first->first << ", " << first->second << ") \n";
 			this->erase(first++);
+		}
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
@@ -400,7 +419,7 @@ namespace ft
 		iter = this->find(value.first);
 		if (iter != this->end())
 		{
-			std::cout << "dup found insert()\n";
+			// std::cout << "dup found insert()\n";
 			return (ft::make_pair(iter, false));
 		}
 		++this->_len;

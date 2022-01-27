@@ -20,6 +20,11 @@
 
 #include <iostream>
 
+void	print_fail_msg(std::string cmd, std::string msg)
+{
+	std::cout << RED << cmd << msg << std::endl;
+}
+
 template <class T1>
 void	test_line(std::string cmd, T1 expected, T1 actual)
 {
@@ -35,7 +40,7 @@ void	test_line_diffclass(std::string cmd, T1 expected, T2 actual)
 	if (expected == actual)
 		std::cout << GREEN << cmd << " [PASS] Value match" << RESET << std::endl;
 	else
-		std::cout << RED << cmd << " [FAIL] Different output" << std::endl;;
+		print_fail_msg(cmd, " [FAIL] Different output");
 }
 
 void	test_line_operation_success(std::string cmd, int should_success)
@@ -43,7 +48,7 @@ void	test_line_operation_success(std::string cmd, int should_success)
 	if (should_success)
 		std::cout << GREEN << cmd << " [PASS] Operation success" << RESET << std::endl;
 	else
-		std::cout << RED << cmd << " [FAIL] Operation should fail" << std::endl;;
+		print_fail_msg(cmd, " [FAIL] Operation should fail");
 }
 
 void	test_line_operation_fail(std::string cmd, int should_fail)
@@ -51,7 +56,7 @@ void	test_line_operation_fail(std::string cmd, int should_fail)
 	if (should_fail)
 		std::cout << GREEN << cmd << " [PASS] Operation failed successfully" << RESET << std::endl;
 	else
-		std::cout << RED << cmd << " [FAIL] Operation did not fail" << std::endl;;
+		print_fail_msg(cmd, " [FAIL] Operation did not fail");
 }
 
 #endif  //!__TESTUTILS__H
