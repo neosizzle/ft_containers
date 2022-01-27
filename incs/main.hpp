@@ -6,12 +6,16 @@
 #include <stdlib.h>
 #include <iostream>
 
+//for testing
+#include "TestUtils.hpp"
+
 //for map
 #include <utility>
 #include <functional>
 #include <memory>
 #include <limits>
 #include <cstddef>
+void	run_map_tests(void);
 
 //for vect
 
