@@ -2,7 +2,8 @@ SRCS = ./srcs/*.cpp
 OBJS = *.o
 INCS = ./incs
 NAME = a.out
-CC = c++ -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3
+# CC = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g3
+CC = c++ -Wall -Wextra -std=c++98 -fsanitize=address -g3
 
 all : ${NAME}
 

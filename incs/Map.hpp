@@ -70,7 +70,7 @@ namespace ft
 
 			//node _new_node(key_type key, mapped_type value, node paren)
 			//creates and initializes new node and returns the pointer to that node
-			node _new_node(key_type key, mapped_type value, node parent)
+			node _new_node(key_type key, mapped_type value, node parent, bool is_end = false)
 			{
 				node	res;
 
@@ -79,6 +79,7 @@ namespace ft
 				res->left = 0;
 				res->right = 0;
 				res->parent = parent;
+				res->is_end = is_end;
 
 				return res;
 			}
@@ -98,27 +99,21 @@ namespace ft
 			//base case: check if node is leaf . If it is, add to left or right subtree
 			//recurse left if value is smaller than curr node
 			//vice versa if larger
-			node _insert_node(node n, key_type key, mapped_type value)
+			node _insert_node(node n, key_type key, mapped_type value, bool is_end = false)
 			{
-				if (!n->left && !n->right)
+				if (n->is_end)
 				{
-					if (key < n->pair.first)
-					{
-						n->left = _new_node(key, value, n);
-						return n->left;
-					}
-					else
-					{
-						n->right = _new_node(key, value, n);
-						return n->right;							
-					}
+					n->is_end = false;
+					n->right = _new_node(key_type(), mapped_type(), n, true);
+					n->pair = ft::make_pair(key, value);
+					return (n);
 				}
 				if (key < n->pair.first)
 				{
 					if (n->left)
 						return _insert_node(n->left, key, value);
 					else
-						n->left = _new_node(key, value, n);
+						n->left = _new_node(key, value, n, is_end);
 					return n->left;
 				}
 				else if (key > n->pair.first)
@@ -126,23 +121,23 @@ namespace ft
 					if (n->right)
 						return _insert_node(n->right, key, value);
 					else
-						n->right = _new_node(key, value, n);
+						n->right = _new_node(key, value, n, is_end);
 					return n->right;						
 				}
-				return 0;
+				return this->_end();
 			}
 
 			//node _find(node n, key_type key) const
 			//if curr nodes key is equal to key, return curr node (base case)
 			node _find(node n, key_type key) const
 			{
-				if (!n || n->pair.first == key)
+				if (n->is_end || n->pair.first == key)
 					return n;
 				if (n->right && key > n->pair.first)
 					return _find(n->right, key);
 				if (n->left && key < n->pair.first)
 					return _find(n->left, key);
-				return 0;
+				return this->_end();
 			}
 
 			//void _delete_node(node n)
@@ -152,15 +147,23 @@ namespace ft
 			void _delete_node(node n)
 			{
 				node	successor;
+				ft::pair<Key, T>	temp;
 
-				// std::cout << "deleting (" << n->pair.first << ", " << n->pair.second << ") \n";
-				if (n->parent && !n->left && !n->right)
+				if (n->is_end)
 				{
-					std::cout << "hit 2\n";
+					if (n->parent && n->parent->is_end)
+						delete n;
+					return ; 
+				}
+				else if (n->parent && !n->left && !n->right)
+				{
 					if (n->parent->left == n)
 						n->parent->left = 0;
 					else if (n->parent->right == n)
 						n->parent->right = 0;
+					// std::cout << "1st rule deleting (" << n->pair.first << ", " << n->pair.second << ") \n";
+					delete n;
+					return ;
 				}
 				else if (n->parent && !n->left && n->right)
 				{
@@ -169,6 +172,11 @@ namespace ft
 						n->parent->left = successor;
 					else if (n->parent->right == n)
 						n->parent->right = successor;
+					successor->parent = n->parent;
+					// std::cout << "2nd rule deleting (" << n->pair.first << ", " << n->pair.second << ") \n";
+					// std::cout << "2nd rule parent (" << n->parent->pair.first << ", " << n->parent->pair.second << ") \n";
+					delete n;
+					return ;
 				}
 				else if (n->parent && n->left && !n->right)
 				{
@@ -177,36 +185,54 @@ namespace ft
 						n->parent->left = successor;
 					else if (n->parent->right == n)
 						n->parent->right = successor;
-				}
-				else
-				{
-					std::cout << "hit 1\n";
-					successor = (++iterator(n)).node();
-					if (!successor)
-						successor = (--iterator(n)).node();
-					ft::swap(successor->pair, n->pair);
-					_delete_node(successor);
+					successor->parent = n->parent;
+					// std::cout << "3rd rule deleting (" << n->pair.first << ", " << n->pair.second << ") \n";
+					delete n;
 					return ;
 				}
-
-				delete n;
+				successor = (++iterator(n)).node();
+				if (successor->is_end)
+				{
+					// std::cout << "end node found\n";
+					n->is_end = true;
+					if (n->left)
+						successor = (--iterator(n)).node();
+					n->left = 0;
+					n->right = 0;
+				}
+				ft::swap(successor->pair, n->pair);
+				// std::cout << "4th rule recursing. current pair : (" << n->pair.first << ", " << n->pair.second << ") ";
+				// std::cout << "successor pair : (" << successor->pair.first << ", " << successor->pair.second << ") \n";
+				// std::cout << "successor parent : (" << successor->parent->pair.first << ", " << successor->parent->pair.second << ") \n";
+				_delete_node(successor);
+				// std::cout << "should change now : (" << n->pair.first << ", " << n->pair.second << ") \n";
 			}
 
 			//void _init_tree(void)
 			void _init_tree(void)
 			{
-				this->_root = _new_node(key_type(), mapped_type(), 0);
+				this->_root = _new_node(key_type(), mapped_type(), 0, true);
 				this->_len = 0;
 			}
 
 
-			//node _end(void) const (?)
+			//node _end(void) const
+			node _end() const
+			{
+				node	temp;
+
+				temp = this->_root;
+				while (!temp->is_end)
+					temp = temp->right;
+				
+				return (temp);
+			}
 
 		//member functions & access operations
 		public :
 			//Member functions
 			explicit Map(const key_compare &comp = key_compare(), const allocator_type alloc = allocator_type());
-			Map(const Map<Key, T> &other);
+			Map(Map<Key, T> &other);
 			~Map();
 			Map &operator=(Map<Key, T> &other);
 			allocator_type	get_allocator() {return allocator_type();}
@@ -217,15 +243,15 @@ namespace ft
 
 			//iterators
 			iterator	begin();
-			iterator	end(){return 0;};
+			iterator	end(){return (iterator(this->_end()));}
 
 			const_iterator	cbegin() const;
-			const_iterator	cend() const {return 0;}
+			const_iterator	cend() const {return (const_iterator(this->_end()));}
 
-			reverse_iterator	rbegin(){return 0;}
+			reverse_iterator	rbegin(){return (reverse_iterator(this->_end()));}
 			reverse_iterator	rend();
 
-			const_reverse_iterator	crbegin() const {return 0;}
+			const_reverse_iterator	crbegin() const {return (const_reverse_iterator(this->_end()));}
 			const_reverse_iterator	crend() const;
 
 			//capacity
@@ -247,7 +273,7 @@ namespace ft
 			{
 				while (first != last)
 				{
-					std::cout << "inserting (" << first->first << ", " << first->second << ") \n";
+					// std::cout << "inserting (" << first->first << ", " << first->second << ") \n";
 					this->insert(*first);
 					++first;
 				}
@@ -275,7 +301,7 @@ namespace ft
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
-	Map<Key, T, Compare, Alloc>::Map(const Map<Key, T> &other)
+	Map<Key, T, Compare, Alloc>::Map(Map<Key, T> &other)
 	{
 		this->_init_tree();
 		*this = other;
@@ -320,6 +346,7 @@ namespace ft
 	typename Map<Key, T, Compare, Alloc>::iterator Map<Key, T, Compare, Alloc>::begin()
 	{
 		node n = this->_root;
+		// std::cout << "curr root in begin : " << n->pair.second << "\n";
 		if (!n->left && !n->right)
 			return (iterator(n));
 		while (n->left)
@@ -365,9 +392,19 @@ namespace ft
 	void Map<Key, T, Compare, Alloc>::erase(iterator position)
 	{
 		node	n;
+		int		move_root;
 
 		n = position.node();
+		move_root = 0;
+		if (this->_root == n)
+			move_root = 1;
 		_delete_node(n);
+		if (move_root)
+		{
+			this->_root = (position).node();
+			// std::cout << "new root : (" << this->_root->pair.first << ", " << this->_root->pair.second << ") \n";
+		}
+		// std::cout << "root after erase : (" << this->_root->pair.first << ", " << this->_root->pair.second << ") \n";
 		--this->_len;
 	}
 
@@ -375,7 +412,7 @@ namespace ft
 	void Map<Key, T, Compare, Alloc>::erase(iterator first, iterator last)
 	{
 		while (first != last)
-			this->erase(first++);
+			this->erase(first);
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
@@ -398,17 +435,9 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc >
 	void Map<Key, T, Compare, Alloc>::clear()
 	{
-		iterator	first;
-		iterator	last;
-
-		first = this->begin();
-		last = this->end();
-		while (first != last)
-		{
-			std::cout << first == 0 << "\n";
-			// std::cout << "erasing node (" << first->first << ", " << first->second << ") \n";
-			this->erase(first++);
-		}
+		while (this->begin() != this->end())
+			this->erase(this->begin());
+		// this->erase(this->begin(), this->end());
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
@@ -423,12 +452,12 @@ namespace ft
 			return (ft::make_pair(iter, false));
 		}
 		++this->_len;
-		if (this->_len == 1)
-		{
-			delete this->_root;
-			this->_root = _new_node(value.first, value.second, 0);
-			return (ft::make_pair(iterator(this->_root), true));
-		}
+		// if (this->_len == 1)
+		// {
+		// 	delete this->_root;
+		// 	this->_root = _new_node(value.first, value.second, 0);
+		// 	return (ft::make_pair(iterator(this->_root), true));
+		// }
 		return (ft::make_pair(iterator(this->_insert_node(this->_root, value.first, value.second)), true));
 	}
 

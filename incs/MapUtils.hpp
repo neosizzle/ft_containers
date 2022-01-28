@@ -104,7 +104,7 @@ struct BSTNode
 	BSTNode *right;
 	BSTNode *parent;
 	ft::pair<Key, T> pair;
-	// bool is_end; need extra end node for iter?
+	bool is_end; //need extra end node for iter?
 };
 
 //‘BSTNode<std::__cxx11::basic_string<char>, ft::pair<const std::__cxx11::basic_string<char>, int> >*’

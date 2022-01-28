@@ -1,8 +1,6 @@
 #include "Map.hpp"
-#include "main.hpp"
 #include "TestUtils.hpp"
 #include <map>
-#include "main.hpp"
 
 class CustomClass
 {
@@ -60,8 +58,6 @@ void	run_map_tests()
 	std::cout << "==========Iterator and operation test==============\n";
 	std::map<int, std::string> builtin;
 	ft::Map<int, std::string> mine;
-	// std::cout << mine.begin()->first << "\n";
-	// std::cout << mine.begin()->second << "\n";
 	test_line("mine.insert(ft::make_pair(1, \"one\")).second ", builtin.insert(std::make_pair(1, "one")).second, mine.insert(ft::make_pair(1, "one")).second);
 	test_line("mine.begin()->first", builtin.begin()->first, mine.begin()->first);
 	test_line("mine.begin()->second", builtin.begin()->second, mine.begin()->second);
@@ -72,24 +68,23 @@ void	run_map_tests()
 	test_line("mine.insert(ft::make_pair(1, \"three\")).second", builtin.insert(std::make_pair(1, "three")).second, mine.insert(ft::make_pair(1, "three")).second);
 	test_line("mine.find(1)->second", builtin.find(1)->second, mine.find(1)->second);
 	test_line("mine.find(2)->second", builtin.find(2)->second, mine.find(2)->second);
-	// std::map <int, std::string> swap_builtin;
-	// ft::Map <int, std::string> swap_mine;
-	// swap_builtin.insert(std::make_pair(1, "swapped one"));
-	// swap_mine.insert(ft::make_pair(1, "swapped one"));
-	// mine = swap_mine;
-	// mine.clear();
+	std::map <int, std::string> swap_builtin; 
+	ft::Map <int, std::string> swap_mine;
+	swap_builtin.insert(std::make_pair(1, "one_swapped"));
+	swap_mine.insert(ft::make_pair(1, "one_swapped"));	
 	try
 	{
-		// builtin.swap(swap_builtin);
-		// mine.swap(swap_mine);
-		// test_line_operation_success("mine.swap(swap_mine)", 1);
-		// test_line("mine.find(1)->second", builtin.find(1)->second, mine.find(1)->second);
+		builtin.swap(swap_builtin);
+		mine.swap(swap_mine);
+		test_line_operation_success("mine.swap(swap_mine)", 1);
+		test_line("mine.begin()->first", builtin.begin()->first, mine.begin()->first);
 	}
 	catch(const std::exception& e)
 	{
 		print_fail_msg("mine.swap(swap_mine)", " [FAIL] Operation failed unexpectedly");
+		std::cout << e.what();
 	}
-	
+
 	// std::cout << mine.find(1)->second << "\n";
 	// std::cout << builtin.insert(std::make_pair(1, 1.0)).second << "\n";
 }
