@@ -25,16 +25,16 @@ void	test_init_map(std::string message, int will_throw, T1 key_type, T2 mapped_t
 		std::map<T1, T2> builtin;
 		ft::Map<T1, T2> mine;
 		if (will_throw)
-			std::cout << RED << message << " [FAIL], Should throw error" << RESET << std::endl;
+			std::cout << RED << message << " [FAIL] Should throw error" << RESET << std::endl;
 		else
-			std::cout << GREEN << message << " [PASS], Initialization successful" << RESET << std::endl;
+			std::cout << GREEN  << "[PASS] Initialization successful	" <<  message << RESET << std::endl;
 	}
 	catch (const std::exception& )
 	{
 		if (will_throw)
-			std::cout << GREEN << message << " [PASS], should throw error" << RESET << std::endl;
+			std::cout << GREEN  << "[PASS] should throw error	" <<  message << RESET << std::endl;
 		else
-			std::cout << RED << message << " [FAIL], Initialization failed " << RESET << std::endl;
+			std::cout << RED << message << " [FAIL] Initialization failed " << RESET << std::endl;
 	}
 }
 
