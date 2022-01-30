@@ -55,7 +55,7 @@ void	run_map_tests()
 	test_init_map("ft_map::<CustomClass, CustomClass>", 0, cc, cc);
 	test_init_map("ft_map::<CustomClass, int>", 0, cc, 1);
 
-	std::cout << "==========Iterator and operation test==============\n";
+	std::cout << "==========Modifier, Iterator and operation test==============\n";
 	std::map<int, std::string> builtin;
 	ft::Map<int, std::string> mine;
 	test_line("mine.insert(ft::make_pair(1, \"one\")).second ", builtin.insert(std::make_pair(1, "one")).second, mine.insert(ft::make_pair(1, "one")).second);
@@ -71,7 +71,8 @@ void	run_map_tests()
 	std::map <int, std::string> swap_builtin; 
 	ft::Map <int, std::string> swap_mine;
 	swap_builtin.insert(std::make_pair(1, "one_swapped"));
-	swap_mine.insert(ft::make_pair(1, "one_swapped"));	
+	swap_mine.insert(ft::make_pair(1, "one_swapped"));
+	
 	try
 	{
 		builtin.swap(swap_builtin);
@@ -84,7 +85,67 @@ void	run_map_tests()
 		print_fail_msg("mine.swap(swap_mine)", " [FAIL] Operation failed unexpectedly");
 		std::cout << e.what();
 	}
+	// i wont test iterator.end()++ because that causes undef behaviour even in std::map
+	try
+	{
+		builtin.insert(std::make_pair(2, "two"));
+		mine.insert(ft::make_pair(2, "two"));
+		builtin.insert(std::make_pair(3, "three"));
+		mine.insert(ft::make_pair(3, "three"));
+		builtin.insert(std::make_pair(4, "four"));
+		mine.insert(ft::make_pair(4, "four"));
+		builtin.insert(std::make_pair(5, "five"));
+		mine.insert(ft::make_pair(5, "five"));
+		builtin.insert(std::make_pair(6, "six"));
+		mine.insert(ft::make_pair(6, "six"));
+		builtin.insert(std::make_pair(7, "seven"));
+		mine.insert(ft::make_pair(7, "seven"));
+		builtin.insert(std::make_pair(8, "eight"));
+		mine.insert(ft::make_pair(8, "eight"));
+		builtin.insert(std::make_pair(9, "nine"));
+		mine.insert(ft::make_pair(9, "nine"));
+		builtin.insert(std::make_pair(10, "ten"));
+		mine.insert(ft::make_pair(10, "ten"));
+		test_line_operation_success("mine.insert() multiple", 1);
 
+	}
+	catch(const std::exception& e)
+	{
+		print_fail_msg("mine.insert() multiple ", " [FAIL] Operation failed unexpectedly");
+		std::cout << e.what();
+	}
+	std::map<int, std::string>::iterator builtin_iter;
+	ft::Map<int, std::string>::iterator mine_iter;
+	int	i;
+
+	builtin_iter = builtin.begin();
+	mine_iter = mine.begin();
+	i = -1;
+	while (builtin_iter != builtin.end())
+	{
+		std::cout << "iter at position " << ++i << "\n";
+		test_line("mine_iter->first", builtin_iter->first, mine_iter->first);
+		test_line("mine_iter->second", builtin_iter->second, mine_iter->second);
+		builtin_iter++;
+		mine_iter++;
+	}
+	test_line_diffclass("mine_iter == mine.end()", mine_iter, mine.end());
+
+	std::map<int, std::string>::reverse_iterator builtin_rev_iter;
+	ft::Map<int, std::string>::reverse_iterator mine_rev_iter;
+
+	builtin_rev_iter = builtin.rbegin();
+	mine_rev_iter = mine.rbegin();
+	i = -1;
+	while (builtin_rev_iter != builtin.rend())
+	{
+		std::cout << "iter at position " << ++i << "\n";
+		test_line("mine_rev_iter->first", builtin_rev_iter->first, mine_rev_iter->first);
+		test_line("mine_rev_iter->second", builtin_rev_iter->second, mine_rev_iter->second);
+		builtin_rev_iter++;
+		mine_rev_iter++;
+	}
+	test_line_diffclass("mine_rev_iter == mine.rend()", mine_rev_iter, mine.rend());
 	// std::cout << mine.find(1)->second << "\n";
 	// std::cout << builtin.insert(std::make_pair(1, 1.0)).second << "\n";
 }

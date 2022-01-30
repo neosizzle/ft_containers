@@ -101,7 +101,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			ReverseMapIter(void) : ptr(0){}
 			~ReverseMapIter(void){}
 			ReverseMapIter(const pointer ptr): ptr(ptr) {}
-			ReverseMapIter(const iterator iter){*this = iter;}
+			ReverseMapIter(const iterator &iter){*this = iter;}
 
 			//operators
 			ReverseMapIter &operator=(const iterator &iter)
@@ -147,13 +147,26 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			pointer ptr_prev(pointer ptr)
 			{
 				pointer	res;
+				pointer	original;
 
 				if (!ptr->left)
 				{
 					res = ptr;
+					original = ptr;
 					while (res->parent && res == res->parent->left)
 						res = res->parent;
+					original = res;
 					res = res->parent;
+					if (!res)
+					{
+						res = this->ptr_next(original);
+						while (!res->is_end)
+						{
+							original = res;
+							res = this->ptr_next(original);
+						}
+						return original;
+					}
 				}
 				else
 				{

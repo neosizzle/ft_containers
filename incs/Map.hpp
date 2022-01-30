@@ -245,14 +245,30 @@ namespace ft
 			iterator	begin();
 			iterator	end(){return (iterator(this->_end()));}
 
-			const_iterator	cbegin() const;
-			const_iterator	cend() const {return (const_iterator(this->_end()));}
+			const_iterator	begin() const;
+			const_iterator	end() const {return (const_iterator(this->_end()));}
 
-			reverse_iterator	rbegin(){return (reverse_iterator(this->_end()));}
-			reverse_iterator	rend();
+			reverse_iterator	rbegin();
+			reverse_iterator	rend()
+			{
+				//why the fuck is this not root??
+				reverse_iterator	i;
 
-			const_reverse_iterator	crbegin() const {return (const_reverse_iterator(this->_end()));}
-			const_reverse_iterator	crend() const;
+				i = reverse_iterator(this->_root);
+				++i;
+				return (reverse_iterator(i.node()));
+			}
+
+			const_reverse_iterator	rbegin() const;
+			const_reverse_iterator	rend() const 
+			{
+				//why the fuck is this not root??
+				reverse_iterator	i;
+
+				i = const_reverse_iterator(this->_root);
+				++i;
+				return (const_reverse_iterator(i.node()));
+			}
 
 			//capacity
 			bool empty() const {return (this->_len == 0);}
@@ -355,7 +371,7 @@ namespace ft
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
-	typename Map<Key, T, Compare, Alloc>::const_iterator Map<Key, T, Compare, Alloc>::cbegin() const
+	typename Map<Key, T, Compare, Alloc>::const_iterator Map<Key, T, Compare, Alloc>::begin() const
 	{
 		node n = this->_root;
 		if (!n->left && !n->right)
@@ -366,25 +382,23 @@ namespace ft
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
-	typename Map<Key, T, Compare, Alloc>::reverse_iterator Map<Key, T, Compare, Alloc>::rend()
+	typename Map<Key, T, Compare, Alloc>::reverse_iterator Map<Key, T, Compare, Alloc>::rbegin()
 	{
-		node n = this->_root;
-		if (!n->left && !n->right)
-			return (reverse_iterator(n));
-		while (n->right)
-			n = n->right;
-		return (reverse_iterator(n));
+		iterator	iter;
+
+		iter = this->end();
+		iter--;
+		return (reverse_iterator(iter.node()));
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
-	typename Map<Key, T, Compare, Alloc>::const_reverse_iterator Map<Key, T, Compare, Alloc>::crend() const
+	typename Map<Key, T, Compare, Alloc>::const_reverse_iterator Map<Key, T, Compare, Alloc>::rbegin() const
 	{
-		node n = this->_root;
-		if (!n->left && !n->right)
-			return (const_reverse_iterator(n));
-		while (n->right)
-			n = n->right;
-		return (const_reverse_iterator(n));
+		iterator	iter;
+
+		iter = this->end();
+		iter--;
+		return (const_reverse_iterator(iter.node()));	
 	}
 
 	//modifiers definitions
@@ -538,8 +552,8 @@ namespace ft
 		const_iterator begin;
 		const_iterator end;
 
-		begin = this->cbegin();
-		end = this->cend();
+		begin = this->begin();
+		end = this->end();
 		while (begin != end)
 		{
 			if (this->_comp(begin->first, key) <= 0)
@@ -572,8 +586,8 @@ namespace ft
 		const_iterator begin;
 		const_iterator end;
 
-		begin = this->cbegin();
-		end = this->cend();
+		begin = this->begin();
+		end = this->end();
 		while (begin != end)
 		{
 			if (begin->first != key && this->_comp(begin->first, key) <= 0)
