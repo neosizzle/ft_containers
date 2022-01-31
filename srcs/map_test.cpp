@@ -203,6 +203,76 @@ void	run_map_tests()
 	}
 	test_line("mine[12]", builtin[12], mine[12]);
 	test_line("mine.at(12)", builtin.at(12), mine.at(12));
+
+	std::cout << "==========Capacity test==============\n";
+	test_line("mine.empty()", builtin.empty(), mine.empty());
+	test_line("mine.size()", builtin.size(), mine.size());
+	try
+	{
+		builtin.clear();
+		mine.clear();
+		test_line_operation_success("mine.clear()", 1);
+	}
+	catch(const std::exception& e)
+	{
+		print_fail_msg("mine.clear() ", " [FAIL] Operation failed unexpectedly");
+		std::cout << e.what();
+	}
+	builtin.clear();
+	mine.clear();
+	test_line("mine.empty()", builtin.empty(), mine.empty());
+	test_line("mine.empty()", builtin.empty(), mine.empty());
+	test_line("mine.size()", builtin.size(), mine.size());
+	// not testing max_size() bcuz it varies on implementation. both can never be equal unless i c/p source code directly
+	// test_line("mine.max_size()", builtin.max_size(), mine.max_size());
+
+	std::cout << "==========Lookup test==============\n";
+	builtin.insert(vec.begin(), vec.end());
+	mine.insert(vec_ft.begin(), vec_ft.end());
+	test_line("mine.count(1)", builtin.count(1), mine.count(1));
+	test_line("mine.count(123)", builtin.count(123), mine.count(123));
+	test_line("mine.count(-123)", builtin.count(-123), mine.count(-123));
+	test_line("mine.find(1)->second", builtin.find(1)->second, mine.find(1)->second);
+	test_line("mine.find(1)->first", builtin.find(1)->first, mine.find(1)->first);
+	test_line("mine.find(3)->second", builtin.find(3)->second, mine.find(3)->second);
+	test_line("mine.find(3)->first", builtin.find(3)->first, mine.find(3)->first);
+	// accessing end() causes undef bahaviour. see https://en.cppreference.com/w/cpp/container/map/end
+	// test_line("mine.find(-1)->first", builtin.find(-1)->first, mine.find(-1)->first);
+	// test_line("mine.find(123456)->first", builtin.find(123456)->first, mine.find(123456)->first);
+	test_line("mine.lower_bound(3)->first", builtin.lower_bound(3)->first, mine.lower_bound(3)->first);
+	test_line("mine.lower_bound(3)->second", builtin.lower_bound(3)->second, mine.lower_bound(3)->second);
+	test_line("mine.lower_bound(1)->first", builtin.lower_bound(1)->first, mine.lower_bound(1)->first);
+	test_line("mine.lower_bound(1)->second", builtin.lower_bound(1)->second, mine.lower_bound(1)->second);
+	test_line("mine.lower_bound(4)->first", builtin.lower_bound(4)->first, mine.lower_bound(4)->first);
+	test_line("mine.lower_bound(4)->second", builtin.lower_bound(4)->second, mine.lower_bound(4)->second);
+	
+	test_line("mine.upper_bound(3)->first", builtin.upper_bound(3)->first, mine.upper_bound(3)->first);
+	test_line("mine.upper_bound(3)->second", builtin.upper_bound(3)->second, mine.upper_bound(3)->second);
+	test_line("mine.upper_bound(1)->first", builtin.upper_bound(1)->first, mine.upper_bound(1)->first);
+	test_line("mine.upper_bound(1)->second", builtin.upper_bound(1)->second, mine.upper_bound(1)->second);
+	// accessing end() causes undef bahaviour. see https://en.cppreference.com/w/cpp/container/map/end
+	// test_line("mine.upper_bound(4)->first", builtin.upper_bound(4)->first, mine.upper_bound(4)->first);
+	// std::cout << "( " << builtin.upper_bound(4)->first << ", " << builtin.upper_bound(4)->second << " )" << "\n";
+	// std::cout << "( " << mine.upper_bound(4)->first << ", " << mine.upper_bound(4)->second << " )" << "\n";
+	// test_line("mine.upper_bound(4)->second", builtin.upper_bound(4)->second, mine.upper_bound(4)->second);
+
+	test_line("mine.equal_range(3).first->first", builtin.equal_range(3).first->first, mine.equal_range(3).first->first);
+	test_line("mine.equal_range(3).first->second", builtin.equal_range(3).first->second, mine.equal_range(3).first->second);
+	test_line("mine.equal_range(3).second->first", builtin.equal_range(3).second->first, mine.equal_range(3).second->first);
+	test_line("mine.equal_range(3).second->second", builtin.equal_range(3).second->second, mine.equal_range(3).second->second);
+	
+	test_line("mine.equal_range(1).first->first", builtin.equal_range(1).first->first, mine.equal_range(1).first->first);
+	test_line("mine.equal_range(1).first->second", builtin.equal_range(1).first->second, mine.equal_range(1).first->second);
+	test_line("mine.equal_range(1).second->first", builtin.equal_range(1).second->first, mine.equal_range(1).second->first);
+	test_line("mine.equal_range(1).second->second", builtin.equal_range(1).second->second, mine.equal_range(1).second->second);
+
+	// accessing end() causes undef bahaviour. see https://en.cppreference.com/w/cpp/container/map/end
+	// test_line("mine.equal_range(4).first->first", builtin.equal_range(4).first->first, mine.equal_range(4).first->first);
+	// test_line("mine.equal_range(4).first->second", builtin.equal_range(4).first->second, mine.equal_range(4).first->second);
+	// test_line("mine.equal_range(4).second->first", builtin.equal_range(4).second->first, mine.equal_range(4).second->first);
+	// test_line("mine.equal_range(4).second->second", builtin.equal_range(4).second->second, mine.equal_range(4).second->second);
+
+
 	// std::cout << builtin[12] << "\n";
 	// std::cout << mine[12] << "\n";
 }

@@ -502,7 +502,7 @@ namespace ft
 		node	found;
 
 		found = _find(this->_root, key);
-		if (found)
+		if (!found->is_end)
 			return 1;
 		return 0;
 	}
@@ -539,7 +539,7 @@ namespace ft
 		end = this->end();
 		while (begin != end)
 		{
-			if (this->_comp(begin->first, key) <= 0)
+			if (this->_compare(begin->first, key) <= 0)
 				return begin;
 			++begin;
 		}
@@ -556,7 +556,7 @@ namespace ft
 		end = this->end();
 		while (begin != end)
 		{
-			if (this->_comp(begin->first, key) <= 0)
+			if (this->_compare(begin->first, key) <= 0)
 				return begin;
 			++begin;
 		}
@@ -573,7 +573,7 @@ namespace ft
 		end = this->end();
 		while (begin != end)
 		{
-			if (begin->first != key && this->_comp(begin->first, key) <= 0)
+			if (begin->first != key && this->_compare(begin->first, key) <= 0)
 				return begin;
 			++begin;
 		}
@@ -590,7 +590,7 @@ namespace ft
 		end = this->end();
 		while (begin != end)
 		{
-			if (begin->first != key && this->_comp(begin->first, key) <= 0)
+			if (begin->first != key && this->_compare(begin->first, key) <= 0)
 				return begin;
 			++begin;
 		}
