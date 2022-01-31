@@ -271,8 +271,4 @@ void	run_map_tests()
 	// test_line("mine.equal_range(4).first->second", builtin.equal_range(4).first->second, mine.equal_range(4).first->second);
 	// test_line("mine.equal_range(4).second->first", builtin.equal_range(4).second->first, mine.equal_range(4).second->first);
 	// test_line("mine.equal_range(4).second->second", builtin.equal_range(4).second->second, mine.equal_range(4).second->second);
-
-
-	// std::cout << builtin[12] << "\n";
-	// std::cout << mine[12] << "\n";
 }
