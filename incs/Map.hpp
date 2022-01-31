@@ -131,7 +131,7 @@ namespace ft
 			//if curr nodes key is equal to key, return curr node (base case)
 			node _find(node n, key_type key) const
 			{
-				if (n->is_end || n->pair.first == key)
+				if (!n->is_end && n->pair.first == key)
 					return n;
 				if (n->right && key > n->pair.first)
 					return _find(n->right, key);
@@ -345,10 +345,10 @@ namespace ft
 		node	n;
 
 		n = this->_find(this->_root, k);
-		if (!n)
-			return 0;
+		if (n->is_end)
+			return this->insert(ft::make_pair(k, mapped_type())).first->second;
 		else
-			return n.pair.second;
+			return n->pair.second;
 	}
 	
 	template <class Key, class T, class Compare, class Alloc >

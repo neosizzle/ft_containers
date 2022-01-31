@@ -19,6 +19,7 @@
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 #include <iostream>
+#include <vector>
 
 void	print_fail_msg(std::string cmd, std::string msg)
 {

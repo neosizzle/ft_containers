@@ -146,6 +146,63 @@ void	run_map_tests()
 		mine_rev_iter++;
 	}
 	test_line_diffclass("mine_rev_iter == mine.rend()", mine_rev_iter, mine.rend());
-	// std::cout << mine.find(1)->second << "\n";
-	// std::cout << builtin.insert(std::make_pair(1, 1.0)).second << "\n";
+	try
+	{
+		mine.clear();
+		builtin.clear();
+		test_line_operation_success("mine.clear()", 1);
+	}
+	catch(const std::exception& e)
+	{
+		print_fail_msg("mine.clear() ", " [FAIL] Operation failed unexpectedly");
+		std::cout << e.what();
+	}
+	std::vector<std::pair<int, std::string> > vec;
+	vec.push_back(std::make_pair(1, std::string("one from vect")));
+	vec.push_back(std::make_pair(2, std::string("two from vect")));
+	vec.push_back(std::make_pair(3, std::string("three from vect")));
+	vec.push_back(std::make_pair(4, std::string("four from vect")));
+
+
+	std::vector<ft::pair<int, std::string> > vec_ft;
+	vec_ft.push_back(ft::make_pair(1, std::string("one from vect")));
+	vec_ft.push_back(ft::make_pair(2, std::string("two from vect")));
+	vec_ft.push_back(ft::make_pair(3, std::string("three from vect")));
+	vec_ft.push_back(ft::make_pair(4, std::string("four from vect")));
+
+	try
+	{
+		builtin.insert(vec.begin(), vec.end());
+		mine.insert(vec_ft.begin(), vec_ft.end());
+		test_line_operation_success("mine.insert(vec_ft.begin(), vec_ft.end())", 1);
+	}
+	catch(const std::exception& e)
+	{
+		print_fail_msg("mine.insert(vec_ft.begin(), vec_ft.end()) ", " [FAIL] Operation failed unexpectedly");
+		std::cout << e.what();
+	}
+	test_line("mine.begin()->second", builtin.begin()->second, mine.begin()->second);
+	test_line("(--mine.end())->second", (--builtin.end())->second, (--mine.end())->second);
+
+	std::cout << "==========Element access test==============\n";
+	test_line("mine[0]", builtin[0], mine[0]);
+	test_line("mine[1]", builtin[1], mine[1]);
+	test_line("mine[2]", builtin[2], mine[2]);
+	test_line("mine[3]", builtin[3], mine[3]);
+	test_line("mine[4]", builtin[4], mine[4]);
+	try
+	{
+		builtin[12] = std::string("!!!");
+		mine[12] = std::string("!!!");
+		test_line_operation_success("mine[12] = std::string(\"!!!\");", 1);
+	}
+	catch(const std::exception& e)
+	{
+		print_fail_msg("mine[12] = std::string(\"!!!\") ", " [FAIL] Operation failed unexpectedly");
+		std::cout << e.what();
+	}
+	test_line("mine[12]", builtin[12], mine[12]);
+	test_line("mine.at(12)", builtin.at(12), mine.at(12));
+	// std::cout << builtin[12] << "\n";
+	// std::cout << mine[12] << "\n";
 }
