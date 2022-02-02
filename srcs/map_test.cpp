@@ -1,6 +1,7 @@
 #include "Map.hpp"
 #include "TestUtils.hpp"
 #include <map>
+#include <time.h>
 
 class CustomClass
 {
@@ -306,4 +307,15 @@ void	run_map_tests()
 	test_line("mine_cpy(added 1) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
 	// std::cout << (builtin_cpy == builtin) << "\n";
 	// std::cout << (mine_cpy == mine) << "\n";
+
+	std::cout << "==========Timer test==============\n";
+	clock_t t;
+	t = clock();
+
+	for (int i = 0; i < 10000; ++i)
+	{
+		for (int i = 0; i < 10000; ++i);
+	}
+	t = clock() - t;
+	std::cout << "duration "<< t << "\n";
 }
