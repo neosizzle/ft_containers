@@ -305,6 +305,14 @@ namespace ft
 			const_iterator lower_bound( const Key& key ) const;
 			iterator upper_bound( const Key& key ); 
 			const_iterator upper_bound( const Key& key ) const;
+
+			//comparison operators
+			bool operator==( const Map<Key,T,Compare,Allocator>& rhs );
+			bool operator!=( const Map<Key,T,Compare,Allocator>& rhs );
+			bool operator<=( const Map<Key,T,Compare,Allocator>& rhs );
+			bool operator<( const Map<Key,T,Compare,Allocator>& rhs );
+			bool operator>=( const Map<Key,T,Compare,Allocator>& rhs );
+			bool operator>( const Map<Key,T,Compare,Allocator>& rhs );
 	};
 
 	//member function definitions
@@ -609,6 +617,60 @@ namespace ft
 	Map<Key, T, Compare, Alloc>::equal_range( const Key& key ) const
 	{
 		return (ft::make_pair(this->lower_bound(key), this->upper_bound(key)));
+	}
+
+	//comparison operators
+	template< class Key, class T, class Compare, class Alloc >
+	bool Map<Key, T, Compare, Alloc>::operator==( const ft::Map<Key,T,Compare,Alloc>& rhs )
+	{
+		const_iterator first1;
+		const_iterator last1;
+		const_iterator first2;
+		const_iterator last2;
+
+		first1 = this->begin();
+		last1 = this->end();
+		first2 = rhs.begin();
+		last2 = rhs.end();
+
+		while (first1 != last1)
+		{
+			if ((first2 == last2) || *first1 != *first2) return false ;
+			first1++;
+			first2++;
+		}
+		return (first2 == last2);
+		return false;
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool Map<Key, T, Compare, Alloc>::operator!=( const ft::Map<Key,T,Compare,Alloc>& rhs )
+	{
+		return !(*this == rhs);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool Map<Key, T, Compare, Alloc>::operator<( const ft::Map<Key,T,Compare,Alloc>& rhs )
+	{
+		return (ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool Map<Key, T, Compare, Alloc>::operator<=( const ft::Map<Key,T,Compare,Alloc>& rhs )
+	{
+		return (*this < rhs || *this == rhs);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool Map<Key, T, Compare, Alloc>::operator>( const ft::Map<Key,T,Compare,Alloc>& rhs )
+	{
+		return !(*this <= rhs);
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool Map<Key, T, Compare, Alloc>::operator>=( const ft::Map<Key,T,Compare,Alloc>& rhs )
+	{
+		return (*this > rhs || *this == rhs);
 	}
 	
 }//ft

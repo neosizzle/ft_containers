@@ -271,4 +271,39 @@ void	run_map_tests()
 	// test_line("mine.equal_range(4).first->second", builtin.equal_range(4).first->second, mine.equal_range(4).first->second);
 	// test_line("mine.equal_range(4).second->first", builtin.equal_range(4).second->first, mine.equal_range(4).second->first);
 	// test_line("mine.equal_range(4).second->second", builtin.equal_range(4).second->second, mine.equal_range(4).second->second);
+
+	std::cout << "==========Comparison operator test==============\n";
+	std::map<int, std::string> builtin_cpy;
+	ft::Map<int, std::string> mine_cpy;
+
+	builtin_cpy = builtin;
+	mine_cpy = mine;
+	test_line("mine_cpy == mine", builtin_cpy == builtin, mine_cpy == mine);
+	test_line("mine_cpy != mine", builtin_cpy != builtin, mine_cpy != mine);
+	test_line("mine_cpy > mine", builtin_cpy > builtin, mine_cpy > mine);
+	test_line("mine_cpy >= mine", builtin_cpy >= builtin, mine_cpy >= mine);
+	test_line("mine_cpy < mine", builtin_cpy < builtin, mine_cpy < mine);
+	test_line("mine_cpy <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
+	mine_cpy.erase(1);
+	builtin_cpy.erase(1);
+	test_line("mine_cpy(erased 1) == mine", builtin_cpy == builtin, mine_cpy == mine);
+	test_line("mine_cpy(erased 1) != mine", builtin_cpy != builtin, mine_cpy != mine);
+	test_line("mine_cpy(erased 1) > mine", builtin_cpy > builtin, mine_cpy > mine);
+	test_line("mine_cpy(erased 1) >= mine", builtin_cpy >= builtin, mine_cpy >= mine);
+	test_line("mine_cpy(erased 1) < mine", builtin_cpy < builtin, mine_cpy < mine);
+	test_line("mine_cpy(erased 1) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
+	builtin_cpy = builtin;
+	mine_cpy = mine;
+	mine_cpy.insert(ft::make_pair(69, "fav number"));
+	builtin_cpy.insert(std::make_pair(69, "fav number"));
+	mine_cpy.insert(ft::make_pair(420, "fav number 2"));
+	builtin_cpy.insert(std::make_pair(420, "fav number 2"));
+	test_line("mine_cpy(added 1) == mine", builtin_cpy == builtin, mine_cpy == mine);
+	test_line("mine_cpy(added 1) != mine", builtin_cpy != builtin, mine_cpy != mine);
+	test_line("mine_cpy(added 1) > mine", builtin_cpy > builtin, mine_cpy > mine);
+	test_line("mine_cpy(added 1) >= mine", builtin_cpy >= builtin, mine_cpy >= mine);
+	test_line("mine_cpy(added 1) < mine", builtin_cpy < builtin, mine_cpy < mine);
+	test_line("mine_cpy(added 1) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
+	// std::cout << (builtin_cpy == builtin) << "\n";
+	// std::cout << (mine_cpy == mine) << "\n";
 }
