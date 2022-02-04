@@ -305,17 +305,151 @@ void	run_map_tests()
 	test_line("mine_cpy(added 1) >= mine", builtin_cpy >= builtin, mine_cpy >= mine);
 	test_line("mine_cpy(added 1) < mine", builtin_cpy < builtin, mine_cpy < mine);
 	test_line("mine_cpy(added 1) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
-	// std::cout << (builtin_cpy == builtin) << "\n";
-	// std::cout << (mine_cpy == mine) << "\n";
 
-	std::cout << "==========Timer test==============\n";
-	clock_t t;
-	t = clock();
+	std::cout << "==========Timing test==============\n";
+	clock_t my_time;
+	my_time = clock();
+	mine.insert(ft::make_pair(123, "time"));
+	my_time = clock() - my_time;
 
-	for (int i = 0; i < 10000; ++i)
-	{
-		for (int i = 0; i < 10000; ++i);
-	}
-	t = clock() - t;
-	std::cout << "duration "<< t << "\n";
+	clock_t builtin_time;
+	builtin_time = clock();
+	builtin.insert(std::make_pair(123, "time"));
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.insert(ft::make_pair(123, \"time\"))", builtin_time, my_time);
+
+	my_time = clock();
+	mine.begin();
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.begin();
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.begin()", builtin_time, my_time);
+
+	my_time = clock();
+	mine.end();
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.end();
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.end()", builtin_time, my_time);
+
+	my_time = clock();
+	mine.rbegin();
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.rbegin();
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.rbegin()", builtin_time, my_time);
+
+	my_time = clock();
+	mine.rend();
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.rend();
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.rend()", builtin_time, my_time);
+
+	my_time = clock();
+	mine.end();
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.end();
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.end()", builtin_time, my_time);
+
+	my_time = clock();
+	mine.find(1);
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.find(1);
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.find(1)", builtin_time, my_time);
+
+	my_time = clock();
+	mine.swap(swap_mine);
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.swap(swap_builtin);
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.swap(swap_mine)", builtin_time, my_time);
+
+	my_time = clock();
+	mine.empty();
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.empty();
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.empty()", builtin_time, my_time);
+
+	my_time = clock();
+	mine.size();
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.size();
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.size()", builtin_time, my_time);
+
+	my_time = clock();
+	mine.at(1);
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.at(1);
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.at(1)", builtin_time, my_time);
+
+	my_time = clock();
+	mine.count(1);
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.count(1);
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.count(1)", builtin_time, my_time);
+
+	my_time = clock();
+	mine.lower_bound(3);
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.lower_bound(3);
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.lower_bound(3)", builtin_time, my_time);
+
+	my_time = clock();
+	mine.upper_bound(1);
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.upper_bound(1);
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.upper_bound(1)", builtin_time, my_time);
+
+	my_time = clock();
+	mine.equal_range(2);
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.equal_range(2);
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.equal_range(2)", builtin_time, my_time);
+
+	my_time = clock();
+	mine.clear();
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin.clear();
+	builtin_time = clock() - builtin_time;
+	compare_time("mine.clear()", builtin_time, my_time);
 }
