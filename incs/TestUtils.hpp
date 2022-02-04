@@ -62,6 +62,8 @@ void	test_line_operation_fail(std::string cmd, int should_fail)
 
 void	compare_time (std::string cmd, clock_t builtin_time, clock_t my_time)
 {
+	std::cout << my_time << "\n";
+	std::cout << builtin_time << "\n";
 	if (builtin_time == 0)
 	{
 		if (my_time > 20)

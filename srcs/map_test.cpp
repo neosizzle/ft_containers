@@ -379,8 +379,6 @@ void	run_map_tests()
 	builtin_time = clock();
 	builtin.swap(swap_builtin);
 	builtin_time = clock() - builtin_time;
-	std::cout << my_time << "\n";
-	std::cout << builtin_time << "\n";
 	compare_time("mine.swap(swap_mine)", builtin_time, my_time);
 
 	my_time = clock();
