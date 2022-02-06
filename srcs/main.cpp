@@ -1,9 +1,22 @@
 #include "Map.hpp"
+#include "Set.hpp"
 #include "main.hpp"
+#include "MapTests.hpp"
+#include "SetTests.hpp"
 
-int	main()
+int	main(int argc, char **argv)
 {
-	run_map_tests();
+	if (argc < 2)
+	{
+		std::cout << "usage : ./a.out [container]\n";
+		return 1;
+	}
+	if (std::string(argv[1]).compare(std::string("map")) == 0)
+		run_map_tests();
+	else if (std::string(argv[1]).compare(std::string("set")) == 0)
+		run_set_tests();
+	else
+		std::cout << "no such container\n";
 	//test_line_diffclass("1 + 1", m.get_allocator(), me.get_allocator());
 	// ft::pair<int, int> pair = ft::make_pair(6, 9);
 	// ft::pair<int, int> pair2 = ft::make_pair(6, 9);

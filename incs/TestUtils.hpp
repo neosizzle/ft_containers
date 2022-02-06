@@ -1,5 +1,5 @@
-#ifndef __TESTUTILS__H
-#define __TESTUTILS__H
+#ifndef __TESTUTILS__H_
+#define __TESTUTILS__H_
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
@@ -75,6 +75,19 @@ void	compare_time (std::string cmd, clock_t builtin_time, clock_t my_time)
 		print_fail_msg(cmd, "[FAIL] Time limit exceeded. ");
 	else
 		std::cout << GREEN << "[PASS] Time test passed		" << cmd << RESET << std::endl;
+}
+
+class CustomClass
+{
+	public:
+		int	x;
+		int	y;
+};
+
+std::ostream&	operator<<(std::ostream &os, CustomClass &other)
+{
+	os << other.x << ", " << other.y << "\n";
+	return os;
 }
 
 #endif  //!__TESTUTILS__H

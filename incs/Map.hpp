@@ -6,17 +6,7 @@
 
 namespace ft
 {
-	//non member functions
-	template <typename T>
-	void	swap(T &a, T&b)
-	{
-		T	temp;
-
-		temp = a;
-		a = b;
-		b = temp;
-	}
-
+	
 	// Class std::Map wrapper with performance instrumentation.
 	// Refer for c++ map reference (https://en.cppreference.com/w/cpp/container/map)
 	// Refer for c++ map source code (https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-3.4/stl__map_8h-source.html)
@@ -147,7 +137,6 @@ namespace ft
 			void _delete_node(node n)
 			{
 				node	successor;
-				ft::pair<Key, T>	temp;
 
 				if (n->is_end)
 				{
