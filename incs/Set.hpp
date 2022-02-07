@@ -58,10 +58,10 @@ namespace ft
 			node			_root;
 			key_compare		_compare;
 			size_type		_len;
-			bool			_ll_case;
-			bool			_lr_case;
-			bool			_rr_case;
-			bool			_rl_case;
+			bool			_ll_case;//left consecutive nodes in a straight line
+			bool			_lr_case;//left consecutive nodes in a triangle
+			bool			_rr_case;//mirrored llcase
+			bool			_rl_case;//mirrored lrcase
 
 			//node _new_node(key_type key, Setped_type value, node paren)
 			//creates and initializes new node and returns the pointer to that node
@@ -171,6 +171,36 @@ namespace ft
 					n->left->color = RED_RBT;
 					this->_ll_case = false;
 				}
+				else if (this->_rr_case)
+				{
+					n = _rotate_right(n);
+					n->color = BLACK_RBT;
+					n->right->color = RED_RBT;
+					this->_rr_case = false;
+				}
+				else if (this->_rl_case)
+				{
+					n->right = _rotate_right(n->right);
+					n->right->parent = n;
+					n = _rotate_left(n);
+					n->color = BLACK_RBT;
+					n->left->color = RED_RBT;
+					this->_rl_case = false;
+				}
+				else if (this->_lr_case)
+				{
+					n->left = left(n->left);
+					n->left->parent = n;
+					n = _rotate_right(n);
+					n->color = BLACK_RBT;
+					n->right->color = RED_RBT;
+					this->_rl_case = false;
+				}
+				if (conflict)
+				{
+					//fix conflicts here...
+				}
+				conflict = false;
 				return n;
 			}
 
