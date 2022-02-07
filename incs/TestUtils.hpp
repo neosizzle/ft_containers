@@ -62,17 +62,16 @@ void	test_line_operation_fail(std::string cmd, int should_fail)
 
 void	compare_time (std::string cmd, clock_t builtin_time, clock_t my_time)
 {
-	std::cout << my_time << "\n";
-	std::cout << builtin_time << "\n";
+ 
 	if (builtin_time == 0)
 	{
 		if (my_time > 20)
-			print_fail_msg(cmd, "[FAIL] Time limit exceeded");
+			std::cout << RED << "[FAIL] Time test exceeded		" << cmd << " - builtin_time : " << builtin_time << " my_time : " << my_time <<  RESET << std::endl;
 		else
 			std::cout << GREEN << "[PASS] Time test passed		" << cmd << RESET << std::endl;
 	}
 	else if (my_time / builtin_time > 20)
-		print_fail_msg(cmd, "[FAIL] Time limit exceeded. ");
+			std::cout << RED << "[FAIL] Time test exceeded		" << cmd << " - builtin_time : " << builtin_time << " my_time : " << my_time <<  RESET << std::endl;
 	else
 		std::cout << GREEN << "[PASS] Time test passed		" << cmd << RESET << std::endl;
 }

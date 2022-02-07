@@ -58,6 +58,10 @@ namespace ft
 			node			_root;
 			key_compare		_compare;
 			size_type		_len;
+			bool			_ll_case;
+			bool			_lr_case;
+			bool			_rr_case;
+			bool			_rl_case;
 
 			//node _new_node(key_type key, Setped_type value, node paren)
 			//creates and initializes new node and returns the pointer to that node
@@ -87,6 +91,37 @@ namespace ft
 				delete n;
 			}
 
+			//performs left rotation on a given node
+			node	_rotate_left(node n)
+			{
+				node pivot;
+				node child;
+
+				pivot = n.right;
+				child = pivot.left;
+				pivot->left = n;
+				n->right = child;
+				n->parent = pivot;
+				if (child)
+					child->parent = n;
+				return pivot;
+			}
+
+			//performs right rotation on a given node
+			node	_rotate_right(node n)
+			{
+				node pivot;
+				node child;
+
+				pivot = n.left;
+				child = pivot.right;
+				pivot->right = n;
+				n->left = child;
+				n->parent = pivot;
+				if (child)
+					child->parent = n;
+				return pivot;
+			}
 			//node _insert_node(node n, key_type key, Setped_type value)
 			//insert node n into bst (n is not null)
 			//base case: check if node is leaf . If it is, add to left or right subtree
@@ -94,30 +129,49 @@ namespace ft
 			//vice versa if larger
 			node _insert_node(node n, key_type key, value_type value, bool is_end = false, bool color = RED_RBT)
 			{
-				if (n->is_end)
+				bool	conflict;//true if there is red red violation
+
+				if (!n)
+				{
+					return (_new_node(key, value, 0, is_end, color));
+				}
+				else if (n->is_end)
 				{
 					n->is_end = false;
 					n->right = _new_node(key_type(), value_type(), n, true, RED_RBT);
 					n->value = value;
 					return (n);
 				}
-				if (key < n->value)
+				else if (key < n->value)
 				{
-					if (n->left)
-						return _insert_node(n->left, key, value);
-					else
-						n->left = _new_node(key, value, n, is_end, color);
-					return n->left;
+					n->left = _insert_node(n->left, key, value);
+					n->left->parent = n;
+					if (n != this->_root)
+					{
+						if (n->color == RED_RBT && n->left->color == RED_RBT)
+							conflict = true;
+					}
 				}
 				else if (key > n->value)
 				{
-					if (n->right)
-						return _insert_node(n->right, key, value);
-					else
-						n->right = _new_node(key, value, n, is_end, color);
-					return n->right;						
+					n->right = _insert_node(n->right, key, value);
+					n->right->parent = n;
+					if (n != this->_root)
+					{
+						if (n->color == RED_RBT && n->right->color == RED_RBT)
+							conflict = true;
+					}					
 				}
-				return this->_end();
+
+				//move nodes according to case
+				if (this->_ll_case)
+				{
+					n = _rotate_left(n);
+					n->color = BLACK_RBT;
+					n->left->color = RED_RBT;
+					this->_ll_case = false;
+				}
+				return n;
 			}
 
 			//node _find(node n, key_type key) const

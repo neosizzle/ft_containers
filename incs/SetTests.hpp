@@ -56,8 +56,8 @@ void	run_set_tests()
 	test_line("*mine.find(2)", *builtin.find(2), *mine.find(2));
 	std::set <int> swap_builtin; 
 	ft::Set <int> swap_mine;
-	swap_builtin.insert(10);
-	swap_mine.insert(10);
+	swap_builtin.insert(100);
+	swap_mine.insert(100);
 	
 	try
 	{
@@ -122,19 +122,13 @@ void	run_set_tests()
 	rev_builtin_iter = builtin.rbegin();
 	rev_mine_iter = mine.rbegin();
 	i = -1;
-	while (rev_builtin_iter != builtin.rend())
+	while (rev_mine_iter != mine.rend())
 	{
 		std::cout << "rev_iter at position " << ++i << "\n";
 		test_line("*rev_mine_iter", *rev_builtin_iter, *rev_mine_iter);
-		rev_builtin_iter++;
-		rev_mine_iter++;
+		++rev_builtin_iter;
+		++rev_mine_iter;
 	}
-	std::cout << "mind.size() " << mine.size() << "\n";
-	std::cout << "builtin.size() " << builtin.size() << "\n";
-	std::cout << "rend()" << *mine.rend() << "\n";
-	std::cout << "builtin.rend()" << *builtin.rend() << "\n";
-	std::cout << "rev builtin iter()" <<  *rev_builtin_iter << "\n";
-	std::cout << "rev mine iter" <<  *rev_mine_iter << "\n";
 	test_line_diffclass("rev_mine_iter == mine.rend()", rev_mine_iter, mine.rend());
 
 	try

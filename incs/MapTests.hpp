@@ -134,12 +134,6 @@ void	run_map_tests()
 		builtin_rev_iter++;
 		mine_rev_iter++;
 	}
-	std::cout << "mind.size() " << mine.size() << "\n";
-	std::cout << "builtin.size() " << builtin.size() << "\n";
-	std::cout << "rend()" << mine.rend()->first << "\n";
-	std::cout << "builtin.rend()" << builtin.rend()->first << "\n";
-	std::cout << "rev builtin iter()" <<  builtin_rev_iter->first << "\n";
-	std::cout << "rev mine iter" <<  mine_rev_iter ->first<< "\n";
 	test_line_diffclass("mine_rev_iter == mine.rend()", mine_rev_iter, mine.rend());
 	try
 	{
