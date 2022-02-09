@@ -440,7 +440,6 @@ namespace ft
 				successor = (++iterator(n)).node();
 				if (successor->is_end)
 				{
-					// std::cout << "end node found\n";
 					n->is_end = true;
 					if (n->left)
 						successor = (--iterator(n)).node();
