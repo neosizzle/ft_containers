@@ -33,6 +33,9 @@ void	testing()
 
 	mine.insert(1);
 	mine.insert(2);
+	mine.insert(3);
+	// mine.erase(1);
+	// mine.erase(2);
 	mine_iter = mine.begin();
 	while (mine_iter != mine.end())
 	{

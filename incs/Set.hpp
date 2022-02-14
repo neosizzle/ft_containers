@@ -141,7 +141,8 @@ namespace ft
 					n->right = _new_node(key_type(), value_type(), n, true, BLACK_RBT);
 					n->value = value;
 					n->color = RED_RBT;
-					//return (n);
+					std::cout << "end node overriden \n";
+					return (n);
 				}
 				else if (key < n->value)
 				{
@@ -329,7 +330,7 @@ namespace ft
 
 				//case 2 : no sibling, double black pushed up to parent
 				if (sibling == NULL)
-					fix_db(parent);
+					this->_fix_db(parent);
 				//case 3 : got sibling
 				else
 				{
@@ -473,7 +474,7 @@ namespace ft
 						if (curr->parent && curr->parent->left == curr)
 							curr->parent->left = NULL;
 						else
-							curr->parent->right == NULL;
+							curr->parent->right = NULL;
 					}
 					delete curr;
 					return ;
