@@ -26,6 +26,22 @@ void	test_init_set(std::string message, int will_throw, T1 key_type)
 	}
 }
 
+void	testing()
+{
+	ft::Set<int> mine;
+	ft::Set<int>::iterator mine_iter;
+
+	mine.insert(1);
+	mine.insert(2);
+	mine_iter = mine.begin();
+	while (mine_iter != mine.end())
+	{
+		std::cout << *mine_iter << "\n";
+		mine_iter++;
+	}
+
+}
+
 void	run_set_tests()
 {
 

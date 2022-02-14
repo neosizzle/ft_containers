@@ -141,7 +141,7 @@ namespace ft
 					n->right = _new_node(key_type(), value_type(), n, true, BLACK_RBT);
 					n->value = value;
 					n->color = RED_RBT;
-					return (n);
+					//return (n);
 				}
 				else if (key < n->value)
 				{
@@ -198,54 +198,54 @@ namespace ft
 					this->_rl_case = false;
 				}
 
-				//if conflicts exists, turn on specific flags or the 
-				//backtrack to execute
-				// if (conflict)
-				// {
-				// 	//if current node is a right child
-				// 	if (n->parent->right == n)
-				// 	{
-				// 		//no sibling or black sibling
-				// 		if (!n->parent->left || n->parent->left->color == BLACK_RBT) 
-				// 		{
-				// 			if (!n->left && n->left->color == RED_RBT) // left child is red
-				// 				this->_rl_case = true;
-				// 			else if (!n->right && n->right->color == RED_RBT) // right child is red
-				// 				this->_ll_case = true;
-				// 		}
-				// 		else
-				// 		//red sibling
-				// 		{
-				// 			n->parent->left->color = BLACK_RBT;
-				// 			n->color = BLACK_RBT;
-				// 			if (n->parent != this->_root)
-				// 				n->parent->color = RED_RBT;
-				// 		}
-				// 	}
-				// 	//current node is left child
-				// 	else
-				// 	{
-				// 		//no sibling or black sibling
-				// 		if (!n->parent->right || n->parent->right->color == BLACK_RBT) 
-				// 		{
-				// 			if (!n->right && n->right->color == RED_RBT) // left child is red
-				// 				this->_lr_case = true;
-				// 			else if (!n->left && n->left->color == RED_RBT)// right child is red
-				// 				this->_rr_case = true;
-				// 		}
-				// 		//red sibling
-				// 		else
-				// 		{
-				// 			n->parent->right->color = BLACK_RBT;
-				// 			n->color = BLACK_RBT;
-				// 			if (n->parent != this->_root)
-				// 				n->parent->color = RED_RBT;
-				// 		}
+				// if conflicts exists, turn on specific flags or the 
+				// backtrack to execute
+				if (conflict)
+				{
+					//if current node is a right child
+					if (n->parent->right == n)
+					{
+						//no sibling or black sibling
+						if (!n->parent->left || n->parent->left->color == BLACK_RBT) 
+						{
+							if (!n->left && n->left->color == RED_RBT) // left child is red
+								this->_rl_case = true;
+							else if (!n->right && n->right->color == RED_RBT) // right child is red
+								this->_ll_case = true;
+						}
+						else
+						//red sibling
+						{
+							n->parent->left->color = BLACK_RBT;
+							n->color = BLACK_RBT;
+							if (n->parent != this->_root)
+								n->parent->color = RED_RBT;
+						}
+					}
+					//current node is left child
+					else
+					{
+						//no sibling or black sibling
+						if (!n->parent->right || n->parent->right->color == BLACK_RBT) 
+						{
+							if (!n->right && n->right->color == RED_RBT) // left child is red
+								this->_lr_case = true;
+							else if (!n->left && n->left->color == RED_RBT)// right child is red
+								this->_rr_case = true;
+						}
+						//red sibling
+						else
+						{
+							n->parent->right->color = BLACK_RBT;
+							n->color = BLACK_RBT;
+							if (n->parent != this->_root)
+								n->parent->color = RED_RBT;
+						}
 						
-				// 	}
+					}
 					
-				// }
-				// conflict = false;
+				}
+				conflict = false;
 				return n;
 			}
 

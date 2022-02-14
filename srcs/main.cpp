@@ -14,7 +14,7 @@ int	main(int argc, char **argv)
 	if (std::string(argv[1]).compare(std::string("map")) == 0)
 		run_map_tests();
 	else if (std::string(argv[1]).compare(std::string("set")) == 0)
-		run_set_tests();
+		testing();
 	else
 		std::cout << "no such container\n";
 	//test_line_diffclass("1 + 1", m.get_allocator(), me.get_allocator());
