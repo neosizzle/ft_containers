@@ -81,17 +81,6 @@ namespace ft
 				return res;
 			}
 
-			//find sibling of given node
-			node	_get_sibling(node n)
-			{
-				if (!n || !n->parent)
-					return 0;
-				else if (n == n->parent->left)
-					return n->parent->right;
-				else
-					return n->parent->left;
-			}
-
 			//void	free_tree(node n);
 			void	_free_tree(node n)
 			{
@@ -273,123 +262,171 @@ namespace ft
 				return this->_end();
 			}
 
-			//find replace, will find the replacement node where n is node to delete
-			//case 1: node has 2 children - return inorder successor
-			//case 2: node is leaf - return null
-			//case 3: node has 1 child - return that child
-			node	_find_replace_del(node n)
+			//find in order successor of node w/o iter
+			node	_get_successor(node n)
 			{
-				iterator	iter;
+				node	res;
 
-				if (n->left && n->right)
+				if (!n->right)
 				{
-					iter = iterator(n);
-					return ++iter;
+					res = n;
+					while (res->parent && res == res->parent->right)
+						res = res->parent;
+					res = res->parent;
 				}
-				else if (!n->left && !n->right)
-					return 0;
 				else
 				{
-					if (n->left)
-						return n->left;
-					else
-						return n->right;
+					res = n->right;
+					while(res->left)
+						res = res->left;
 				}
+				return res;
 			}
 
-			// fixes double black cases
-			// ignore root node
-			void	_fix_double_black(node n)
+			//find node sibling
+			node	_get_sibling(node n)
 			{
-				Node	sibling;
-				Node	parent;
+				if (n->parent == NULL)
+					return NULL;
+				if (n->parent->left == n)
+					return n->parent->right;
+				else
+					return n->parent->left;
+			}
 
+			//find deletion successor (node to replace deleted node)
+			node	_get_replace(node n)
+			{
+				//case 1 : node has 2 children (return inorder successor)
+				if (n->left != NULL && n->right != NULL)
+					return _get_successor(n);
+				
+				//case 2 : node is leaf
+				if (n->left == NULL && n->right == NULL)
+					return NULL;
+
+				//case 3 : 1 child
+				if (n->left != NULL)
+					return n->left;
+				else
+					return n->right;
+			}
+
+			//function to fix a nodes double black
+			void	_fix_db (node n)
+			{
+				node	sibling;
+				node	parent;
+
+				//case 1 : db is root
+				//do not do anything
 				if (n == this->_root)
-					return ;
+					return;
+				
+				//declare sibling and parent
+				parent = n->parent;
 				sibling = this->_get_sibling(n);
-				parent = this->parent;
 
-				//no sibling, double black pushed up
-				if (!sibling)
-					_fix_double_black(parent);
+				//case 2 : no sibling, double black pushed up to parent
+				if (sibling == NULL)
+					fix_db(parent);
+				//case 3 : got sibling
 				else
 				{
-					//red sibling
+					//case 3a : red sibling
 					if (sibling->color == RED_RBT)
 					{
-						//recolor
-						sibling->color = BLACK_RBT;
+						//switch colors between parent and sibling
 						parent->color = RED_RBT;
+						sibling->color = BLACK_RBT;
 
-						//sibling is left child
-						if (sibling->parent && (sibling == sibling->parent->left))
+						//case 3a(i) : red  sibling on left side
+						if (sibling->parent && sibling == sibling->parent->left)
 							this->_rotate_right(parent);
+						//case 3a(ii) : red  sibling on right side
 						else
 							this->_rotate_left(parent);
+						//recall fixdb
+						this->_fix_db(n);
 					}
 
-					//black sibling
+					//case 3b : black sibling
 					else
 					{
-						//sibling has red child
+						//case 3b(i) : at least 1 red child
 						if ((sibling->left && sibling->left->color == RED_RBT) ||
 							(sibling->right && sibling->right->color == RED_RBT))
 						{
-							if (sibling->left && sibling->left->color == RED_RBT)
+							//case 3b(i)(i) : sibling left child red
+							if (sibling->left != NULL && sibling->left->color == RED_RBT)
 							{
-								//sibling is on left
-								if (sibling->parent && (sibling == sibling->parent->left))
+								//case 3b(i)(i)(i) far child
+								if (sibling->parent->left == sibling)
 								{
-									//recolor and rotate
+									//swap color of parent and sibling
 									sibling->left->color = sibling->color;
 									sibling->color = parent->color;
-									_rotate_right(parent);
-								}
 
-								//sibling is on right
+									//rotate in direction of child (right)
+									this->_rotate_right(parent);
+								}
+								
+								//case 3b(i)(i)(ii) near child
 								else
 								{
-									//recolor and rotate
+									//swap color of sibling left child with its parent
 									sibling->left->color = parent->color;
-									_rotate_right(sibling);
-									_rotate_left(parent);
+
+									//rotate left sibling and rotate right parent
+									this->_rotate_left(sibling);
+									this->_rotate_right(parent);
 								}
 							}
+							
+							//case 3b(i)(ii) : sibling right child red
 							else
 							{
-								//sibling is on left
-								if (sibling->parent && (sibling == sibling->parent->left))
+								//case 3b(i)(ii)(i) : near child
+								if (sibling->parent->left == sibling)
 								{
-									//recolor and rotate
+									//swap color of sibling right child with its parent
 									sibling->right->color = parent->color;
-									_rotate_left(sibling);
-									_rotate_rightt(parent);
+
+									//rotate left sibling and rotate right parent
+									this->_rotate_left(sibling);
+									this->_rotate_right(parent);
 								}
 
-								//sibling is on right
+								//case 3b(i)(ii)(ii) : far child
 								else
 								{
-									//recolor and rotate
+									//swap color of parent and sibling
 									sibling->right->color = sibling->color;
 									sibling->color = parent->color;
-									_rotate_left(parent);
+
+									//rotate in direction of child (left)
+									this->_rotate_left(parent);
 								}
 							}
 							parent->color = BLACK_RBT;
 						}
 
-						//sibling has only black children
+						//case 3b(ii) : 2 black children
 						else
 						{
+							//change sibling to red (can change later?)
 							sibling->color = RED_RBT;
-							//pass to parent if parent is black
+
+							//add black to parent
 							if (parent->color == BLACK_RBT)
-								this->_fix_double_black(parent);
+								_fix_db(parent);
 							else
-								parent->color == BLACK_RBT
+								parent->color = BLACK_RBT;
 						}
+						
 					}
 				}
+				
 			}
 
 			//void _delete_node(node n)
@@ -400,52 +437,54 @@ namespace ft
 			{
 				node		successor;
 
-				if (n->is_end)
-				{
-					if (n->parent && n->parent->is_end)
-						delete n;
-					return ; 
-				}
-				else if (n->parent && !n->left && !n->right)
-				{
-					if (n->parent->left == n)
-						n->parent->left = 0;
-					else if (n->parent->right == n)
-						n->parent->right = 0;
-					delete n;
-					return ;
-				}
-				else if (n->parent && !n->left && n->right)
-				{
-					successor = n->right;
-					if (n->parent->left == n)
-						n->parent->left = successor;
-					else if (n->parent->right == n)
-						n->parent->right = successor;
-					successor->parent = n->parent;
-					delete n;
-					return ;
-				}
-				else if (n->parent && n->left && !n->right)
-				{
-					successor = n->left;
-					if (n->parent->left == n)
-						n->parent->left = successor;
-					else if (n->parent->right == n)
-						n->parent->right = successor;
-					successor->parent = n->parent;
-					delete n;
-					return ;
-				}
-				successor = (++iterator(n)).node();
-				if (successor->is_end)
-				{
-					n->is_end = true;
-					if (n->left)
-						successor = (--iterator(n)).node();
-					n->left = 0;
-					n->right = 0;
-				}
+				// if (n->is_end)
+				// {
+				// 	if (n->parent && n->parent->is_end)
+				// 		delete n;
+				// 	return ; 
+				// }
+				// else if (n->parent && !n->left && !n->right)
+				// {
+				// 	if (n->parent->left == n)
+				// 		n->parent->left = 0;
+				// 	else if (n->parent->right == n)
+				// 		n->parent->right = 0;
+				// 	delete n;
+				// 	return ;
+				// }
+				// else if (n->parent && !n->left && n->right)
+				// {
+				// 	successor = n->right;
+				// 	if (n->parent->left == n)
+				// 		n->parent->left = successor;
+				// 	else if (n->parent->right == n)
+				// 		n->parent->right = successor;
+				// 	successor->parent = n->parent;
+				// 	delete n;
+				// 	return ;
+				// }
+				// else if (n->parent && n->left && !n->right)
+				// {
+				// 	successor = n->left;
+				// 	if (n->parent->left == n)
+				// 		n->parent->left = successor;
+				// 	else if (n->parent->right == n)
+				// 		n->parent->right = successor;
+				// 	successor->parent = n->parent;
+				// 	delete n;
+				// 	return ;
+				// }
+				// successor = (++iterator(n)).node();
+				// if (successor->is_end)
+				// {
+				// 	// std::cout << "end node found\n";
+				// 	n->is_end = true;
+				// 	if (n->left)
+				// 		successor = (--iterator(n)).node();
+				// 	n->left = 0;
+				// 	n->right = 0;
+				// }
+
 				ft::swap(successor->value, n->value);				
 				_delete_node(successor);
 			}
