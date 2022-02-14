@@ -81,6 +81,17 @@ namespace ft
 				return res;
 			}
 
+			//find sibling of given node
+			node	_get_sibling(node n)
+			{
+				if (!n || !n->parent)
+					return 0;
+				else if (n == n->parent->left)
+					return n->parent->right;
+				else
+					return n->parent->left;
+			}
+
 			//void	free_tree(node n);
 			void	_free_tree(node n)
 			{
@@ -262,6 +273,125 @@ namespace ft
 				return this->_end();
 			}
 
+			//find replace, will find the replacement node where n is node to delete
+			//case 1: node has 2 children - return inorder successor
+			//case 2: node is leaf - return null
+			//case 3: node has 1 child - return that child
+			node	_find_replace_del(node n)
+			{
+				iterator	iter;
+
+				if (n->left && n->right)
+				{
+					iter = iterator(n);
+					return ++iter;
+				}
+				else if (!n->left && !n->right)
+					return 0;
+				else
+				{
+					if (n->left)
+						return n->left;
+					else
+						return n->right;
+				}
+			}
+
+			// fixes double black cases
+			// ignore root node
+			void	_fix_double_black(node n)
+			{
+				Node	sibling;
+				Node	parent;
+
+				if (n == this->_root)
+					return ;
+				sibling = this->_get_sibling(n);
+				parent = this->parent;
+
+				//no sibling, double black pushed up
+				if (!sibling)
+					_fix_double_black(parent);
+				else
+				{
+					//red sibling
+					if (sibling->color == RED_RBT)
+					{
+						//recolor
+						sibling->color = BLACK_RBT;
+						parent->color = RED_RBT;
+
+						//sibling is left child
+						if (sibling->parent && (sibling == sibling->parent->left))
+							this->_rotate_right(parent);
+						else
+							this->_rotate_left(parent);
+					}
+
+					//black sibling
+					else
+					{
+						//sibling has red child
+						if ((sibling->left && sibling->left->color == RED_RBT) ||
+							(sibling->right && sibling->right->color == RED_RBT))
+						{
+							if (sibling->left && sibling->left->color == RED_RBT)
+							{
+								//sibling is on left
+								if (sibling->parent && (sibling == sibling->parent->left))
+								{
+									//recolor and rotate
+									sibling->left->color = sibling->color;
+									sibling->color = parent->color;
+									_rotate_right(parent);
+								}
+
+								//sibling is on right
+								else
+								{
+									//recolor and rotate
+									sibling->left->color = parent->color;
+									_rotate_right(sibling);
+									_rotate_left(parent);
+								}
+							}
+							else
+							{
+								//sibling is on left
+								if (sibling->parent && (sibling == sibling->parent->left))
+								{
+									//recolor and rotate
+									sibling->right->color = parent->color;
+									_rotate_left(sibling);
+									_rotate_rightt(parent);
+								}
+
+								//sibling is on right
+								else
+								{
+									//recolor and rotate
+									sibling->right->color = sibling->color;
+									sibling->color = parent->color;
+									_rotate_left(parent);
+								}
+							}
+							parent->color = BLACK_RBT;
+						}
+
+						//sibling has only black children
+						else
+						{
+							sibling->color = RED_RBT;
+							//pass to parent if parent is black
+							if (parent->color == BLACK_RBT)
+								this->_fix_double_black(parent);
+							else
+								parent->color == BLACK_RBT
+						}
+					}
+				}
+			}
+
 			//void _delete_node(node n)
 			//case 1. Node is leaf - remove node
 			//case 2. Node has 1 child - copy child node and delete child
@@ -310,7 +440,6 @@ namespace ft
 				successor = (++iterator(n)).node();
 				if (successor->is_end)
 				{
-					// std::cout << "end node found\n";
 					n->is_end = true;
 					if (n->left)
 						successor = (--iterator(n)).node();

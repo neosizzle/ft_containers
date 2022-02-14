@@ -77,22 +77,22 @@ void	run_map_tests()
 	// i wont test iterator.end()++ because that causes undef behaviour even in std::map
 	try
 	{
-		builtin.insert(std::make_pair(2, "two"));
-		mine.insert(ft::make_pair(2, "two"));
-		builtin.insert(std::make_pair(3, "three"));
-		mine.insert(ft::make_pair(3, "three"));
-		builtin.insert(std::make_pair(4, "four"));
-		mine.insert(ft::make_pair(4, "four"));
 		builtin.insert(std::make_pair(5, "five"));
 		mine.insert(ft::make_pair(5, "five"));
 		builtin.insert(std::make_pair(6, "six"));
 		mine.insert(ft::make_pair(6, "six"));
+		builtin.insert(std::make_pair(4, "four"));
+		mine.insert(ft::make_pair(4, "four"));
 		builtin.insert(std::make_pair(7, "seven"));
 		mine.insert(ft::make_pair(7, "seven"));
 		builtin.insert(std::make_pair(8, "eight"));
 		mine.insert(ft::make_pair(8, "eight"));
 		builtin.insert(std::make_pair(9, "nine"));
 		mine.insert(ft::make_pair(9, "nine"));
+		builtin.insert(std::make_pair(3, "three"));
+		mine.insert(ft::make_pair(3, "three"));
+		builtin.insert(std::make_pair(2, "two"));
+		mine.insert(ft::make_pair(2, "two"));	
 		builtin.insert(std::make_pair(10, "ten"));
 		mine.insert(ft::make_pair(10, "ten"));
 		test_line_operation_success("mine.insert() multiple", 1);
@@ -147,17 +147,13 @@ void	run_map_tests()
 		std::cout << e.what();
 	}
 	std::vector<std::pair<int, std::string> > vec;
-	vec.push_back(std::make_pair(1, std::string("one from vect")));
-	vec.push_back(std::make_pair(2, std::string("two from vect")));
-	vec.push_back(std::make_pair(3, std::string("three from vect")));
-	vec.push_back(std::make_pair(4, std::string("four from vect")));
-
-
 	std::vector<ft::pair<int, std::string> > vec_ft;
-	vec_ft.push_back(ft::make_pair(1, std::string("one from vect")));
-	vec_ft.push_back(ft::make_pair(2, std::string("two from vect")));
-	vec_ft.push_back(ft::make_pair(3, std::string("three from vect")));
-	vec_ft.push_back(ft::make_pair(4, std::string("four from vect")));
+	int	rand_num;
+	for (int i = 0; i < 10; ++ i)
+	{
+		vec.push_back(std::make_pair(i, std::string("one from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vect")));
+		vec_ft.push_back(ft::make_pair(i, std::string("one from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vect")));
+	}
 
 	try
 	{
