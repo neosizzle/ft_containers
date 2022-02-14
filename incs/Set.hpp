@@ -433,10 +433,89 @@ namespace ft
 			//case 1. Node is leaf - remove node
 			//case 2. Node has 1 child - copy child node and delete child
 			//case 3. Node has 2 children. Find inorder predeseccor, swap and delete successor
-			void _delete_node(node n)
+			void _delete_node(node curr)
 			{
 				node		successor;
+				node		parent;
+				bool		uv_black;
 
+				successor = _get_replace(curr);
+				parent = curr->parent;
+				uv_black = ((successor == NULL || successor->color == BLACK_RBT) &&
+							curr->color == BLACK_RBT);
+
+				//case 0 : curr is end
+				if (curr->is_end)
+				{
+					if (parent && parent->is_end)
+						delete curr;
+					return ; 
+				}
+				//case 1 : successor is NULL therefore curr is leaf (or end node?
+				else if (successor == NULL)
+				{
+					//case 1a : current node is root
+					if (curr == this->_root)
+						this->_root = curr->right; // replace with end node?
+					//case 1b : current node is not root
+					else
+					{
+						//double black
+						if (uv_black)
+							_fix_db(curr);
+						else
+						{
+							//sibling is not null, make it red
+							if (this->_get_sibling(curr) != NULL && !this->_get_sibling(curr)->is_end)
+								this->_get_sibling(curr)->color = RED_RBT;
+						}
+						//delete node from tree
+						if (curr->parent && curr->parent->left == curr)
+							curr->parent->left = NULL;
+						else
+							curr->parent->right == NULL;
+					}
+					delete curr;
+					return ;
+				}
+
+				//case 2 : curr is 1 child
+				else if (curr->left == NULL || curr->right == NULL)
+				{
+					//case 2a : curr is root (need to check for end node?)
+					if (curr == this->_root)
+					{
+						//replace current value with successor value
+						ft::swap(successor->value, curr->value);
+
+						//unlink children
+						curr->left = NULL;
+						curr->right = this->_end();	
+
+						//delete successor
+						delete successor ;		
+					}
+					//case 2b : curr is not root
+					else
+					{
+						//detatch from tree
+						if (curr == parent->left)
+							parent->left = successor;
+						else
+							parent->right = successor;
+						delete curr;
+						successor->parent = parent;
+
+						//resolve double blacks
+						if (uv_black)
+							_fix_db(successor);
+						else
+							successor->color = BLACK_RBT;
+					}
+					return ;
+				}
+
+				//case 3 : curr has 2 children
 				// if (n->is_end)
 				// {
 				// 	if (n->parent && n->parent->is_end)
@@ -485,7 +564,7 @@ namespace ft
 				// 	n->right = 0;
 				// }
 
-				ft::swap(successor->value, n->value);				
+				ft::swap(successor->value, curr->value);				
 				_delete_node(successor);
 			}
 
