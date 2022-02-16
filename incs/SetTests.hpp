@@ -29,13 +29,41 @@ void	test_init_set(std::string message, int will_throw, T1 key_type)
 void	testing()
 {
 	ft::Set<int> mine;
+	ft::Set<int> swap;
+	ft::Set<int> temp;
 	ft::Set<int>::iterator mine_iter;
 
+	// mine.insert(8);
+	// mine.test();
+	// mine.insert(18);
+	// mine.test();
+	// mine.insert(5);
+	// mine.test();
+	// mine.insert(15);
+	// mine.test();
+	// mine.insert(17);
+	// mine.test();
+	// mine.insert(25);
+	// mine.test();
+	// mine.insert(40);
+	// mine.test();
+	// mine.insert(80);
+	// mine.test();
+	
 	mine.insert(1);
 	mine.insert(2);
 	mine.insert(3);
-	// mine.erase(1);
-	// mine.erase(2);
+
+	// temp.clear();
+	// temp.insert(mine.begin(), mine.end());
+	// mine.clear();
+	// mine.insert(swap.begin(), swap.end());
+	// swap.clear();
+	// swap.insert(temp.begin(), temp.end());
+	swap.insert(69);
+	mine.swap(swap);
+	
+
 	mine_iter = mine.begin();
 	while (mine_iter != mine.end())
 	{
