@@ -100,13 +100,7 @@ namespace ft
 				pivot = n->right;
 
 				if (this->_root == n)
-				{
-					std::cout << "hey i got caught n is root\n";
-					std::cout << "do i hv parent? " << (n->parent != 0) << "\n";
-					if (n->parent)
-						std::cout << "my parent is " << n->parent->value << "\n";
 					this->_root = pivot;
-				}
 				if (n->parent)
 				{
 					if (n->parent->left == n)
@@ -183,7 +177,7 @@ namespace ft
 				bool	conflict;//true if there is red red violation
 
 				conflict = false;
-				std::cout << "key at " << key << "\n";
+				// std::cout << "key at " << key << "\n";
 				if (!n)
 				{
 					return (_new_node(key, value, 0, is_end, color));
@@ -194,7 +188,11 @@ namespace ft
 					n->right = _new_node(key_type(), value_type(), n, true, BLACK_RBT);
 					n->value = value;
 					if (this->_root == n)
+					{
+						if (_root->parent != NULL)
+							// std::cout << "no way " << _root->parent << "\n";
 						n->color = BLACK_RBT;
+					}
 					else
 						n->color = RED_RBT;
 					if (n != this->_root)
@@ -229,8 +227,7 @@ namespace ft
 				//move nodes according to case
 				if (this->_ll_case)
 				{
-					std::cout << "ll case on node " << n->value << "\n";
-					std::cout << "am i root? " << (this->_root == n) << "\n";
+					// std::cout << "ll case on node " << n->value << "\n";
 					n = _rotate_left(n);
 					n->color = BLACK_RBT;
 					n->left->color = RED_RBT;
@@ -238,7 +235,7 @@ namespace ft
 				}
 				else if (this->_rr_case)
 				{
-					std::cout << "rr case \n";
+					// std::cout << "rr case \n";
 					n = _rotate_right(n);
 					n->color = BLACK_RBT;
 					n->right->color = RED_RBT;
@@ -246,7 +243,7 @@ namespace ft
 				}
 				else if (this->_rl_case)
 				{
-					std::cout << "rl case \n";
+					// std::cout << "rl case \n";
 					n->right = _rotate_right(n->right);
 					n->right->parent = n;
 					n = _rotate_left(n);
@@ -256,7 +253,7 @@ namespace ft
 				}
 				else if (this->_lr_case)
 				{
-					std::cout << "lr case \n";
+					// std::cout << "lr case \n";
 					n->left = _rotate_left(n->left);
 					n->left->parent = n;
 					n = _rotate_right(n);
@@ -526,6 +523,7 @@ namespace ft
 					//case 1a : current node is root
 					if (curr == this->_root)
 					{
+						this->_root->parent = 0;
 						this->_root = this->_end(); // replace with end node?
 					}
 					//case 1b : current node is not root
@@ -662,7 +660,7 @@ namespace ft
 			//void _init_tree(void)
 			void _init_tree(void)
 			{
-				this->_root = _new_node(key_type(), value_type(), 0, true, BLACK_RBT);
+				this->_root = _new_node(key_type(), value_type(), 0, true, BLACK_RBT);\
 				this->_len = 0;
 				this->_ll_case = false;
 				this->_rl_case = false;
@@ -837,6 +835,8 @@ namespace ft
 	Set<Key, Compare, Alloc> &Set<Key, Compare, Alloc>::operator= (Set<Key> &other)
 	{	
 		this->clear();
+		delete this->_root;
+		this->_init_tree();
 		this->insert(other.begin(), other.end());
 		return (*this);
 	}
@@ -955,6 +955,8 @@ namespace ft
 		// }
 		// std::cout << "end node parent : " << this->_end()->parent->value << "\n";
 		res = ft::make_pair(iterator(this->_insert_node(this->_root, value, value)), true);
+		if (_root->parent)
+			std::cout << "root have parent!!!!\n";
 		return (res);
 	}
 
@@ -975,9 +977,11 @@ namespace ft
 	{
 		Set<Key, Compare, Alloc> temp;
 
+		// std::cout << "\nswap begins now (temp to this)\n";
 		temp = *this;
+		// std::cout << "\nswap begins now (this to other)\n";
 		*this = other;
-		std::cout << "\nswap begins now (other to temp)\n";
+		// std::cout << "\nswap begins now (other to temp)\n";
 		other = temp;
 	}
 
