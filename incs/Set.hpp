@@ -1003,20 +1003,31 @@ namespace ft
 	template <class Key, class Compare, class Alloc >
 	void Set<Key, Compare, Alloc>::swap( Set& other )
 	{
-		Set<Key, Compare, Alloc> temp;
+		// Set<Key, Compare, Alloc> temp;
 
-		// std::cout << "\nswap begins now (temp to this)\n";
-		temp = *this;
-		// temp.test();
-		// this->test();
-		// std::cout << "\nswap begins now (this to other)\n";
-		*this = other;
-		// this->test();
-		// other.test();
-		// std::cout << "\nswap begins now (other to temp)\n";
-		other = temp;
-		// other.test();
-		// temp.test();
+		// temp = *this;
+		// *this = other;
+		// other = temp;
+
+		allocator_type	_allocator_temp;
+		node			_root_temp;
+		key_compare		_compare_temp;
+		size_type		_len_temp;
+
+		_root_temp = this->_root;
+		_allocator_temp = this->_allocator;
+		_compare_temp = this->_compare;
+		_len_temp = this->_len;
+
+		this->_root = other._root;
+		this->_allocator = other._allocator;
+		this->_compare = other._compare;
+		this->_len = other._len;
+
+		other._root = _root_temp;
+		other._allocator = _allocator_temp;
+		other._compare = _compare_temp;
+		other._len = _len_temp;
 	}
 
 	//lookup definitions

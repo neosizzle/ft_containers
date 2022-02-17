@@ -392,6 +392,9 @@ void	run_set_tests()
 	builtin_time = clock() - builtin_time;
 	compare_time("mine.find(1)", builtin_time, my_time);
 
+	mine.clear();
+	builtin.clear();
+	
 	my_time = clock();
 	mine.swap(swap_mine);
 	my_time = clock() - my_time;
@@ -400,6 +403,15 @@ void	run_set_tests()
 	builtin.swap(swap_builtin);
 	builtin_time = clock() - builtin_time;
 	compare_time("mine.swap(swap_mine)", builtin_time, my_time);
+
+	my_time = clock();
+	mine = swap_mine;
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin = swap_builtin;
+	builtin_time = clock() - builtin_time;
+	compare_time("mine = swap_mine", builtin_time, my_time);
 
 	my_time = clock();
 	mine.empty();
