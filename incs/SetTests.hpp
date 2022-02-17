@@ -30,12 +30,10 @@ void	testing()
 {
 	ft::Set<int> mine;
 	ft::Set<int> swap;
-	ft::Set<int> temp;
 	ft::Set<int>::iterator mine_iter;
 
 	swap.insert(100);
-	mine.swap(swap);
-	mine.insert(8);
+	// mine.insert(8);
 	// mine.test();
 	// mine.insert(18);
 	// mine.test();
@@ -51,18 +49,41 @@ void	testing()
 	// mine.test();
 	// mine.insert(80);
 	// mine.test();
-	
-	
+	mine.insert(2);
+	mine.test();
+	mine.insert(3);
+	mine.test();
+	mine.insert(4);
+	mine.test();
+	mine.insert(5);
+	mine.test();
+	mine.insert(6);
+	mine.test();
+	mine.insert(7);
+	mine.test();
+	mine.insert(8);
+	mine.test();
+	mine.insert(9);
+	mine.test();
+	mine.insert(10);
+	mine.test();
+	mine.swap(swap);
 	mine.test();
 	swap.test();
 
 	mine.clear();
-	// mine_iter = mine.begin();
-	// while (mine_iter != mine.end())
-	// {
-	// 	std::cout << *mine_iter << "\n";
-	// 	mine_iter++;
-	// }
+	std::vector< int > vec_ft;
+	vec_ft.push_back(1);
+	vec_ft.push_back(2);
+	vec_ft.push_back(3);
+	vec_ft.push_back(4);
+	mine.insert(vec_ft.begin(), vec_ft.end());
+	mine_iter = mine.begin();
+	while (mine_iter != mine.end())
+	{
+		std::cout << *mine_iter << "\n";
+		mine_iter++;
+	}
 
 }
 
@@ -170,8 +191,6 @@ void	run_set_tests()
 		++rev_mine_iter;
 	}
 	test_line_diffclass("rev_mine_iter == mine.rend()", rev_mine_iter, mine.rend());
-
-	mine.test();
 	try
 	{
 		mine.clear();

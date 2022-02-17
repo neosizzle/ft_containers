@@ -101,6 +101,7 @@ namespace ft
 
 				if (this->_root == n)
 					this->_root = pivot;
+
 				if (n->parent)
 				{
 					if (n->parent->left == n)
@@ -110,6 +111,7 @@ namespace ft
 				}
 				pivot->parent = n->parent;
 				n->parent = pivot;
+				
 				n->right = pivot->left;
 				if (pivot->left)
 					pivot->left->parent = n;
@@ -441,8 +443,17 @@ namespace ft
 									sibling->left->color = parent->color;
 
 									//rotate left sibling and rotate right parent
-									this->_rotate_left(sibling);
-									this->_rotate_right(parent);
+									// std::cout << "before rotate \n";
+									// this->test();
+									// std::cout << "\n";
+									this->_rotate_right(sibling);
+									// std::cout << "after left rotate \n";
+									// this->test();
+									// std::cout << "\n";
+									this->_rotate_left(parent);
+									// std::cout << "after right rotate \n";
+									// this->test();
+									// std::cout << "\n";
 								}
 							}
 							
@@ -531,7 +542,11 @@ namespace ft
 					{
 						//double black
 						if (uv_black)
+						{
+							// std::cout << "db fix " << curr->value << "\n";
 							this->_fix_db(curr);
+							// this->test();
+						}
 						else
 						{
 							//sibling is not null, make it red
@@ -791,6 +806,21 @@ namespace ft
 			if (curr->right != NULL)
 				q.push(curr->right);
 		}
+
+		std::cout << "\ncolors : ";
+		q.push(init);
+
+		while (!q.empty()) {
+			curr = q.front();
+			q.pop();
+
+			std::cout << (curr->color == 0 ? "BLACK" : "RED") << " ";
+
+			if (curr->left != NULL)
+				q.push(curr->left);
+			if (curr->right != NULL)
+				q.push(curr->right);
+		}
 	}
 
 	template <class Key, class Compare, class Alloc >
@@ -804,7 +834,12 @@ namespace ft
 		if (this->_root->is_end)
 			std::cout << "end parent value none because im root" << "\n";
 		else
-			std::cout << "end parent value " << this->_end()->parent->value << "\n";
+		{
+			if (this->_end()->parent)
+				std::cout << "end parent value " << this->_end()->parent->value << "\n";
+			else
+				std::cout << "end parent value end is root\n";
+		}
 		std::cout << "\n";
 	}
 
@@ -928,8 +963,10 @@ namespace ft
 	template <class Key, class Compare, class Alloc >
 	void Set<Key, Compare, Alloc>::clear()
 	{
+		// std::cout << "======deleting begin=======\n";
 		while (this->begin() != this->end())
 		{
+			// this->test();
 			this->erase(this->begin());
 		}
 		// this->erase(this->begin(), this->end());
@@ -947,16 +984,9 @@ namespace ft
 			return (ft::make_pair(iter, false));
 		}
 		++this->_len;
-		// if (this->_len == 1)
-		// {
-		// 	delete this->_root;
-		// 	this->_root = _new_node(value.first, value.second, 0);
-		// 	return (ft::make_pair(iterator(this->_root), true));
-		// }
-		// std::cout << "end node parent : " << this->_end()->parent->value << "\n";
 		res = ft::make_pair(iterator(this->_insert_node(this->_root, value, value)), true);
-		if (_root->parent)
-			std::cout << "root have parent!!!!\n";
+		// if (_root->parent)
+		// 	std::cout << "root have parent!!!!\n";
 		return (res);
 	}
 
@@ -979,10 +1009,16 @@ namespace ft
 
 		// std::cout << "\nswap begins now (temp to this)\n";
 		temp = *this;
+		// temp.test();
+		// this->test();
 		// std::cout << "\nswap begins now (this to other)\n";
 		*this = other;
+		// this->test();
+		// other.test();
 		// std::cout << "\nswap begins now (other to temp)\n";
 		other = temp;
+		// other.test();
+		// temp.test();
 	}
 
 	//lookup definitions
