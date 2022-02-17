@@ -102,7 +102,7 @@ namespace ft
 				if (this->_root == n)
 					this->_root = pivot;
 
-				if (n->parent)
+				if (n->parent && this->_root != n->right)
 				{
 					if (n->parent->left == n)
 						n->parent->left = pivot;
@@ -933,6 +933,7 @@ namespace ft
 		_delete_node(n);
 		if (move_root && !this->_root->is_end)
 			this->_root = (position).node();
+		this->_root->parent = 0;
 		--this->_len;
 	}
 
@@ -965,10 +966,7 @@ namespace ft
 	{
 		// std::cout << "======deleting begin=======\n";
 		while (this->begin() != this->end())
-		{
-			// this->test();
 			this->erase(this->begin());
-		}
 		// this->erase(this->begin(), this->end());
 	}
 
