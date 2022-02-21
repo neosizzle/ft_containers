@@ -1,6 +1,5 @@
 SRCS = ./srcs/*.cpp
 OBJS = *.o
-# INCS = -I./incs -I./incs/Map -I./incs/Set
 INCS = ./incs 
 INCS_MAP = ./incs/Map
 INCS_SET = ./incs/Set

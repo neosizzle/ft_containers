@@ -96,6 +96,9 @@ namespace ft
 		return (first2 != last2);
 	}
 	
+	//iterator traits
+
+	//reverse iterator
 }//ft
 
 #endif  //!__UTILS__H__
