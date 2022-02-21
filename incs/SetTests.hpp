@@ -28,63 +28,14 @@ void	test_init_set(std::string message, int will_throw, T1 key_type)
 
 void	testing()
 {
-	ft::Set<int> mine;
-	ft::Set<int> swap;
-	ft::Set<int>::iterator mine_iter;
-
-	swap.insert(100);
-	// mine.insert(8);
-	// mine.test();
-	// mine.insert(18);
-	// mine.test();
-	// mine.insert(5);
-	// mine.test();
-	// mine.insert(15);
-	// mine.test();
-	// mine.insert(17);
-	// mine.test();
-	// mine.insert(25);
-	// mine.test();
-	// mine.insert(40);
-	// mine.test();
-	// mine.insert(80);
-	// mine.test();
-	mine.insert(2);
-	mine.test();
-	mine.insert(3);
-	mine.test();
-	mine.insert(4);
-	mine.test();
-	mine.insert(5);
-	mine.test();
-	mine.insert(6);
-	mine.test();
-	mine.insert(7);
-	mine.test();
-	mine.insert(8);
-	mine.test();
-	mine.insert(9);
-	mine.test();
-	mine.insert(10);
-	mine.test();
-	mine.swap(swap);
-	mine.test();
-	swap.test();
-
-	mine.clear();
-	std::vector< int > vec_ft;
-	vec_ft.push_back(1);
-	vec_ft.push_back(2);
-	vec_ft.push_back(3);
-	vec_ft.push_back(4);
-	mine.insert(vec_ft.begin(), vec_ft.end());
-	mine_iter = mine.begin();
-	while (mine_iter != mine.end())
+	srand((unsigned) time(0));
+	for (int i = 0; i < 100; ++i)
 	{
-		std::cout << *mine_iter << "\n";
-		mine_iter++;
-	}
+		int result = 1 + (rand() % 100);
 
+		std::cout << result << '\n';
+	}
+	
 }
 
 void	run_set_tests()
@@ -135,24 +86,14 @@ void	run_set_tests()
 	// i wont test iterator.end()++ because that causes undef behaviour even in std::set
 	try
 	{
-		builtin.insert(2);
-		mine.insert(2);
-		builtin.insert(3);
-		mine.insert(3);
-		builtin.insert(4);
-		mine.insert(4);
-		builtin.insert(5);
-		mine.insert(5);
-		builtin.insert(6);
-		mine.insert(6);
-		builtin.insert(7);
-		mine.insert(7);
-		builtin.insert(8);
-		mine.insert(8);
-		builtin.insert(9);
-		mine.insert(9);
-		builtin.insert(10);
-		mine.insert(10);
+		srand((unsigned) time(0));
+		for (int i = 0; i < 100; ++i)
+		{
+			int result = 1 + (rand() % 100);
+			
+			builtin.insert(result);
+			mine.insert(result);
+		}
 		test_line_operation_success("mine.insert() multiple", 1);
 
 	}
@@ -170,8 +111,11 @@ void	run_set_tests()
 	i = -1;
 	while (builtin_iter != builtin.end())
 	{
-		std::cout << "iter at position " << ++i << "\n";
-		test_line("*mine_iter", *builtin_iter, *mine_iter);
+		std::string msg;
+
+		msg.append("*mine_iter position ");
+		msg.append(SSTR(++i));
+		test_line(msg, *builtin_iter, *mine_iter);
 		builtin_iter++;
 		mine_iter++;
 	}
@@ -185,8 +129,11 @@ void	run_set_tests()
 	i = -1;
 	while (rev_mine_iter != mine.rend())
 	{
-		std::cout << "rev_iter at position " << ++i << "\n";
-		test_line("*rev_mine_iter", *rev_builtin_iter, *rev_mine_iter);
+		std::string msg;
+
+		msg.append("*rev_mine_iter position ");
+		msg.append(SSTR(++i));
+		test_line(msg, *rev_builtin_iter, *rev_mine_iter);
 		++rev_builtin_iter;
 		++rev_mine_iter;
 	}
@@ -325,6 +272,45 @@ void	run_set_tests()
 	test_line("mine_cpy(added 1) >= mine", builtin_cpy >= builtin, mine_cpy >= mine);
 	test_line("mine_cpy(added 1) < mine", builtin_cpy < builtin, mine_cpy < mine);
 	test_line("mine_cpy(added 1) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
+
+	std::cout << "==========Observer test==============\n";
+	ft::Set<int> set_mine;
+
+	set_mine.insert(1001);
+	set_mine.insert(2002);
+	set_mine.insert(3003);
+
+	std::set<int> set_builtin;
+
+	set_builtin.insert(1001);
+	set_builtin.insert(2002);
+	set_builtin.insert(3003);
+
+
+	int highest = *set_mine.rbegin();
+	ft::Set<int>::iterator it = set_mine.begin();
+	int highest_builtin = *set_builtin.rbegin();        
+	std::set<int>::iterator it_builtin = set_builtin.begin();
+
+	do {
+		test_line("*it", *it, *it_builtin);
+		test_line("set_mine.value_comp()(*it, highest)", set_builtin.value_comp()(*it_builtin, highest_builtin),
+		set_mine.value_comp()(*it, highest));
+	} while ( set_mine.value_comp()(*it++, highest)  &&  set_builtin.value_comp()(*it_builtin++, highest_builtin));
+
+	std::set<int>::key_compare builtincomp = set_builtin.key_comp();
+	ft::Set<int>::key_compare mycomp = set_mine.key_comp();
+
+	int firstmine = *set_mine.rbegin();
+	int firstbuiltin = *set_builtin.rbegin(); 
+
+	it = set_mine.begin();
+	it_builtin = set_builtin.begin();
+	do {
+		test_line("*it", *it, *it_builtin);
+		test_line("mycomp((*it).first, firstmine)", builtincomp((*it_builtin), firstbuiltin),
+		mycomp((*it), firstmine));
+	} while ( builtincomp((*it_builtin++), firstbuiltin) && mycomp((*it++), firstmine) );
 
 	std::cout << "==========Timing test==============\n";
 	clock_t my_time;

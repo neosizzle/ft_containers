@@ -47,7 +47,7 @@ namespace ft
 					typedef value_type second_argument_type;
 					bool operator() (const value_type& left, const value_type& right) const
 					{
-						return comp(left.first, right.first);
+						return cmp(left.first, right.first);
 					}
 			};
 
@@ -302,6 +302,10 @@ namespace ft
 			bool operator<( const Map<Key,T,Compare,Allocator>& rhs );
 			bool operator>=( const Map<Key,T,Compare,Allocator>& rhs );
 			bool operator>( const Map<Key,T,Compare,Allocator>& rhs );
+			
+			//observers
+			key_compare 	key_comp() const;
+			value_compare 	value_comp() const;
 	};
 
 	//member function definitions
@@ -487,9 +491,29 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc >
 	void Map<Key, T, Compare, Alloc>::swap( Map& other )
 	{
-		Map<Key, T, Compare, Alloc> temp = *this;
-		*this = other;
-		other = temp;
+		// Map<Key, T, Compare, Alloc> temp = *this;
+		// *this = other;
+		// other = temp;
+
+		allocator_type	_allocator_temp;
+		node			_root_temp;
+		key_compare		_compare_temp;
+		size_type		_len_temp;
+
+		_root_temp = this->_root;
+		_allocator_temp = this->_allocator;
+		_compare_temp = this->_compare;
+		_len_temp = this->_len;
+
+		this->_root = other._root;
+		this->_allocator = other._allocator;
+		this->_compare = other._compare;
+		this->_len = other._len;
+
+		other._root = _root_temp;
+		other._allocator = _allocator_temp;
+		other._compare = _compare_temp;
+		other._len = _len_temp;
 	}
 
 	//lookup definitions
@@ -660,6 +684,19 @@ namespace ft
 	bool Map<Key, T, Compare, Alloc>::operator>=( const ft::Map<Key,T,Compare,Alloc>& rhs )
 	{
 		return (*this > rhs || *this == rhs);
+	}
+
+	//observers
+	template< class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::key_compare 	Map<Key, T, Compare, Alloc>::key_comp() const
+	{
+		return this->_compare;
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	typename Map<Key, T, Compare, Alloc>::value_compare 	Map<Key, T, Compare, Alloc>::value_comp() const
+	{
+		return value_compare(this->_compare);
 	}
 	
 }//ft

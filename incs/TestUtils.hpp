@@ -1,5 +1,8 @@
 #ifndef __TESTUTILS__H_
 #define __TESTUTILS__H_
+#include <iostream>
+#include <vector>
+#include <sstream>
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
@@ -17,9 +20,8 @@
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
-
-#include <iostream>
-#include <vector>
+#define SSTR( x ) static_cast< std::ostringstream & >( \
+        ( std::ostringstream() << std::dec << x ) ).str()
 
 void	print_fail_msg(std::string cmd, std::string msg)
 {

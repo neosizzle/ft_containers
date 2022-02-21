@@ -77,24 +77,14 @@ void	run_map_tests()
 	// i wont test iterator.end()++ because that causes undef behaviour even in std::map
 	try
 	{
-		builtin.insert(std::make_pair(5, "five"));
-		mine.insert(ft::make_pair(5, "five"));
-		builtin.insert(std::make_pair(6, "six"));
-		mine.insert(ft::make_pair(6, "six"));
-		builtin.insert(std::make_pair(4, "four"));
-		mine.insert(ft::make_pair(4, "four"));
-		builtin.insert(std::make_pair(7, "seven"));
-		mine.insert(ft::make_pair(7, "seven"));
-		builtin.insert(std::make_pair(8, "eight"));
-		mine.insert(ft::make_pair(8, "eight"));
-		builtin.insert(std::make_pair(9, "nine"));
-		mine.insert(ft::make_pair(9, "nine"));
-		builtin.insert(std::make_pair(3, "three"));
-		mine.insert(ft::make_pair(3, "three"));
-		builtin.insert(std::make_pair(2, "two"));
-		mine.insert(ft::make_pair(2, "two"));	
-		builtin.insert(std::make_pair(10, "ten"));
-		mine.insert(ft::make_pair(10, "ten"));
+		srand((unsigned) time(0));
+		for (int i = 0; i < 100; ++i)
+		{
+			int result = 1 + (rand() % 100);
+			
+			builtin.insert(std::make_pair(result, "veryveryveryveryveryveryveryveryveryveryveryveryveryveryveryverylong str"));
+			mine.insert(ft::make_pair(result, "veryveryveryveryveryveryveryveryveryveryveryveryveryveryveryverylong str"));
+		}
 		test_line_operation_success("mine.insert() multiple", 1);
 
 	}
@@ -112,9 +102,19 @@ void	run_map_tests()
 	i = -1;
 	while (builtin_iter != builtin.end())
 	{
-		std::cout << "iter at position " << ++i << "\n";
-		test_line("mine_iter->first", builtin_iter->first, mine_iter->first);
-		test_line("mine_iter->second", builtin_iter->second, mine_iter->second);
+		std::string msg;
+
+		++i;
+		msg.append("*mine_iter->first position ");
+		msg.append(SSTR(i));
+		test_line(msg, builtin_iter->first, mine_iter->first);
+
+		std::string msg2;
+
+		msg2.append("*mine_iter->second position ");
+		msg2.append(SSTR(i));
+		test_line(msg2, builtin_iter->second, mine_iter->second);
+
 		builtin_iter++;
 		mine_iter++;
 	}
@@ -128,9 +128,18 @@ void	run_map_tests()
 	i = -1;
 	while (builtin_rev_iter != builtin.rend())
 	{
-		std::cout << "iter at position " << ++i << "\n";
-		test_line("mine_rev_iter->first", builtin_rev_iter->first, mine_rev_iter->first);
-		test_line("mine_rev_iter->second", builtin_rev_iter->second, mine_rev_iter->second);
+		std::string msg;
+
+		++i;
+		msg.append("*mine_rev_iter->first position ");
+		msg.append(SSTR(i));
+		test_line(msg, builtin_rev_iter->first, mine_rev_iter->first);
+
+		std::string msg2;
+
+		msg2.append("*mine_rev_iter->second position ");
+		msg2.append(SSTR(i));
+		test_line(msg2, builtin_rev_iter->second, mine_rev_iter->second);
 		builtin_rev_iter++;
 		mine_rev_iter++;
 	}
@@ -148,8 +157,8 @@ void	run_map_tests()
 	}
 	std::vector<std::pair<int, std::string> > vec;
 	std::vector<ft::pair<int, std::string> > vec_ft;
-	int	rand_num;
-	for (int i = 0; i < 10; ++ i)
+
+	for (int i = 0; i < 100; ++ i)
 	{
 		vec.push_back(std::make_pair(i, std::string("one from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vect")));
 		vec_ft.push_back(ft::make_pair(i, std::string("one from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vectone from vect")));
@@ -289,6 +298,47 @@ void	run_map_tests()
 	test_line("mine_cpy(added 1) >= mine", builtin_cpy >= builtin, mine_cpy >= mine);
 	test_line("mine_cpy(added 1) < mine", builtin_cpy < builtin, mine_cpy < mine);
 	test_line("mine_cpy(added 1) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
+
+	std::cout << "==========Observer test==============\n";
+	ft::Map<char,int> mymap;
+
+	mymap['x']=1001;
+	mymap['y']=2002;
+	mymap['z']=3003;
+
+	std::map<char,int> builtinmap;
+
+	builtinmap['x']=1001;
+	builtinmap['y']=2002;
+	builtinmap['z']=3003;
+
+
+	ft::pair<char,int> highest = *mymap.rbegin();
+	ft::Map<char,int>::iterator it = mymap.begin();
+	std::pair<char,int> highest_builtin = *builtinmap.rbegin();        
+	std::map<char,int>::iterator it_builtin = builtinmap.begin();
+
+	do {
+		test_line("it->first", it_builtin->first, it->first);
+		test_line("it->second", it_builtin->second, it->second);
+		test_line("mymap.value_comp()(*it, highest)", builtinmap.value_comp()(*it_builtin, highest_builtin),
+		mymap.value_comp()(*it, highest));
+	} while ( mymap.value_comp()(*it++, highest)  &&  builtinmap.value_comp()(*it_builtin++, highest_builtin));
+
+	std::map<char,int>::key_compare builtincomp = builtinmap.key_comp();
+	ft::Map<char,int>::key_compare mycomp = mymap.key_comp();
+
+	char firstmine = mymap.rbegin()->first;
+	char firstbuiltin = builtinmap.rbegin()->first; 
+
+	it = mymap.begin();
+	it_builtin = builtinmap.begin();
+	do {
+		test_line("it->first", it_builtin->first, it->first);
+		test_line("it->second", it_builtin->second, it->second);
+		test_line("mycomp((*it).first, firstmine)", builtincomp((*it_builtin).first, firstbuiltin),
+		mycomp((*it).first, firstmine));
+	} while ( builtincomp((*it_builtin++).first, firstbuiltin) && mycomp((*it++).first, firstmine) );
 
 	std::cout << "==========Timing test==============\n";
 	clock_t my_time;

@@ -49,7 +49,7 @@ namespace ft
 					typedef value_type second_argument_type;
 					bool operator() (const value_type& left, const value_type& right) const
 					{
-						return comp(left, right);
+						return cmp(left, right);
 					}
 			};
 
@@ -781,6 +781,10 @@ namespace ft
 			bool operator<( const Set<Key,Compare,Allocator>& rhs );
 			bool operator>=( const Set<Key,Compare,Allocator>& rhs );
 			bool operator>( const Set<Key,Compare,Allocator>& rhs );
+
+			//observers
+			key_compare 	key_comp() const;
+			value_compare 	value_comp() const;
 	};
 
 	//test funcs REMOVE IN PROD
@@ -964,10 +968,8 @@ namespace ft
 	template <class Key, class Compare, class Alloc >
 	void Set<Key, Compare, Alloc>::clear()
 	{
-		// std::cout << "======deleting begin=======\n";
 		while (this->begin() != this->end())
 			this->erase(this->begin());
-		// this->erase(this->begin(), this->end());
 	}
 
 	template <class Key, class Compare, class Alloc >
@@ -983,8 +985,6 @@ namespace ft
 		}
 		++this->_len;
 		res = ft::make_pair(iterator(this->_insert_node(this->_root, value, value)), true);
-		// if (_root->parent)
-		// 	std::cout << "root have parent!!!!\n";
 		return (res);
 	}
 
@@ -1198,6 +1198,19 @@ namespace ft
 	bool Set<Key, Compare, Alloc>::operator>=( const ft::Set<Key, Compare,Alloc>& rhs )
 	{
 		return (*this > rhs || *this == rhs);
+	}
+
+	//observers
+	template< class Key, class Compare, class Alloc >
+	typename Set<Key, Compare, Alloc>::key_compare 	Set<Key, Compare, Alloc>::key_comp() const
+	{
+		return this->_compare;
+	}
+
+	template< class Key, class Compare, class Alloc >
+	typename Set<Key, Compare, Alloc>::value_compare 	Set<Key, Compare, Alloc>::value_comp() const
+	{
+		return value_compare(this->_compare);
 	}
 	
 }//ft
