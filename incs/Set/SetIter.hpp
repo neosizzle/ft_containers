@@ -4,6 +4,7 @@
 #include "SetUtils.hpp"
 
 //custom iterator class requirements:(https://www.cplusplus.com/forum/general/225835/)
+//no operator [] bcause og dont have
 template <typename K, typename Pointer, typename Reference>
 	class SetIter
 	{
