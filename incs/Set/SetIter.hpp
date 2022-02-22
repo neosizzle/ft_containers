@@ -14,7 +14,8 @@ template <typename K, typename Pointer, typename Reference>
 			typedef RBTNode<K>*								pointer;
 			typedef SetIter<K, Pointer, Reference>			curr_class;
 			typedef SetIter<K, K*, K&>						iterator;
-			pointer	ptr;
+			pointer											ptr;
+
 
 			//constructors 
 			SetIter(void) : ptr(0){}
@@ -41,6 +42,7 @@ template <typename K, typename Pointer, typename Reference>
 			pointer node(void) { return (ptr);}
 
 		private :
+
 			//in-order traversal to get next node
 			pointer	ptr_next(pointer ptr)
 			{

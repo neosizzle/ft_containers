@@ -100,14 +100,78 @@ namespace ft
 	template< class Iter >
 	struct iterator_traits
 	{
-		typedef typename Iter::iterator_category iterator_category;
 		typedef typename Iter::value_type        value_type;
 		typedef typename Iter::difference_type   difference_type;
 		typedef typename Iter::pointer           pointer;
 		typedef typename Iter::reference         reference;
 	};
 
+	template<typename _Tp>
+    struct iterator_traits<_Tp*>
+    {
+      typedef _Tp                         value_type;
+      typedef ptrdiff_t                   difference_type;
+      typedef _Tp*                        pointer;
+      typedef _Tp&                        reference;
+    };
+
+	template<typename _Tp>
+    struct iterator_traits<const _Tp*>
+    {
+		public :
+			typedef		 _Tp                         value_type;
+			typedef		 ptrdiff_t                   difference_type;
+			typedef const _Tp*                        pointer;
+			typedef const _Tp&                        reference;
+    };
+
 	//reverse iterator
+	template< class Iter >
+	class reverse_iterator
+	{
+		private:
+			Iter		ptr;
+
+		protected :
+			Iter	current;
+			
+		public :
+			typedef	typename ft::iterator_traits<Iter>::value_type			value_type;
+			typedef	typename ft::iterator_traits<Iter>::difference_type		difference_type;
+			typedef	typename ft::iterator_traits<Iter>::pointer				pointer;
+			typedef	typename ft::iterator_traits<Iter>::reference			reference;
+
+			//constructors 
+			reverse_iterator(void) : ptr(0){}
+			reverse_iterator(const pointer ptr): ptr(ptr) {}
+			reverse_iterator(const reverse_iterator &iter){*this = iter;}
+
+			//operators
+			reverse_iterator &operator=(const reverse_iterator &iter)
+			{
+				ptr = iter.ptr;
+				return *this;
+			}
+			reference operator* () { return *(ptr - 1); }
+			value_type *operator-> () { return *(ptr - 1) ; }
+			bool operator== ( const reverse_iterator<Iter>& that ) const { return ptr == that.ptr ; }
+			bool operator!= ( const reverse_iterator<Iter>& that ) const { return ptr != that.ptr ; }
+			bool operator>= ( const reverse_iterator<Iter>& that ) const { return ptr >= that.ptr ; }
+			bool operator<= ( const reverse_iterator<Iter>& that ) const { return ptr <= that.ptr ; }
+			bool operator> ( const reverse_iterator<Iter>& that ) const { return ptr > that.ptr ; }
+			bool operator< ( const reverse_iterator<Iter>& that ) const { return ptr < that.ptr ; }
+			reverse_iterator<Iter> &operator+ (int n){return (this->base() + n);}
+			reverse_iterator<Iter> &operator- (reverse_iterator<Iter>& rhs){return (rhs.base() - this->base());}
+			reverse_iterator<Iter> &operator++ () { ptr-- ; return *this ; }
+			reverse_iterator<Iter> &operator-- () { ptr++ ; return *this ; }
+			reverse_iterator<Iter> operator++ (int) { reverse_iterator<Iter> temp(*this) ; this->operator++() ; return temp ; }
+			reverse_iterator<Iter> operator-- (int) { reverse_iterator<Iter> temp(*this) ; this->operator--() ; return temp ; }
+			reference operator[]( difference_type n ) const {return (this.base()[-n-1]); }
+	
+			//mem funcs
+			Iter base() const {return current;}
+	};
+
 }//ft
 
 #endif  //!__UTILS__H__
