@@ -160,7 +160,8 @@ namespace ft
 			bool operator<= ( const reverse_iterator<Iter>& that ) const { return ptr <= that.ptr ; }
 			bool operator> ( const reverse_iterator<Iter>& that ) const { return ptr > that.ptr ; }
 			bool operator< ( const reverse_iterator<Iter>& that ) const { return ptr < that.ptr ; }
-			reverse_iterator<Iter> &operator+ (int n){return (this->base() + n);}
+			reverse_iterator<Iter> &operator+ (int n){return (this->base() - n);}
+			reverse_iterator<Iter> &operator- (int n){return (this->base() + n);}
 			reverse_iterator<Iter> &operator- (reverse_iterator<Iter>& rhs){return (rhs.base() - this->base());}
 			reverse_iterator<Iter> &operator++ () { ptr-- ; return *this ; }
 			reverse_iterator<Iter> &operator-- () { ptr++ ; return *this ; }

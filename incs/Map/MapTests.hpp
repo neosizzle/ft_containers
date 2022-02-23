@@ -144,6 +144,9 @@ void	run_map_tests()
 		mine_rev_iter++;
 	}
 	test_line_diffclass("mine_rev_iter == mine.rend()", mine_rev_iter, mine.rend());
+	builtin_iter = builtin.begin();
+	mine_iter = mine.begin();
+	test_line("mine_iter != mine.end()", builtin_iter != builtin.end(), mine_iter != mine.end());
 	try
 	{
 		mine.clear();

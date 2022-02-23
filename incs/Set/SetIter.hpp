@@ -8,39 +8,65 @@
 template <typename K, typename Pointer, typename Reference>
 	class SetIter
 	{
+		protected :
+			RBTNode<K>*										ptr;
+
 		public :
 			//type defs follow https://www.cplusplus.com/forum/general/225835/
 			typedef K										value_type;
 			typedef K&										reference;
+			typedef K const &								const_reference;
 			typedef RBTNode<K>*								pointer;
 			typedef SetIter<K, Pointer, Reference>			curr_class;
 			typedef SetIter<K, K*, K&>						iterator;
-			pointer											ptr;
-
 
 			//constructors 
 			SetIter(void) : ptr(0){}
 			~SetIter(void){}
 			SetIter(const pointer ptr): ptr(ptr) {}
-			SetIter(const iterator &iter){*this = iter;}
+			SetIter(const iterator &other): ptr(other.ptr){}
 
 			//operators
 			SetIter &operator=(const iterator &iter)
 			{
-				ptr = iter.ptr;
+				ptr = iter.node();
 				return *this;
 			}
 			reference operator* () { return ptr->value ; }
+			const_reference operator* () const { return ptr->value ; }
 			value_type *operator-> () { return &ptr->value ; }
-			bool operator== ( const curr_class& that ) const { return ptr == that.ptr ; }
-			bool operator!= ( const curr_class& that ) const { return ptr != that.ptr ; }
+			const_reference operator-> () const { return &ptr->value ; }
+			bool operator== ( const curr_class& that ) const { return ptr == that.node() ; }
+			bool operator!= ( const curr_class& that ) const { return ptr != that.node() ; }
+			bool operator>= ( const curr_class& that ) const { return ptr >= that.node() ; }
+			bool operator<= ( const curr_class& that ) const { return ptr <= that.node() ; }
+			bool operator< ( const curr_class& that ) const { return ptr < that.node() ; }
+			bool operator> ( const curr_class& that ) const { return ptr > that.node() ; }
+			SetIter &operator+=(int value)
+			{
+				int i;
+
+				i = -1;
+				while (++i < value)
+					this->ptr = ptr_next(ptr);
+				return (*this);
+			}
+			SetIter &operator-=(int value)
+			{
+				int i;
+
+				i = -1;
+				while (++i < value)
+					this->ptr = ptr_prev(ptr);
+				return (*this);
+			}
 			curr_class &operator++ () { ptr = ptr_next(ptr) ; return *this ; }
 			curr_class &operator-- () { ptr = ptr_prev(ptr) ; return *this ; }
 			curr_class operator++ (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
 			curr_class operator-- (int) { curr_class temp(*this) ; this->operator--() ; return temp ; }
 
 			//mem funcs
-			pointer node(void) { return (ptr);}
+			pointer node(void) const { return (ptr);}
 
 		private :
 
@@ -91,14 +117,17 @@ template <typename K, typename Pointer, typename Reference>
 template <typename K, typename Pointer, typename Reference>
 	class ReverseSetIter
 	{
+		protected :
+			RBTNode<K>*										ptr;
+
 		public :
 			//type defs follow https://www.cplusplus.com/forum/general/225835/
 			typedef K												value_type;
 			typedef K&												reference;
+			typedef K const &								const_reference;
 			typedef RBTNode<K>*										pointer;
 			typedef ReverseSetIter<K, Pointer, Reference>			curr_class;
 			typedef ReverseSetIter<K, K*, K&>						iterator;
-			pointer	ptr;
 
 
 			//constructors 
@@ -110,20 +139,44 @@ template <typename K, typename Pointer, typename Reference>
 			//operators
 			ReverseSetIter &operator=(const iterator &iter)
 			{
-				ptr = iter.ptr;
+				ptr = iter.node();
 				return *this;
 			}
 			reference operator* () { return ptr->value ; }
+			const_reference operator* () const { return ptr->value ; }
 			value_type *operator-> () { return &ptr->value ; }
-			bool operator== ( const curr_class& that ) const { return ptr == that.ptr ; }
-			bool operator!= ( const curr_class& that ) const { return ptr != that.ptr ; }
+			const_reference operator-> () const { return &ptr->value ; }
+			bool operator== ( const curr_class& that ) const { return ptr == that.node() ; }
+			bool operator!= ( const curr_class& that ) const { return ptr != that.node() ; }
+			bool operator>= ( const curr_class& that ) const { return ptr >= that.node() ; }
+			bool operator<= ( const curr_class& that ) const { return ptr <= that.node() ; }
+			bool operator< ( const curr_class& that ) const { return ptr < that.node() ; }
+			bool operator> ( const curr_class& that ) const { return ptr > that.node() ; }
+			ReverseSetIter &operator+=(int value)
+			{
+				int i;
+
+				i = -1;
+				while (++i < value)
+					this->ptr = ptr_prev(ptr);
+				return (*this);
+			}
+			ReverseSetIter &operator-=(int value)
+			{
+				int i;
+
+				i = -1;
+				while (++i < value)
+					this->ptr = ptr_next(ptr);
+				return (*this);
+			}
 			curr_class &operator++ () { ptr = ptr_prev(ptr) ; return *this ; }
 			curr_class &operator-- () { ptr = ptr_next(ptr) ; return *this ; }
 			curr_class operator++ (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
 			curr_class operator-- (int) { curr_class temp(*this) ; this->operator--() ; return temp ; }
 
 			//mem funcs
-			pointer node(void) { return (ptr);}
+			pointer node(void) const { return (ptr);}
 
 		private :
 			//in-order traversal to get next node

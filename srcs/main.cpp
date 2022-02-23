@@ -1,5 +1,6 @@
 #include "Map.hpp"
 #include "Set.hpp"
+#include "Vector.hpp"
 #include "main.hpp"
 #include "MapTests.hpp"
 #include "SetTests.hpp"
