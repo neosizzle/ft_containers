@@ -27,15 +27,20 @@ namespace ft
 
 		//helpers and attributes
 		private :
+			pointer			_ptr;
+			allocator_type	_alloc;
+			size_type		_curr_len;
+			size_type		_cap;
+			size_type		_next_size;
 
 		//member functions & access operations
 		public :
 			//member func
 			Vector();
-			Vector( const Allocator& alloc );
+			Vector( const allocator_type& alloc );
 			Vector( size_type count,
-                 const T& value = T(),
-                 const Allocator& alloc = Allocator());
+                 const value_type& value,
+                 const allocator_type& alloc);
 			Vector( size_type count, const Allocator& alloc = Allocator() );
 			Vector( const Vector& other );
 			~Vector();
@@ -47,8 +52,16 @@ namespace ft
 				void assign( InputIt first, InputIt last );
 
 			template< class InputIt >
-			Vector( InputIt first, InputIt last,
-					const Allocator& alloc = Allocator() );
+			Vector( InputIt first, InputIt last, const allocator_type& alloc )
+			{
+				this->_alloc = alloc;
+				this->_curr_len = last - first;
+				this->_cap = last - first;
+				this->_ptr = new value_type[this->_cap];
+				this->_next_size = sizeof (value_type) * this->_cap* 2;
+				//assign values
+			}
+					
 
 			//element access
 			reference at( size_type pos );
@@ -109,6 +122,82 @@ namespace ft
 			bool operator>=( const Vector<T,Allocator>& rhs );
 			bool operator>( const Vector<T,Allocator>& rhs );
 	};
+
+	//member funcs definitions
+	template < typename T, typename Alloc >
+	Vector<T, Alloc>::Vector(const allocator_type& alloc)
+	{
+		this->_alloc = alloc;
+		this->_curr_len = 0;
+		this->_cap = 0;
+		this->_ptr = 0;
+		this->_next_size = sizeof (value_type) * 2;
+	}
+
+	template < class T, class Alloc >
+	Vector<T, Alloc>::Vector( size_type count,
+                 const value_type& value,
+                 const allocator_type& alloc)
+	{
+		this->_alloc = alloc;
+		this->_curr_len = count;
+		this->_cap = count;
+		this->_ptr = new value_type[count];
+		this->_next_size = sizeof (value_type) * count * 2;
+		for (size_type i = 0; i < count; ++i)
+			this->_ptr[i] = value;
+	}
+
+	template < typename T, typename Alloc >
+	Vector<T, Alloc>::Vector( size_type count, const allocator_type& alloc )
+	{
+		this->_alloc = alloc;
+		this->_curr_len = count;
+		this->_cap = count;
+		this->_ptr = new value_type[count];
+		this->_next_size = sizeof (value_type) * count * 2;
+		//fill in null?
+		// for (size_type i = 0; i < count; ++i)
+		// 	this->_ptr[i] = value;
+	}
+
+	template < typename T, typename Alloc >
+	Vector<T, Alloc>::Vector( const Vector& other )
+	{
+		this->_ptr = 0;
+		this->_alloc = other._alloc;
+		this->_curr_len = other._curr_len;
+		this->_cap = other._cap;
+		this->_next_size = other._next_size;
+		*this = other;
+	}
+
+	template < typename T, typename Alloc >
+	Vector<T, Alloc>::~Vector(  )
+	{
+		if (this->_ptr)
+		{
+			delete [] this->_ptr;
+			this->_ptr = 0;
+		}
+	}
+	
+	template < typename T, typename Alloc >
+	Vector<T, Alloc> &Vector<T, Alloc>::operator=(const Vector& other)
+	{
+		if (this->_ptr)
+		{
+			delete [] this->_ptr;
+			this->_ptr = 0;
+		}
+		this->_ptr = new value_type[other._cap];
+		this->_alloc = other._alloc;
+		this->_curr_len = 0;
+		this->_cap = other._cap;
+		this->_next_size = other._next_size; 
+		//assign logic here
+		return *this;
+	}
 }//ft
 
 

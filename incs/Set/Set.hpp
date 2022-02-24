@@ -785,67 +785,7 @@ namespace ft
 			key_compare 	key_comp() const;
 			value_compare 	value_comp() const;
 	};
-
-	//test funcs REMOVE IN PROD
-	// template <class Key, class Compare, class Alloc >
-	// void	Set<Key, Compare, Alloc>::print_level_order(node init)
-	// {
-	// 	if (init == NULL)
-	// 		return;
-
-	// 	std::queue<node> q;
-	// 	node curr;
-
-	// 	q.push(init);
-
-	// 	while (!q.empty()) {
-	// 		curr = q.front();
-	// 		q.pop();
-
-	// 		std::cout << curr->value << " ";
-
-	// 		if (curr->left != NULL)
-	// 			q.push(curr->left);
-	// 		if (curr->right != NULL)
-	// 			q.push(curr->right);
-	// 	}
-
-	// 	std::cout << "\ncolors : ";
-	// 	q.push(init);
-
-	// 	while (!q.empty()) {
-	// 		curr = q.front();
-	// 		q.pop();
-
-	// 		std::cout << (curr->color == 0 ? "BLACK" : "RED") << " ";
-
-	// 		if (curr->left != NULL)
-	// 			q.push(curr->left);
-	// 		if (curr->right != NULL)
-	// 			q.push(curr->right);
-	// 	}
-	// }
-
-	// template <class Key, class Compare, class Alloc >
-	// void Set<Key, Compare, Alloc>::test()
-	// {
-	// 	std::cout << "level order : ";
-	// 	print_level_order(this->_root);
-	// 	std::cout << "\n";
-
-	// 	std::cout << "root value " << this->_root->value << "\n";
-	// 	if (this->_root->is_end)
-	// 		std::cout << "end parent value none because im root" << "\n";
-	// 	else
-	// 	{
-	// 		if (this->_end()->parent)
-	// 			std::cout << "end parent value " << this->_end()->parent->value << "\n";
-	// 		else
-	// 			std::cout << "end parent value end is root\n";
-	// 	}
-	// 	std::cout << "\n";
-	// }
-
+	
 	//member function definitions
 	template <class Key, class Compare, class Alloc >
 	Set<Key, Compare, Alloc>::Set(const key_compare &comp, const allocator_type alloc)
