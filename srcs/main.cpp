@@ -4,7 +4,7 @@
 #include "main.hpp"
 #include "MapTests.hpp"
 #include "SetTests.hpp"
-
+#include "VectorTests.hpp"
 int	main(int argc, char **argv)
 {
 	if (argc < 2)
@@ -16,6 +16,8 @@ int	main(int argc, char **argv)
 		run_map_tests();
 	else if (std::string(argv[1]).compare(std::string("set")) == 0)
 		run_set_tests();
+	else if (std::string(argv[1]).compare(std::string("vector")) == 0)
+		run_vector_tests();
 	else
 		std::cout << "no such container\n";
 	//test_line_diffclass("1 + 1", m.get_allocator(), me.get_allocator());

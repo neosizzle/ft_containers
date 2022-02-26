@@ -224,7 +224,7 @@ namespace ft
 			Map(Map<Key, T> &other);
 			~Map();
 			Map &operator=(Map<Key, T> &other);
-			allocator_type	get_allocator() {return allocator_type();}
+			allocator_type	get_allocator() const {return allocator_type();}
 
 			//element access
 			mapped_type &at( const key_type& key );

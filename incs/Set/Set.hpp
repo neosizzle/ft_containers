@@ -707,7 +707,7 @@ namespace ft
 			Set(Set<Key> &other);
 			~Set();
 			Set &operator=(Set<Key> &other);
-			allocator_type	get_allocator() {return allocator_type();}
+			allocator_type	get_allocator() const {return allocator_type();}
 
 			//iterators
 			iterator	begin();
