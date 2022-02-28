@@ -14,6 +14,7 @@ class VectorIter
 		typedef K*									pointer;
 		typedef VectorIter<K, Pointer, Reference>	curr_class;
 		typedef VectorIter<K, K*, K&>				iterator;
+		typedef	std::ptrdiff_t						difference_type;
 
 		//constructors 
 		VectorIter(void) : ptr(0){}
@@ -24,7 +25,7 @@ class VectorIter
 		//operators
 		VectorIter &operator=(const iterator &iter)
 		{
-			this->ptr = iter.ptr;
+			this->ptr = iter.base();
 			return *this;
 		}
 		reference operator* () { return *ptr ; }
@@ -39,12 +40,17 @@ class VectorIter
 		bool operator<= ( const curr_class& that ) const { return ptr <= that.ptr ; }
 		bool operator< ( const curr_class& that ) const { return ptr < that.ptr ; }
 		bool operator> ( const curr_class& that ) const { return ptr > that.ptr ; }
-		VectorIter &operator+=(int value) {this->p += value; return (*this);}
-		VectorIter &operator-=(int value) {this->p -= value; return (*this);}
+		VectorIter &operator+=(int value) {this->ptr += value; return (*this);}
+		VectorIter &operator-=(int value) {this->ptr -= value; return (*this);}
 		curr_class &operator++ () { ptr++ ; return *this ; }
 		curr_class &operator-- () { ptr-- ; return *this ; }
 		curr_class operator++ (int) { curr_class temp(*this) ; this->operator++() ; return temp ; }
 		curr_class operator-- (int) { curr_class temp(*this) ; this->operator--() ; return temp ; }
+		size_t  operator-( const curr_class& rhs) {return this->ptr - rhs.ptr;}
+		size_t  operator+( const curr_class& rhs) {return this->ptr + rhs.ptr;}
+		curr_class operator-( size_t n ) {curr_class temp(*this) ; temp -= n ; return temp ;}
+		curr_class operator+( size_t n ) {curr_class temp(*this) ; temp += n ; return temp ;}
 
+		pointer	base() const {return this->ptr;}
 };
 #endif  //!__VECTORITER__H__

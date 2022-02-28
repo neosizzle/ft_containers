@@ -16,6 +16,7 @@ namespace ft
 			typedef	T												value_type;
 			typedef	Allocator										allocator_type;
 			typedef size_t											size_type;
+			typedef	std::ptrdiff_t									difference_type;
 			typedef T& 												reference;
 			typedef const T& 										const_reference;
 			typedef T*												pointer;
@@ -112,17 +113,8 @@ namespace ft
 			void clear();
 			iterator insert( iterator pos, const T& value );
 			void insert( iterator pos, size_type count, const T& value );
-
-			template< class InputIt >
-			void insert( iterator pos, InputIt first, InputIt last )
-			{
-				while (first != last)
-				{
-					this->insert(pos, *first);
-					first++;
-				}
-			}
-
+			void insert( iterator pos, iterator first, iterator last);
+			void insert( iterator pos, const_iterator first, const_iterator last);
 			iterator erase( iterator pos );
 			iterator erase( const_iterator pos );
 			iterator erase( iterator first, iterator last );
@@ -299,8 +291,8 @@ namespace ft
 	template < typename T, typename Alloc >
 	void Vector<T, Alloc>::insert( iterator pos, size_type count, const T& value )
 	{
-		Vector<T, Alloc>	right(pos, this->end()); //right side of new vect
-		int					i;	//iterator
+		Vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
+		size_type			i;	//iterator
 		iterator			right_begin;	//right side begin iter
 		iterator			right_end;	//right side end iter
 
@@ -323,13 +315,67 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
+	void Vector<T, Alloc>::insert( iterator pos, iterator first, iterator last)
+	{
+		Vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
+		iterator			right_begin;	//right side begin iter
+		iterator			right_end;	//right side end iter
+
+		//adjust current length for cutting array
+		this->_curr_len -= this->end() - pos;
+		
+		//populate mid section
+		while (first != last)
+		{
+			this->push_back(*first);
+			first++;
+		}
+		
+		//populate right section
+		right_begin = right.begin();
+		right_end = right.end();
+		while (right_begin != right_end)
+		{
+			this->push_back(*right_begin);
+			right_begin++;
+		}
+	}
+
+	template < typename T, typename Alloc >
+	void Vector<T, Alloc>::insert( iterator pos, const_iterator first, const_iterator last)
+	{
+		Vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
+		iterator			right_begin;	//right side begin iter
+		iterator			right_end;	//right side end iter
+
+		//adjust current length for cutting array
+		this->_curr_len -= this->end() - pos;
+		
+		//populate mid section
+		while (first != last)
+		{
+			this->push_back(*first);
+			first++;
+		}
+		
+		//populate right section
+		right_begin = right.begin();
+		right_end = right.end();
+		while (right_begin != right_end)
+		{
+			this->push_back(*right_begin);
+			right_begin++;
+		}
+	}
+
+	template < typename T, typename Alloc >
 	typename Vector<T, Alloc>::iterator Vector<T, Alloc>::erase( iterator pos )
 	{
 		iterator	og; //original position (will soon point to deleted elem)
 		iterator	end; //final element 
 
 		og = pos;
-		end = this->end() - 1;
+		end = --this->end();
 
 		//replce current value with next value
 		while (pos != end)
@@ -348,7 +394,7 @@ namespace ft
 		const_iterator	end; //final element 
 
 		og = pos;
-		end = this->end() - 1;
+		end = --this->end();
 
 		//replce current value with next value
 		while (pos != end)
@@ -363,12 +409,17 @@ namespace ft
 	typename Vector<T, Alloc>::iterator Vector<T, Alloc>::erase( iterator first, iterator last )
 	{
 		iterator	res;
-
-		while (first != last)
+		iterator	end;
+		
+		res = last;
+		end = this->end();
+		while (last != end)
 		{
-			res = this->erase(first);
+			*first = *last;
 			first++;
+			last++;
 		}
+		this->_curr_len -= (last - first);
 		return res;
 		
 	}

@@ -137,7 +137,6 @@ namespace ft
 			
 		public :
 			typedef	typename ft::iterator_traits<Iter>::value_type			value_type;
-			typedef	typename ft::iterator_traits<Iter>::difference_type		difference_type;
 			typedef	typename ft::iterator_traits<Iter>::pointer				pointer;
 			typedef	typename ft::iterator_traits<Iter>::reference			reference;
 
@@ -152,8 +151,8 @@ namespace ft
 				ptr = iter.ptr;
 				return *this;
 			}
-			reference operator* () { return *(ptr - 1); }
-			value_type *operator-> () { return *(ptr - 1) ; }
+			reference operator* () { return *(ptr); }
+			value_type *operator-> () { return *(ptr) ; }
 			bool operator== ( const reverse_iterator<Iter>& that ) const { return ptr == that.ptr ; }
 			bool operator!= ( const reverse_iterator<Iter>& that ) const { return ptr != that.ptr ; }
 			bool operator>= ( const reverse_iterator<Iter>& that ) const { return ptr >= that.ptr ; }
@@ -167,7 +166,7 @@ namespace ft
 			reverse_iterator<Iter> &operator-- () { ptr++ ; return *this ; }
 			reverse_iterator<Iter> operator++ (int) { reverse_iterator<Iter> temp(*this) ; this->operator++() ; return temp ; }
 			reverse_iterator<Iter> operator-- (int) { reverse_iterator<Iter> temp(*this) ; this->operator--() ; return temp ; }
-			reference operator[]( difference_type n ) const {return (this.base()[-n-1]); }
+			reference operator[]( int n ) const {return (this.base()[-n-1]); }
 	
 			//mem funcs
 			Iter base() const {return current;}
