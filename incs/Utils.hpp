@@ -166,7 +166,7 @@ namespace ft
 			reverse_iterator<Iter> &operator-- () { ptr++ ; return *this ; }
 			reverse_iterator<Iter> operator++ (int) { reverse_iterator<Iter> temp(*this) ; this->operator++() ; return temp ; }
 			reverse_iterator<Iter> operator-- (int) { reverse_iterator<Iter> temp(*this) ; this->operator--() ; return temp ; }
-			reference operator[]( int n ) const {return (this.base()[-n-1]); }
+			reference operator[]( int n ) const {return (this->base()[-n-1]); }
 	
 			//mem funcs
 			Iter base() const {return current;}
