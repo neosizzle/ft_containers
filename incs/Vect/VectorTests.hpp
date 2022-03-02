@@ -26,18 +26,6 @@ void	test_init_vector(std::string message, int will_throw, T1 key_type)
 	}
 }
 
-static void	testing()
-{
-	srand((unsigned) time(0));
-	for (int i = 0; i < 100; ++i)
-	{
-		int result = 1 + (rand() % 100);
-
-		std::cout << result << '\n';
-	}
-	
-}
-
 template <class T>
 static void	print_vect(ft::Vector<T> vect)
 {
@@ -68,7 +56,7 @@ void	run_vector_tests()
 	test_init_set("ft_vector::<CustomClass>", 0, cc);
 	test_init_set("ft_vector::<std::vector>", 0, init_vect);
 
-	// std::cout << "==========Modifier, Iterator and operation test==============\n";
+	std::cout << "==========Modifier, Iterator and operation test==============\n";
 	std::vector<int> builtin;
 	ft::Vector<int> mine;
 	std::vector<int>::iterator builtin_iter;
