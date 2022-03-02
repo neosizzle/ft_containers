@@ -258,6 +258,14 @@ void	run_vector_tests()
 	mine.insert(mine.begin(), vec_ft.begin(), vec_ft.end());
 	test_line("mine.at(1)", builtin.at(1), mine.at(1));
 	test_line("mine.at(0)", builtin.at(0), mine.at(0));
+	try
+	{
+		mine.at(2134);
+	}
+	catch(const std::exception &e)
+	{
+		test_line_operation_fail("mine.at(1234)", 1);
+	}
 	test_line("mine[1]", builtin[1], mine[1]);
 	test_line("mine.front()", builtin.front(), mine.front());
 	test_line("mine.back()", builtin.back(), mine.back());
