@@ -3,6 +3,7 @@
 #include <stack>
 #include <time.h>
 #include "TestUtils.hpp"
+#include <deque>
 
 template <class T1>
 void	test_init_stack(std::string message, int will_throw, T1 key_type)

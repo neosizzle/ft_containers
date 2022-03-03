@@ -67,7 +67,9 @@ namespace ft
 				this->_alloc = alloc;
 				this->_curr_len = last - first;
 				this->_cap = last - first;
-				this->_ptr = new value_type[this->_cap];
+				this->_ptr = _alloc.allocate((this->_cap));
+				for (size_type i = 0; i < this->_cap; ++i) {new (this->_ptr + i) T;} //use placement new to call type constructors
+				// this->_ptr = new value_type[this->_cap]; //using new
 				this->_next_size = sizeof (value_type) * this->_cap* 2;
 				this->assign(first, last);
 			}
@@ -200,7 +202,9 @@ namespace ft
 	{
 		if (this->_ptr)
 		{
-			delete [] this->_ptr;
+			for (size_type i = 0; i < this->_curr_len; ++i) {(this->_ptr + i)->~T();}//use placement new to call type destructors
+			_alloc.deallocate(this->_ptr, this->_curr_len);
+			//delete [] this->_ptr;
 			this->_ptr = 0;
 		}
 	}
@@ -210,10 +214,14 @@ namespace ft
 	{
 		if (this->_ptr)
 		{
-			delete [] this->_ptr;
+			for (size_type i = 0; i < this->_curr_len; ++i) {(this->_ptr + i)->~T();}//use placement new to call type destructors
+			_alloc.deallocate(this->_ptr, this->_curr_len);
+			// delete [] this->_ptr;
 			this->_ptr = 0;
 		}
-		this->_ptr = new value_type[other._cap];
+		this->_ptr = _alloc.allocate(other._cap);
+		for (size_type i = 0; i < other._cap; ++i) {new (this->_ptr + i) T;}//use placement new to call type constructors
+		// this->_ptr = new value_type[other._cap]; //using new
 		this->_alloc = other._alloc;
 		this->_curr_len = 0;
 		this->_cap = other._cap;
@@ -252,12 +260,18 @@ namespace ft
 		if (new_cap <= this->_cap)
 			return ;
 		
-		temp = new value_type[new_cap];
+		temp = _alloc.allocate(new_cap);
+		for (size_type i = 0; i < new_cap; ++i) {new (temp + i) T;} //use placement new to call type constructors
+		// temp = new value_type[new_cap]; // using new
 		i = -1;
 		while (++i < this->_curr_len)
 			temp[i] = this->_ptr[i];
 		if (this->_ptr)
-			delete [] this->_ptr;
+		{
+			for (size_type i = 0; i < this->_curr_len; ++i) {(this->_ptr + i)->~T();}//use placement new to call type destructors
+			_alloc.deallocate(this->_ptr, this->_curr_len);
+		}
+			// delete [] this->_ptr;
 		this->_cap = new_cap;
 		this->_ptr = temp;
 
