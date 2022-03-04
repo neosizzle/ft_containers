@@ -491,11 +491,34 @@ namespace ft
 	template < typename T, typename Alloc >
 	void	Vector<T, Alloc>::swap( Vector& other )
 	{
-		Vector<T, Alloc>	temp;
+		// Vector<T, Alloc>	temp;
 
-		temp = *this;
-		*this = other;
-		other = temp;
+		// temp = *this;
+		// *this = other;
+		// other = temp;
+		pointer			_ptr_temp;
+		allocator_type	_alloc_temp;
+		size_type		_curr_len_temp;
+		size_type		_cap_temp;
+		size_type		_next_size_temp;
+
+		_ptr_temp = this->_ptr;
+		_alloc_temp = this->_alloc;
+		_curr_len_temp = this->_curr_len;
+		_cap_temp = this->_cap;
+		_next_size_temp = this->_next_size;
+
+		this->_ptr = other._ptr;
+		this->_alloc = other._alloc;
+		this->_curr_len = other._curr_len;
+		this->_cap = other._cap;
+		this->_next_size = other._next_size;
+
+		other._ptr = _ptr_temp;
+		other._alloc = _alloc_temp;
+		other._curr_len = _curr_len_temp;
+		other._cap = _cap_temp;
+		other._next_size = _next_size_temp;
 	}
 	
 	//comparison operators
