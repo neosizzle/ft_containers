@@ -26,18 +26,6 @@ void	test_init_vector(std::string message, int will_throw, T1 key_type)
 	}
 }
 
-static void	testing()
-{
-	srand((unsigned) time(0));
-	for (int i = 0; i < 100; ++i)
-	{
-		int result = 1 + (rand() % 100);
-
-		std::cout << result << '\n';
-	}
-	
-}
-
 template <class T>
 static void	print_vect(ft::Vector<T> vect)
 {

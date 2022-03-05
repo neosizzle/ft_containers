@@ -172,6 +172,109 @@ namespace ft
 			Iter base() const {return current;}
 	};
 
+	//enable if
+	template<bool B, class T = void>
+	struct enable_if {};
+	
+	template<class T>
+	struct enable_if<true, T> { typedef T type; };
+
+	//is integral
+
+	// integral_constant
+  	template<typename Bool>
+	struct integral_constant_true
+	{
+		// static	Bool                  			value;
+		enum { value = true  };
+		typedef Bool                          	value_type;
+		typedef integral_constant_true<Bool>  		type;
+	};
+
+	// integral_constant
+	template<typename Bool>
+	struct integral_constant_false
+	{
+		// static	Bool                  			value;
+		enum { value = false  };
+		typedef Bool                          	value_type;
+		typedef integral_constant_false<Bool>  		type;
+	};
+
+	// The type used as a compile-time boolean with true value.
+	typedef integral_constant_true<bool>     true_type;
+
+	// template<>
+	// bool	true_type::value = true;
+
+	// The type used as a compile-time boolean with false value.
+	typedef integral_constant_false<bool>     false_type;
+
+	// template<>
+	// bool	false_type::value = false;
+
+	template<typename>
+    struct is_integral_helper
+    : public false_type { };
+
+	template<>
+	struct is_integral_helper<bool>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<char>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<signed char>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<unsigned char>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<wchar_t>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<short>
+	: public true_type { };
+	
+	template<>
+	struct is_integral_helper<unsigned short>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<int>
+	: public true_type {};
+
+	template<>
+	struct is_integral_helper<unsigned int>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<long>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<unsigned long>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<long long>
+	: public true_type { };
+
+	template<>
+	struct is_integral_helper<unsigned long long>
+	: public true_type { };
+
+	// is_integral core
+  	template<typename T>
+    struct is_integral : public is_integral_helper<T>::type
+    {};
+	
+
 }//ft
 
 #endif  //!__UTILS__H__
