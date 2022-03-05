@@ -7,6 +7,7 @@
 #include "VectorTests.hpp"
 #include "SfinaeTests.hpp"
 #include "Utils.hpp"
+#include "StackTests.hpp"
 
 int	main(int argc, char **argv)
 {
@@ -23,6 +24,8 @@ int	main(int argc, char **argv)
 		run_vector_tests();
 	else if (std::string(argv[1]).compare(std::string("sfinae")) == 0)
 		run_sfinae_tests();
+	else if (std::string(argv[1]).compare(std::string("stack")) == 0)
+		run_stack_tests();
 	else
 		std::cout << "Usage : " << argv[0] << " map | set | vector | sfinae\n";
 }

@@ -4,6 +4,39 @@
 #include <time.h>
 #include "TestUtils.hpp"
 
+void	testing()
+{
+	std::string	*str_arr;
+
+	std::allocator<std::string> alloc;
+	str_arr = alloc.allocate(5 * (sizeof(std::string) + 1));
+	// str_arr[0] = std::string;
+	for (int i = 0; i < 5; ++i) { new (str_arr + i) std::string; }
+	str_arr[0] = "asdf";
+	str_arr[1] = "asdf";
+	str_arr[2] = "asdf";
+	str_arr[3] = "asdf";
+	str_arr[4] = "asdf";
+
+	std::cout << str_arr[0] << "\n";
+	alloc.deallocate(str_arr, 5);
+
+ 	// int	*str_arr;
+
+	// std::allocator<int> alloc;
+	// str_arr = alloc.allocate(5 * (sizeof(int) + 1));
+	// // str_arr[0] = int;
+	// for (int i = 0; i < 5; ++i) { new (str_arr + i) int; }
+	// str_arr[0] = 12;
+	// str_arr[1] = 12;
+	// str_arr[2] = 12;
+	// str_arr[3] = 12;
+	// str_arr[4] = 12;
+
+	// std::cout << str_arr[0] << "\n";
+	// alloc.deallocate(str_arr, 5);
+}
+
 template <class T1>
 void	test_init_vector(std::string message, int will_throw, T1 key_type)
 {
@@ -56,7 +89,7 @@ void	run_vector_tests()
 	test_init_set("ft_vector::<CustomClass>", 0, cc);
 	test_init_set("ft_vector::<std::vector>", 0, init_vect);
 
-	// std::cout << "==========Modifier, Iterator and operation test==============\n";
+	std::cout << "==========Modifier, Iterator and operation test==============\n";
 	std::vector<int> builtin;
 	ft::Vector<int> mine;
 	std::vector<int>::iterator builtin_iter;
@@ -258,6 +291,14 @@ void	run_vector_tests()
 	mine.insert(mine.begin(), vec_ft.begin(), vec_ft.end());
 	test_line("mine.at(1)", builtin.at(1), mine.at(1));
 	test_line("mine.at(0)", builtin.at(0), mine.at(0));
+	try
+	{
+		mine.at(2134);
+	}
+	catch(const std::exception &e)
+	{
+		test_line_operation_fail("mine.at(1234)", 1);
+	}
 	test_line("mine[1]", builtin[1], mine[1]);
 	test_line("mine.front()", builtin.front(), mine.front());
 	test_line("mine.back()", builtin.back(), mine.back());
@@ -303,6 +344,18 @@ void	run_vector_tests()
 	test_line("mine_cpy (pushed back) >= mine", builtin_cpy >= builtin, mine_cpy >= mine);
 	test_line("mine_cpy (pushed back) < mine", builtin_cpy < builtin, mine_cpy < mine);
 	test_line("mine_cpy (pushed back) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
+
+
+	std::cout << "==========Misc test==============\n";
+	ft::Vector<std::string> misc_mine;
+	std::vector<std::string> misc_builtin;
+
+	misc_mine.push_back("123456789012345678901234567890123456789012345678901234567890");
+	misc_builtin.push_back("123456789012345678901234567890123456789012345678901234567890");
+
+	test_line("misc_mine.back()", misc_builtin.back(), misc_mine.back());
+	// std::allocator<std::string> alloc;
+	// alloc.allocate(123123456 * sizeof(std::string));
 
 
 	std::cout << "==========Timing test==============\n";

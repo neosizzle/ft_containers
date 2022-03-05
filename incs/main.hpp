@@ -16,6 +16,7 @@
 //for vect
 
 //for stack
+#include <deque>
 
 //for set
 

@@ -42,7 +42,7 @@ void	run_sfinae_tests()
 	test_line_diffclass("ft::is_integral<std::string>::value ", false, ft::is_integral<std::string>::value);
 	test_line_diffclass("ft::is_integral<int	*>::value ", false, ft::is_integral<int	*>::value);
 
-	std::cout << "==========enable if test==============\n";
+	std::cout << "==========enable_if test==============\n";
 	test_line("foo(12.23) ", false, foo(12.23));
 	test_line("foo(12) ", true, foo(12));
 	test_line("foo(hello) ", false, foo("hello"));
