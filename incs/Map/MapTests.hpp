@@ -200,6 +200,15 @@ void	run_map_tests()
 	}
 	test_line("mine[12]", builtin[12], mine[12]);
 	test_line("mine.at(12)", builtin.at(12), mine.at(12));
+	try
+	{
+		mine.at(1234);
+		test_line_operation_success("mine.at(1234)", 0);
+	}
+	catch (const std::exception& )
+	{
+		test_line_operation_fail("mine.at(1234)", 1);
+	}
 
 	std::cout << "==========Capacity test==============\n";
 	test_line("mine.empty()", builtin.empty(), mine.empty());

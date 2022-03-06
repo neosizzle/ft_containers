@@ -4,39 +4,6 @@
 #include <time.h>
 #include "TestUtils.hpp"
 
-void	testing()
-{
-	std::string	*str_arr;
-
-	std::allocator<std::string> alloc;
-	str_arr = alloc.allocate(5 * (sizeof(std::string) + 1));
-	// str_arr[0] = std::string;
-	for (int i = 0; i < 5; ++i) { new (str_arr + i) std::string; }
-	str_arr[0] = "asdf";
-	str_arr[1] = "asdf";
-	str_arr[2] = "asdf";
-	str_arr[3] = "asdf";
-	str_arr[4] = "asdf";
-
-	std::cout << str_arr[0] << "\n";
-	alloc.deallocate(str_arr, 5);
-
- 	// int	*str_arr;
-
-	// std::allocator<int> alloc;
-	// str_arr = alloc.allocate(5 * (sizeof(int) + 1));
-	// // str_arr[0] = int;
-	// for (int i = 0; i < 5; ++i) { new (str_arr + i) int; }
-	// str_arr[0] = 12;
-	// str_arr[1] = 12;
-	// str_arr[2] = 12;
-	// str_arr[3] = 12;
-	// str_arr[4] = 12;
-
-	// std::cout << str_arr[0] << "\n";
-	// alloc.deallocate(str_arr, 5);
-}
-
 template <class T1>
 void	test_init_vector(std::string message, int will_throw, T1 key_type)
 {
@@ -102,7 +69,7 @@ void	run_vector_tests()
 		builtin.push_back(result);
 		mine.push_back(result);
 	}
-
+	test_line_operation_success("mine.push_back() multiple", 1);
 	builtin_iter = builtin.begin();
 	mine_iter = mine.begin();
 	int	i = -1;
@@ -116,7 +83,6 @@ void	run_vector_tests()
 		builtin_iter++;
 		mine_iter++;
 	}
-	test_line_operation_success("mine.push_back() multiple", 1);
 	test_line_diffclass("mine_iter == mine.end()", mine_iter, mine.end());
 	test_line_diffclass("builtin_iter == builtin.end()", builtin_iter, builtin.end());
 
@@ -427,23 +393,14 @@ void	run_vector_tests()
 	// mine.clear();
 	// builtin.clear();
 	
-	// my_time = clock();
-	// mine.swap(swap_mine);
-	// my_time = clock() - my_time;
+	my_time = clock();
+	mine.swap(swap_mine);
+	my_time = clock() - my_time;
 
 	builtin_time = clock();
 	builtin.swap(swap_builtin);
 	builtin_time = clock() - builtin_time;
 	compare_time("mine.swap(swap_mine)", builtin_time, my_time);
-
-	my_time = clock();
-	mine = swap_mine;
-	my_time = clock() - my_time;
-
-	builtin_time = clock();
-	builtin = swap_builtin;
-	builtin_time = clock() - builtin_time;
-	compare_time("mine = swap_mine", builtin_time, my_time);
 
 	my_time = clock();
 	mine.empty();

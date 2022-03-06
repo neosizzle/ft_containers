@@ -259,6 +259,8 @@ namespace ft
 
 		if (new_cap <= this->_cap)
 			return ;
+		if (new_cap > this->max_size())
+			throw (std::length_error("length_error"));
 		
 		temp = _alloc.allocate(new_cap);
 		for (size_type i = 0; i < new_cap; ++i) {new (temp + i) T;} //use placement new to call type constructors

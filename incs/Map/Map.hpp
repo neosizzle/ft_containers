@@ -347,15 +347,19 @@ namespace ft
 
 		n = this->_find(this->_root, k);
 		if (n->is_end)
-			return this->insert(ft::make_pair(k, mapped_type())).first->second;
-		else
-			return n->pair.second;
+			throw std::out_of_range("out_of_range");
+		return n->pair.second;
 	}
 	
 	template <class Key, class T, class Compare, class Alloc >
 	typename Map<Key, T, Compare, Alloc> ::mapped_type &Map<Key, T, Compare, Alloc>::operator [] (const key_type& k)
-	{
-		return this->at(k);
+	{	
+		iterator temp;
+
+		temp = this->find(k);
+		if (temp != this->end())
+			return temp->second;
+		return (this->insert(ft::make_pair(k, mapped_type())).first->second);
 	}
 
 	//Iterator definitions
