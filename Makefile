@@ -6,8 +6,8 @@ INCS_SET = ./incs/Set
 INCS_VECT = ./incs/Vect
 INCS_STACK = ./incs/Stack
 NAME = a.out
-# CC = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g3
-CC = c++ -Wall -Wextra -std=c++98 -fsanitize=address -g3
+CC = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g3
+# CC = c++ -Wall -Wextra -std=c++98 -fsanitize=address -g3 # for developing
 
 all : ${NAME}
 

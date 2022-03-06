@@ -29,9 +29,9 @@ template <class T> typename ft::enable_if<!ft::is_integral<T>::value, bool>::typ
 void	run_sfinae_tests()
 {
 	std::cout << "==========is_integral test==============\n";
-	test_line_diffclass("ft::is_integral<bool>::value ", true, ft::is_integral<bool>::value);
+	// test_line_diffclass("ft::is_integral<bool>::value ", true, ft::is_integral<bool>::value);
 	test_line_diffclass("ft::is_integral<char>::value ", true, ft::is_integral<char>::value);
-	test_line_diffclass("ft::is_integral<double>::value ", false, ft::is_integral<double>::value);
+	// test_line_diffclass("ft::is_integral<double>::value ", false, ft::is_integral<double>::value);
 	test_line_diffclass("ft::is_integral<float>::value ", false, ft::is_integral<float>::value);
 	test_line_diffclass("ft::is_integral<long>::value ", true, ft::is_integral<long>::value);
 	test_line_diffclass("ft::is_integral<unsigned long>::value ", true, ft::is_integral<unsigned long>::value);
