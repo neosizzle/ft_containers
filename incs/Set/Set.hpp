@@ -7,14 +7,14 @@
 namespace ft
 {
 
-	// Class std::Set wrapper with performance instrumentation.
-	// Refer for c++ Set reference (https://en.cppreference.com/w/cpp/container/Set)
-	// Refer for c++ Set source code (https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-3.4/stl__Set_8h-source.html)
+	// Class std::set wrapper with performance instrumentation.
+	// Refer for c++ set reference (https://en.cppreference.com/w/cpp/container/set)
+	// Refer for c++ set source code (https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-3.4/stl__Set_8h-source.html)
 	template <class Key,
 	class Compare = std::less<Key>,
 	class Allocator = std::allocator<Key>
 	>
-	class Set
+	class set
 	{
 		//Member types & functions
 		public :
@@ -38,7 +38,7 @@ namespace ft
 			//binary function for C++98 implementation
 			class value_compare : public std::binary_function<value_type, value_type, bool>
 			{
-				friend class Set<Key, Compare, Allocator>;
+				friend class set<Key, Compare, Allocator>;
 				protected : 
 					Compare cmp; // compare is the Sets compare object
 					value_compare (Compare c) : cmp(c) {}
@@ -703,10 +703,10 @@ namespace ft
 			void	print_level_order(node init);
 
 			//Member functions
-			explicit Set(const key_compare &comp = key_compare(), const allocator_type alloc = allocator_type());
-			Set(Set<Key> &other);
-			~Set();
-			Set &operator=(Set<Key> &other);
+			explicit set(const key_compare &comp = key_compare(), const allocator_type alloc = allocator_type());
+			set(set<Key> &other);
+			~set();
+			set &operator=(set<Key> &other);
 			allocator_type	get_allocator() const {return allocator_type();}
 
 			//iterators
@@ -750,7 +750,7 @@ namespace ft
 			void erase( iterator pos );
 			void erase( iterator first, iterator last );
 			size_type erase( const Key& key );
-			void swap( Set& other );
+			void swap( set& other );
 
 			template <class InputIterator>
 			void insert(InputIterator first, InputIterator last)
@@ -774,12 +774,12 @@ namespace ft
 			const_iterator upper_bound( const Key& key ) const;
 
 			//comparison operators
-			bool operator==( const Set<Key,Compare,Allocator>& rhs );
-			bool operator!=( const Set<Key,Compare,Allocator>& rhs );
-			bool operator<=( const Set<Key,Compare,Allocator>& rhs );
-			bool operator<( const Set<Key,Compare,Allocator>& rhs );
-			bool operator>=( const Set<Key,Compare,Allocator>& rhs );
-			bool operator>( const Set<Key,Compare,Allocator>& rhs );
+			bool operator==( const set<Key,Compare,Allocator>& rhs );
+			bool operator!=( const set<Key,Compare,Allocator>& rhs );
+			bool operator<=( const set<Key,Compare,Allocator>& rhs );
+			bool operator<( const set<Key,Compare,Allocator>& rhs );
+			bool operator>=( const set<Key,Compare,Allocator>& rhs );
+			bool operator>( const set<Key,Compare,Allocator>& rhs );
 
 			//observers
 			key_compare 	key_comp() const;
@@ -788,7 +788,7 @@ namespace ft
 	
 	//member function definitions
 	template <class Key, class Compare, class Alloc >
-	Set<Key, Compare, Alloc>::Set(const key_compare &comp, const allocator_type alloc)
+	set<Key, Compare, Alloc>::set(const key_compare &comp, const allocator_type alloc)
 	{
 		this->_allocator = alloc;
 		this->_compare = comp;
@@ -796,21 +796,21 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	Set<Key, Compare, Alloc>::Set(Set<Key> &other)
+	set<Key, Compare, Alloc>::set(set<Key> &other)
 	{
 		this->_init_tree();
 		*this = other;
 	}
 
 	template <class Key, class Compare, class Alloc >
-	Set<Key, Compare, Alloc>::~Set()
+	set<Key, Compare, Alloc>::~set()
 	{
 		this->_free_tree(this->_root);
 	}
 
 
 	template <class Key, class Compare, class Alloc >
-	Set<Key, Compare, Alloc> &Set<Key, Compare, Alloc>::operator= (Set<Key> &other)
+	set<Key, Compare, Alloc> &set<Key, Compare, Alloc>::operator= (set<Key> &other)
 	{	
 		this->clear();
 		delete this->_root;
@@ -821,7 +821,7 @@ namespace ft
 
 	//Iterator definitions
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::iterator Set<Key, Compare, Alloc>::begin()
+	typename set<Key, Compare, Alloc>::iterator set<Key, Compare, Alloc>::begin()
 	{
 		node n = this->_root;
 		if (!n->left && !n->right)
@@ -832,7 +832,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::const_iterator Set<Key, Compare, Alloc>::begin() const
+	typename set<Key, Compare, Alloc>::const_iterator set<Key, Compare, Alloc>::begin() const
 	{
 		node n = this->_root;
 		if (!n->left && !n->right)
@@ -843,7 +843,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::reverse_iterator Set<Key, Compare, Alloc>::rbegin()
+	typename set<Key, Compare, Alloc>::reverse_iterator set<Key, Compare, Alloc>::rbegin()
 	{
 		iterator	iter;
 
@@ -853,7 +853,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::const_reverse_iterator Set<Key, Compare, Alloc>::rbegin() const
+	typename set<Key, Compare, Alloc>::const_reverse_iterator set<Key, Compare, Alloc>::rbegin() const
 	{
 		iterator	iter;
 
@@ -864,7 +864,7 @@ namespace ft
 
 	//modifiers definitions
 	template <class Key, class Compare, class Alloc >
-	void Set<Key, Compare, Alloc>::erase(iterator position)
+	void set<Key, Compare, Alloc>::erase(iterator position)
 	{
 		node	n;
 		int		move_root;
@@ -881,14 +881,14 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	void Set<Key, Compare, Alloc>::erase(iterator first, iterator last)
+	void set<Key, Compare, Alloc>::erase(iterator first, iterator last)
 	{
 		while (first != last)
 			this->erase(first);
 	}
 
 	template <class Key, class Compare, class Alloc >
-	size_t Set<Key, Compare, Alloc>::erase( const Key& key )
+	size_t set<Key, Compare, Alloc>::erase( const Key& key )
 	{
 		size_type	i;
 		iterator	iter;
@@ -905,14 +905,14 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	void Set<Key, Compare, Alloc>::clear()
+	void set<Key, Compare, Alloc>::clear()
 	{
 		while (this->begin() != this->end())
 			this->erase(this->begin());
 	}
 
 	template <class Key, class Compare, class Alloc >
-	ft::pair<typename Set<Key, Compare, Alloc>::iterator, bool> Set<Key, Compare, Alloc>::insert( const value_type& value )
+	ft::pair<typename set<Key, Compare, Alloc>::iterator, bool> set<Key, Compare, Alloc>::insert( const value_type& value )
 	{
 		iterator	iter;
 		ft::pair<iterator, bool>		res;
@@ -928,7 +928,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::iterator Set<Key, Compare, Alloc>::insert( iterator hint, const value_type& value )
+	typename set<Key, Compare, Alloc>::iterator set<Key, Compare, Alloc>::insert( iterator hint, const value_type& value )
 	{
 		iterator	iter;
 
@@ -940,9 +940,9 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	void Set<Key, Compare, Alloc>::swap( Set& other )
+	void set<Key, Compare, Alloc>::swap( set& other )
 	{
-		// Set<Key, Compare, Alloc> temp;
+		// set<Key, Compare, Alloc> temp;
 
 		// temp = *this;
 		// *this = other;
@@ -971,7 +971,7 @@ namespace ft
 
 	//lookup definitions
 	template <class Key, class Compare, class Alloc >
-	size_t Set<Key, Compare, Alloc>::count( const Key& key ) const
+	size_t set<Key, Compare, Alloc>::count( const Key& key ) const
 	{
 		node	found;
 
@@ -982,7 +982,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::iterator  Set<Key, Compare, Alloc>::find( const Key& key )
+	typename set<Key, Compare, Alloc>::iterator  set<Key, Compare, Alloc>::find( const Key& key )
 	{
 		node	found;
 
@@ -993,7 +993,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::const_iterator Set<Key, Compare, Alloc>::find( const Key& key ) const
+	typename set<Key, Compare, Alloc>::const_iterator set<Key, Compare, Alloc>::find( const Key& key ) const
 	{
 		node	found;
 
@@ -1004,7 +1004,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::iterator Set<Key, Compare, Alloc>::lower_bound( const Key& key )
+	typename set<Key, Compare, Alloc>::iterator set<Key, Compare, Alloc>::lower_bound( const Key& key )
 	{
 		iterator begin;
 		iterator end;
@@ -1021,7 +1021,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::const_iterator Set<Key, Compare, Alloc>::lower_bound( const Key& key ) const
+	typename set<Key, Compare, Alloc>::const_iterator set<Key, Compare, Alloc>::lower_bound( const Key& key ) const
 	{
 		const_iterator begin;
 		const_iterator end;
@@ -1038,7 +1038,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::iterator Set<Key, Compare, Alloc>::upper_bound( const Key& key )
+	typename set<Key, Compare, Alloc>::iterator set<Key, Compare, Alloc>::upper_bound( const Key& key )
 	{
 		iterator begin;
 		iterator end;
@@ -1055,7 +1055,7 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::const_iterator Set<Key, Compare, Alloc>::upper_bound( const Key& key ) const
+	typename set<Key, Compare, Alloc>::const_iterator set<Key, Compare, Alloc>::upper_bound( const Key& key ) const
 	{
 		const_iterator begin;
 		const_iterator end;
@@ -1072,22 +1072,22 @@ namespace ft
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename ft::pair<typename Set<Key, Compare, Alloc>::iterator, typename Set<Key, Compare, Alloc>::iterator>
-	Set<Key, Compare, Alloc>::equal_range( const Key& key )
+	typename ft::pair<typename set<Key, Compare, Alloc>::iterator, typename set<Key, Compare, Alloc>::iterator>
+	set<Key, Compare, Alloc>::equal_range( const Key& key )
 	{
 		return (ft::make_pair(this->lower_bound(key), this->upper_bound(key)));
 	}
 
 	template <class Key, class Compare, class Alloc >
-	typename ft::pair<typename Set<Key, Compare, Alloc>::const_iterator, typename Set<Key, Compare, Alloc>::const_iterator>
-	Set<Key, Compare, Alloc>::equal_range( const Key& key ) const
+	typename ft::pair<typename set<Key, Compare, Alloc>::const_iterator, typename set<Key, Compare, Alloc>::const_iterator>
+	set<Key, Compare, Alloc>::equal_range( const Key& key ) const
 	{
 		return (ft::make_pair(this->lower_bound(key), this->upper_bound(key)));
 	}
 
 	//comparison operators
 	template< class Key, class Compare, class Alloc >
-	bool Set<Key, Compare, Alloc>::operator==( const ft::Set<Key, Compare,Alloc>& rhs )
+	bool set<Key, Compare, Alloc>::operator==( const ft::set<Key, Compare,Alloc>& rhs )
 	{
 		const_iterator first1;
 		const_iterator last1;
@@ -1110,44 +1110,44 @@ namespace ft
 	}
 
 	template< class Key, class Compare, class Alloc >
-	bool Set<Key, Compare, Alloc>::operator!=( const ft::Set<Key, Compare,Alloc>& rhs )
+	bool set<Key, Compare, Alloc>::operator!=( const ft::set<Key, Compare,Alloc>& rhs )
 	{
 		return !(*this == rhs);
 	}
 
 	template< class Key, class Compare, class Alloc >
-	bool Set<Key, Compare, Alloc>::operator<( const ft::Set<Key, Compare,Alloc>& rhs )
+	bool set<Key, Compare, Alloc>::operator<( const ft::set<Key, Compare,Alloc>& rhs )
 	{
 		return (ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
 	}
 
 	template< class Key, class Compare, class Alloc >
-	bool Set<Key, Compare, Alloc>::operator<=( const ft::Set<Key, Compare,Alloc>& rhs )
+	bool set<Key, Compare, Alloc>::operator<=( const ft::set<Key, Compare,Alloc>& rhs )
 	{
 		return (*this < rhs || *this == rhs);
 	}
 
 	template< class Key, class Compare, class Alloc >
-	bool Set<Key, Compare, Alloc>::operator>( const ft::Set<Key, Compare,Alloc>& rhs )
+	bool set<Key, Compare, Alloc>::operator>( const ft::set<Key, Compare,Alloc>& rhs )
 	{
 		return !(*this <= rhs);
 	}
 
 	template< class Key, class Compare, class Alloc >
-	bool Set<Key, Compare, Alloc>::operator>=( const ft::Set<Key, Compare,Alloc>& rhs )
+	bool set<Key, Compare, Alloc>::operator>=( const ft::set<Key, Compare,Alloc>& rhs )
 	{
 		return (*this > rhs || *this == rhs);
 	}
 
 	//observers
 	template< class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::key_compare 	Set<Key, Compare, Alloc>::key_comp() const
+	typename set<Key, Compare, Alloc>::key_compare 	set<Key, Compare, Alloc>::key_comp() const
 	{
 		return this->_compare;
 	}
 
 	template< class Key, class Compare, class Alloc >
-	typename Set<Key, Compare, Alloc>::value_compare 	Set<Key, Compare, Alloc>::value_comp() const
+	typename set<Key, Compare, Alloc>::value_compare 	set<Key, Compare, Alloc>::value_comp() const
 	{
 		return value_compare(this->_compare);
 	}

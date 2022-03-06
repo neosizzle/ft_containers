@@ -1,13 +1,10 @@
-#include "Map.hpp"
-#include "Set.hpp"
-#include "Vector.hpp"
 #include "main.hpp"
 #include "MapTests.hpp"
 #include "SetTests.hpp"
 #include "VectorTests.hpp"
+#include "StackTests.hpp"
 #include "SfinaeTests.hpp"
 #include "Utils.hpp"
-#include "StackTests.hpp"
 
 int	main(int argc, char **argv)
 {

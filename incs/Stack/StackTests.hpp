@@ -12,7 +12,7 @@ void	test_init_stack(std::string message, int will_throw, T1 key_type)
 	try
 	{
 		std::stack<T1> builtin;
-		ft::Stack<T1> mine;
+		ft::stack<T1> mine;
 		if (will_throw)
 			std::cout << RED << message << " [FAIL] Should throw error" << RESET << std::endl;
 		else
@@ -44,7 +44,7 @@ void	run_stack_tests()
 
 	std::cout << "==========Modifier, Iterator and operation test==============\n";
 	std::stack<int> builtin;
-	ft::Stack<int> mine;
+	ft::stack<int> mine;
 
 	for (int i = 0; i < 100; ++i)
 	{
@@ -78,7 +78,7 @@ void	run_stack_tests()
 	
 	std::cout << "==========Comparison operator test==============\n";
 	std::stack<int> builtin_cpy;
-	ft::Stack<int> mine_cpy;
+	ft::stack<int> mine_cpy;
 
 	builtin_cpy = builtin;
 	mine_cpy = mine;

@@ -11,7 +11,7 @@ void	test_init_vector(std::string message, int will_throw, T1 key_type)
 	try
 	{
 		std::vector<T1> builtin;
-		ft::Vector<T1> mine;
+		ft::vector<T1> mine;
 		if (will_throw)
 			std::cout << RED << message << " [FAIL] Should throw error" << RESET << std::endl;
 		else
@@ -27,9 +27,9 @@ void	test_init_vector(std::string message, int will_throw, T1 key_type)
 }
 
 template <class T>
-static void	print_vect(ft::Vector<T> vect)
+static void	print_vect(ft::vector<T> vect)
 {
-	typename ft::Vector<T>::iterator mine_iter;
+	typename ft::vector<T>::iterator mine_iter;
 
 	mine_iter = vect.begin();
 	while (mine_iter != vect.end())
@@ -58,9 +58,9 @@ void	run_vector_tests()
 
 	std::cout << "==========Modifier, Iterator and operation test==============\n";
 	std::vector<int> builtin;
-	ft::Vector<int> mine;
+	ft::vector<int> mine;
 	std::vector<int>::iterator builtin_iter;
-	ft::Vector<int>::iterator mine_iter;
+	ft::vector<int>::iterator mine_iter;
 
 	for (int i = 0; i < 100; ++i)
 	{
@@ -107,7 +107,7 @@ void	run_vector_tests()
 	}
 
 	std::vector <int> swap_builtin; 
-	ft::Vector <int> swap_mine;
+	ft::vector <int> swap_mine;
 	swap_builtin.push_back(100);
 	swap_mine.push_back(100);
 	
@@ -155,7 +155,7 @@ void	run_vector_tests()
 	}
 
 	std::vector<int>::reverse_iterator rev_builtin_iter;
-	ft::Vector<int>::reverse_iterator rev_mine_iter;
+	ft::vector<int>::reverse_iterator rev_mine_iter;
 
 	rev_builtin_iter = builtin.rbegin();
 	rev_mine_iter = mine.rbegin();
@@ -193,7 +193,7 @@ void	run_vector_tests()
 	vec.push_back(3);
 	vec.push_back(4);
 
-	ft::Vector< int > vec_ft;
+	ft::vector< int > vec_ft;
 	vec_ft.push_back(1);
 	vec_ft.push_back(2);
 	vec_ft.push_back(3);
@@ -280,7 +280,7 @@ void	run_vector_tests()
 
 	std::cout << "==========Comparison operator test==============\n";
 	std::vector<int> builtin_cpy;
-	ft::Vector<int> mine_cpy;
+	ft::vector<int> mine_cpy;
 
 	builtin_cpy = builtin;
 	mine_cpy = mine;
@@ -313,7 +313,7 @@ void	run_vector_tests()
 
 
 	std::cout << "==========Misc test==============\n";
-	ft::Vector<std::string> misc_mine;
+	ft::vector<std::string> misc_mine;
 	std::vector<std::string> misc_builtin;
 
 	misc_mine.push_back("123456789012345678901234567890123456789012345678901234567890");

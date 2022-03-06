@@ -9,7 +9,7 @@ namespace ft
 	template<
     class T,
     class Allocator = std::allocator<T>
-	>class Vector
+	>class vector
 	{
 		//Member types & functions
 		public :
@@ -37,15 +37,15 @@ namespace ft
 		//member functions & access operations
 		public :
 			//member func
-			Vector();
-			Vector( const allocator_type& alloc );
-			Vector( size_type count,
+			vector();
+			vector( const allocator_type& alloc );
+			vector( size_type count,
                  const value_type& value,
                  const allocator_type& alloc);
-			Vector( size_type count, const Allocator& alloc = Allocator() );
-			Vector( const Vector& other );
-			~Vector();
-			Vector& operator=( const Vector& other );
+			vector( size_type count, const Allocator& alloc = Allocator() );
+			vector( const vector& other );
+			~vector();
+			vector& operator=( const vector& other );
 			void assign( size_type count, const T& value );
 			allocator_type get_allocator() const {return allocator_type();}
 
@@ -62,7 +62,7 @@ namespace ft
 			}
 
 			template< class InputIt >
-			Vector( InputIt first, InputIt last, const allocator_type& alloc )
+			vector( InputIt first, InputIt last, const allocator_type& alloc )
 			{
 				this->_alloc = alloc;
 				this->_curr_len = last - first;
@@ -127,20 +127,20 @@ namespace ft
 
 			void resize( size_type count, T value = T() );
 
-			void swap( Vector& other );
+			void swap( vector& other );
 
 			//comparison operators
-			bool operator==( const Vector<T,Allocator>& rhs );
-			bool operator!=( const Vector<T,Allocator>& rhs );
-			bool operator<=( const Vector<T,Allocator>& rhs );
-			bool operator<( const Vector<T,Allocator>& rhs );
-			bool operator>=( const Vector<T,Allocator>& rhs );
-			bool operator>( const Vector<T,Allocator>& rhs );
+			bool operator==( const vector<T,Allocator>& rhs );
+			bool operator!=( const vector<T,Allocator>& rhs );
+			bool operator<=( const vector<T,Allocator>& rhs );
+			bool operator<( const vector<T,Allocator>& rhs );
+			bool operator>=( const vector<T,Allocator>& rhs );
+			bool operator>( const vector<T,Allocator>& rhs );
 	};
 
 	//member funcs definitions
 	template < typename T, typename Alloc >
-	Vector<T, Alloc>::Vector()
+	vector<T, Alloc>::vector()
 	{
 		this->_alloc = std::allocator<T>();
 		this->_curr_len = 0;
@@ -150,7 +150,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	Vector<T, Alloc>::Vector(const allocator_type& alloc)
+	vector<T, Alloc>::vector(const allocator_type& alloc)
 	{
 		this->_alloc = alloc;
 		this->_curr_len = 0;
@@ -160,7 +160,7 @@ namespace ft
 	}
 
 	template < class T, class Alloc >
-	Vector<T, Alloc>::Vector( size_type count,
+	vector<T, Alloc>::vector( size_type count,
                  const value_type& value,
                  const allocator_type& alloc)
 	{
@@ -174,7 +174,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	Vector<T, Alloc>::Vector( size_type count, const allocator_type& alloc )
+	vector<T, Alloc>::vector( size_type count, const allocator_type& alloc )
 	{
 		this->_alloc = alloc;
 		this->_curr_len = count;
@@ -187,7 +187,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	Vector<T, Alloc>::Vector( const Vector& other )
+	vector<T, Alloc>::vector( const vector& other )
 	{
 		this->_ptr = 0;
 		this->_alloc = other._alloc;
@@ -198,7 +198,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	Vector<T, Alloc>::~Vector(  )
+	vector<T, Alloc>::~vector(  )
 	{
 		if (this->_ptr)
 		{
@@ -210,7 +210,7 @@ namespace ft
 	}
 	
 	template < typename T, typename Alloc >
-	Vector<T, Alloc> &Vector<T, Alloc>::operator=(const Vector& other)
+	vector<T, Alloc> &vector<T, Alloc>::operator=(const vector& other)
 	{
 		if (this->_ptr)
 		{
@@ -231,7 +231,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	void	Vector<T, Alloc>::assign( size_type count, const T& value )
+	void	vector<T, Alloc>::assign( size_type count, const T& value )
 	{
 		size_t	n;
 
@@ -243,7 +243,7 @@ namespace ft
 
 	//element access definitions
 	template < typename T, typename Alloc >
-	typename Vector<T, Alloc>::reference Vector<T, Alloc>::at(size_type pos)
+	typename vector<T, Alloc>::reference vector<T, Alloc>::at(size_type pos)
 	{
 		if (pos >= this->_curr_len)
 					throw (std::out_of_range("out of range"));
@@ -252,7 +252,7 @@ namespace ft
 
 	//capacity definitions
 	template < typename T, typename Alloc >
-	void Vector<T, Alloc>::reserve( size_type new_cap )
+	void vector<T, Alloc>::reserve( size_type new_cap )
 	{
 		pointer		temp;
 		size_type	i;
@@ -281,7 +281,7 @@ namespace ft
 
 	//modifiers definition
 	template < typename T, typename Alloc >
-	void Vector<T, Alloc>::clear()
+	void vector<T, Alloc>::clear()
 	{
 		// if (this->_ptr)
 		// {
@@ -298,16 +298,16 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	typename Vector<T, Alloc>::iterator Vector<T, Alloc>::insert( iterator pos, const T& value )
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::insert( iterator pos, const T& value )
 	{
 		this->insert(pos, 1, value);
 		return (++pos);
 	}
 
 	template < typename T, typename Alloc >
-	void Vector<T, Alloc>::insert( iterator pos, size_type count, const T& value )
+	void vector<T, Alloc>::insert( iterator pos, size_type count, const T& value )
 	{
-		Vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
+		vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
 		size_type			i;	//iterator
 		iterator			right_begin;	//right side begin iter
 		iterator			right_end;	//right side end iter
@@ -331,9 +331,9 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	void Vector<T, Alloc>::insert( iterator pos, iterator first, iterator last)
+	void vector<T, Alloc>::insert( iterator pos, iterator first, iterator last)
 	{
-		Vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
+		vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
 		iterator			right_begin;	//right side begin iter
 		iterator			right_end;	//right side end iter
 
@@ -358,9 +358,9 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	void Vector<T, Alloc>::insert( iterator pos, const_iterator first, const_iterator last)
+	void vector<T, Alloc>::insert( iterator pos, const_iterator first, const_iterator last)
 	{
-		Vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
+		vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
 		iterator			right_begin;	//right side begin iter
 		iterator			right_end;	//right side end iter
 
@@ -385,7 +385,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	typename Vector<T, Alloc>::iterator Vector<T, Alloc>::erase( iterator pos )
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase( iterator pos )
 	{
 		iterator	og; //original position (will soon point to deleted elem)
 		iterator	end; //final element 
@@ -404,7 +404,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	typename Vector<T, Alloc>::iterator Vector<T, Alloc>::erase( const_iterator pos )
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase( const_iterator pos )
 	{
 		const_iterator	og; //original position (will soon point to deleted elem)
 		const_iterator	end; //final element 
@@ -422,7 +422,7 @@ namespace ft
 		return og;
 	};
 	template < typename T, typename Alloc >
-	typename Vector<T, Alloc>::iterator Vector<T, Alloc>::erase( iterator first, iterator last )
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase( iterator first, iterator last )
 	{
 		iterator	res;
 		iterator	end;
@@ -441,7 +441,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	typename Vector<T, Alloc>::iterator Vector<T, Alloc>::erase( const_iterator first, const_iterator last )
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase( const_iterator first, const_iterator last )
 	{
 		const_iterator	res;
 
@@ -454,7 +454,7 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	void	Vector<T, Alloc>::push_back( const T& value )
+	void	vector<T, Alloc>::push_back( const T& value )
 	{
 		if (this->_curr_len >= this->_cap)
 		{
@@ -465,14 +465,14 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	void	Vector<T, Alloc>::pop_back()
+	void	vector<T, Alloc>::pop_back()
 	{
 		if (this->_curr_len)
 			--this->_curr_len;
 	}
 
 	template < typename T, typename Alloc >
-	void	Vector<T, Alloc>::resize( size_type count, T value )
+	void	vector<T, Alloc>::resize( size_type count, T value )
 	{
 		//case 1: count is lesser than length
 		while (count < this->_curr_len)
@@ -491,9 +491,9 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	void	Vector<T, Alloc>::swap( Vector& other )
+	void	vector<T, Alloc>::swap( vector& other )
 	{
-		// Vector<T, Alloc>	temp;
+		// vector<T, Alloc>	temp;
 
 		// temp = *this;
 		// *this = other;
@@ -525,7 +525,7 @@ namespace ft
 	
 	//comparison operators
 	template < typename T, typename Alloc >
-	bool	Vector<T, Alloc>::operator ==( const Vector<T,Alloc>& rhs )
+	bool	vector<T, Alloc>::operator ==( const vector<T,Alloc>& rhs )
 	{
 		const_iterator first1;
 		const_iterator last1;
@@ -548,31 +548,31 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	bool	Vector<T, Alloc>::operator !=( const Vector<T,Alloc>& rhs )
+	bool	vector<T, Alloc>::operator !=( const vector<T,Alloc>& rhs )
 	{
 		return !(*this == rhs);
 	}
 
 	template < typename T, typename Alloc >
-	bool	Vector<T, Alloc>::operator <( const Vector<T,Alloc>& rhs )
+	bool	vector<T, Alloc>::operator <( const vector<T,Alloc>& rhs )
 	{
 		return (ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
 	}
 
 	template < typename T, typename Alloc >
-	bool	Vector<T, Alloc>::operator <=( const Vector<T,Alloc>& rhs )
+	bool	vector<T, Alloc>::operator <=( const vector<T,Alloc>& rhs )
 	{
 		return (*this < rhs || *this == rhs);
 	}
 
 	template < typename T, typename Alloc >
-	bool	Vector<T, Alloc>::operator >( const Vector<T,Alloc>& rhs )
+	bool	vector<T, Alloc>::operator >( const vector<T,Alloc>& rhs )
 	{
 		return !(*this <= rhs);
 	}
 
 	template < typename T, typename Alloc >
-	bool	Vector<T, Alloc>::operator >=( const Vector<T,Alloc>& rhs )
+	bool	vector<T, Alloc>::operator >=( const vector<T,Alloc>& rhs )
 	{
 		return (*this > rhs || *this == rhs);
 	}

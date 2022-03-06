@@ -7,8 +7,8 @@ namespace ft
 {
 	template<
     class T,
-    class Container = ft::Vector<T>
-	> class Stack
+    class Container = ft::vector<T>
+	> class stack
 	{
 		public :
 			//member types
@@ -22,11 +22,11 @@ namespace ft
 			Container	c;
 
 			//member functions
-			// Stack(){ }
-			Stack( const Container& cont = Container() ){this->c = cont;}
-			Stack( const Stack& other ){this->c =  other.c;}
-			~Stack(){}
-			Stack& operator=( const Stack& other ) {this->c = other.c; return *this;}
+			// stack(){ }
+			stack( const Container& cont = Container() ){this->c = cont;}
+			stack( const stack& other ){this->c =  other.c;}
+			~stack(){}
+			stack& operator=( const stack& other ) {this->c = other.c; return *this;}
 
 			//element access
 			reference top(){return this->c.back();}
@@ -41,12 +41,12 @@ namespace ft
 			void pop() {this->c.pop_back();}
 
 			//comparison operators
-			bool operator==( const Stack<T,Container>& rhs ) {return this->c == rhs.c;}
-			bool operator!=( const Stack<T,Container>& rhs ) {return !(*this == rhs);}
-			bool operator<=( const Stack<T,Container>& rhs ){return this->c <= rhs.c;}
-			bool operator<( const Stack<T,Container>& rhs ) {return this->c < rhs.c;}
-			bool operator>=( const Stack<T,Container>& rhs ) {return this->c >= rhs.c;}
-			bool operator>( const Stack<T,Container>& rhs ) {return this->c > rhs.c;}
+			bool operator==( const stack<T,Container>& rhs ) {return this->c == rhs.c;}
+			bool operator!=( const stack<T,Container>& rhs ) {return !(*this == rhs);}
+			bool operator<=( const stack<T,Container>& rhs ){return this->c <= rhs.c;}
+			bool operator<( const stack<T,Container>& rhs ) {return this->c < rhs.c;}
+			bool operator>=( const stack<T,Container>& rhs ) {return this->c >= rhs.c;}
+			bool operator>( const stack<T,Container>& rhs ) {return this->c > rhs.c;}
 	};
 }//ft
 

@@ -12,7 +12,7 @@ void	test_init_map(std::string message, int will_throw, T1 key_type, T2 mapped_t
 	try
 	{
 		std::map<T1, T2> builtin;
-		ft::Map<T1, T2> mine;
+		ft::map<T1, T2> mine;
 		if (will_throw)
 			std::cout << RED << message << " [FAIL] Should throw error" << RESET << std::endl;
 		else
@@ -46,7 +46,7 @@ void	run_map_tests()
 
 	std::cout << "==========Modifier, Iterator and operation test==============\n";
 	std::map<int, std::string> builtin;
-	ft::Map<int, std::string> mine;
+	ft::map<int, std::string> mine;
 	test_line("mine.insert(ft::make_pair(1, \"one\")).second ", builtin.insert(std::make_pair(1, "one")).second, mine.insert(ft::make_pair(1, "one")).second);
 	test_line("mine.begin()->first", builtin.begin()->first, mine.begin()->first);
 	test_line("mine.begin()->second", builtin.begin()->second, mine.begin()->second);
@@ -58,7 +58,7 @@ void	run_map_tests()
 	test_line("mine.find(1)->second", builtin.find(1)->second, mine.find(1)->second);
 	test_line("mine.find(2)->second", builtin.find(2)->second, mine.find(2)->second);
 	std::map <int, std::string> swap_builtin; 
-	ft::Map <int, std::string> swap_mine;
+	ft::map <int, std::string> swap_mine;
 	swap_builtin.insert(std::make_pair(1, "one_swapped"));
 	swap_mine.insert(ft::make_pair(1, "one_swapped"));
 	
@@ -94,7 +94,7 @@ void	run_map_tests()
 		std::cout << e.what();
 	}
 	std::map<int, std::string>::iterator builtin_iter;
-	ft::Map<int, std::string>::iterator mine_iter;
+	ft::map<int, std::string>::iterator mine_iter;
 	int	i;
 
 	builtin_iter = builtin.begin();
@@ -121,7 +121,7 @@ void	run_map_tests()
 	test_line_diffclass("mine_iter == mine.end()", mine_iter, mine.end());
 
 	std::map<int, std::string>::reverse_iterator builtin_rev_iter;
-	ft::Map<int, std::string>::reverse_iterator mine_rev_iter;
+	ft::map<int, std::string>::reverse_iterator mine_rev_iter;
 
 	builtin_rev_iter = builtin.rbegin();
 	mine_rev_iter = mine.rbegin();
@@ -280,7 +280,7 @@ void	run_map_tests()
 
 	std::cout << "==========Comparison operator test==============\n";
 	std::map<int, std::string> builtin_cpy;
-	ft::Map<int, std::string> mine_cpy;
+	ft::map<int, std::string> mine_cpy;
 
 	builtin_cpy = builtin;
 	mine_cpy = mine;
@@ -312,7 +312,7 @@ void	run_map_tests()
 	test_line("mine_cpy(added 1) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
 
 	std::cout << "==========Observer test==============\n";
-	ft::Map<char,int> mymap;
+	ft::map<char,int> mymap;
 
 	mymap['x']=1001;
 	mymap['y']=2002;
@@ -326,7 +326,7 @@ void	run_map_tests()
 
 
 	ft::pair<char,int> highest = *mymap.rbegin();
-	ft::Map<char,int>::iterator it = mymap.begin();
+	ft::map<char,int>::iterator it = mymap.begin();
 	std::pair<char,int> highest_builtin = *builtinmap.rbegin();        
 	std::map<char,int>::iterator it_builtin = builtinmap.begin();
 
@@ -338,7 +338,7 @@ void	run_map_tests()
 	} while ( mymap.value_comp()(*it++, highest)  &&  builtinmap.value_comp()(*it_builtin++, highest_builtin));
 
 	std::map<char,int>::key_compare builtincomp = builtinmap.key_comp();
-	ft::Map<char,int>::key_compare mycomp = mymap.key_comp();
+	ft::map<char,int>::key_compare mycomp = mymap.key_comp();
 
 	char firstmine = mymap.rbegin()->first;
 	char firstbuiltin = builtinmap.rbegin()->first; 

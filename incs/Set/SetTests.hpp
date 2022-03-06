@@ -11,7 +11,7 @@ void	test_init_set(std::string message, int will_throw, T1 key_type)
 	try
 	{
 		std::set<T1> builtin;
-		ft::Set<T1> mine;
+		ft::set<T1> mine;
 		if (will_throw)
 			std::cout << RED << message << " [FAIL] Should throw error" << RESET << std::endl;
 		else
@@ -45,7 +45,7 @@ void	run_set_tests()
 
 	std::cout << "==========Modifier, Iterator and operation test==============\n";
 	std::set<int> builtin;
-	ft::Set<int> mine;
+	ft::set<int> mine;
 	test_line("mine.insert(1).second ", builtin.insert(1).second, mine.insert(1).second);
 	test_line("*mine.begin()", *builtin.begin(), *mine.begin());
 	test_line("mine.insert(2).second ", builtin.insert(2).second, mine.insert(2).second);
@@ -55,7 +55,7 @@ void	run_set_tests()
 	test_line("*mine.find(1)", *builtin.find(1), *mine.find(1));
 	test_line("*mine.find(2)", *builtin.find(2), *mine.find(2));
 	std::set <int> swap_builtin; 
-	ft::Set <int> swap_mine;
+	ft::set <int> swap_mine;
 	swap_builtin.insert(100);
 	swap_mine.insert(100);
 	
@@ -91,7 +91,7 @@ void	run_set_tests()
 		std::cout << e.what();
 	}
 	std::set<int>::iterator builtin_iter;
-	ft::Set<int>::iterator mine_iter;
+	ft::set<int>::iterator mine_iter;
 	int	i;
 
 	builtin_iter = builtin.begin();
@@ -110,7 +110,7 @@ void	run_set_tests()
 	test_line_diffclass("mine_iter == mine.end()", mine_iter, mine.end());
 
 	std::set<int>::reverse_iterator rev_builtin_iter;
-	ft::Set<int>::reverse_iterator rev_mine_iter;
+	ft::set<int>::reverse_iterator rev_mine_iter;
 
 	rev_builtin_iter = builtin.rbegin();
 	rev_mine_iter = mine.rbegin();
@@ -234,7 +234,7 @@ void	run_set_tests()
 
 	std::cout << "==========Comparison operator test==============\n";
 	std::set<int> builtin_cpy;
-	ft::Set<int> mine_cpy;
+	ft::set<int> mine_cpy;
 
 	builtin_cpy = builtin;
 	mine_cpy = mine;
@@ -266,7 +266,7 @@ void	run_set_tests()
 	test_line("mine_cpy(added 1) <= mine", builtin_cpy <= builtin, mine_cpy <= mine);
 
 	std::cout << "==========Observer test==============\n";
-	ft::Set<int> set_mine;
+	ft::set<int> set_mine;
 
 	set_mine.insert(1001);
 	set_mine.insert(2002);
@@ -280,7 +280,7 @@ void	run_set_tests()
 
 
 	int highest = *set_mine.rbegin();
-	ft::Set<int>::iterator it = set_mine.begin();
+	ft::set<int>::iterator it = set_mine.begin();
 	int highest_builtin = *set_builtin.rbegin();        
 	std::set<int>::iterator it_builtin = set_builtin.begin();
 
@@ -291,7 +291,7 @@ void	run_set_tests()
 	} while ( set_mine.value_comp()(*it++, highest)  &&  set_builtin.value_comp()(*it_builtin++, highest_builtin));
 
 	std::set<int>::key_compare builtincomp = set_builtin.key_comp();
-	ft::Set<int>::key_compare mycomp = set_mine.key_comp();
+	ft::set<int>::key_compare mycomp = set_mine.key_comp();
 
 	int firstmine = *set_mine.rbegin();
 	int firstbuiltin = *set_builtin.rbegin(); 
