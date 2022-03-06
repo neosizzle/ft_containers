@@ -29,18 +29,18 @@ template <class T> typename ft::enable_if<!ft::is_integral<T>::value, bool>::typ
 void	run_sfinae_tests()
 {
 	std::cout << "==========is_integral test==============\n";
-	// test_line_diffclass("ft::is_integral<bool>::value ", true, ft::is_integral<bool>::value);
-	test_line_diffclass("ft::is_integral<char>::value ", true, ft::is_integral<char>::value);
-	// test_line_diffclass("ft::is_integral<double>::value ", false, ft::is_integral<double>::value);
-	test_line_diffclass("ft::is_integral<float>::value ", false, ft::is_integral<float>::value);
-	test_line_diffclass("ft::is_integral<long>::value ", true, ft::is_integral<long>::value);
-	test_line_diffclass("ft::is_integral<unsigned long>::value ", true, ft::is_integral<unsigned long>::value);
-	test_line_diffclass("ft::is_integral<short>::value ", true, ft::is_integral<short>::value);
-	test_line_diffclass("ft::is_integral<unsigned short>::value ", true, ft::is_integral<unsigned short>::value);
-	test_line_diffclass("ft::is_integral<int>::value ", true, ft::is_integral<int>::value);
-	test_line_diffclass("ft::is_integral<unsigned int>::value ", true, ft::is_integral<unsigned int>::value);
-	test_line_diffclass("ft::is_integral<std::string>::value ", false, ft::is_integral<std::string>::value);
-	test_line_diffclass("ft::is_integral<int	*>::value ", false, ft::is_integral<int	*>::value);
+	test_line_diffclass("ft::is_integral<bool>::value ", true, bool(ft::is_integral<bool>::value));
+	test_line_diffclass("ft::is_integral<char>::value ", true, bool(ft::is_integral<char>::value));
+	test_line_diffclass("ft::is_integral<double>::value ", false, bool(ft::is_integral<double>::value));
+	test_line_diffclass("ft::is_integral<float>::value ", false, bool(ft::is_integral<float>::value));
+	test_line_diffclass("ft::is_integral<long>::value ", true, bool(ft::is_integral<long>::value));
+	test_line_diffclass("ft::is_integral<unsigned long>::value ", true, bool(ft::is_integral<unsigned long>::value));
+	test_line_diffclass("ft::is_integral<short>::value ", true, bool(ft::is_integral<short>::value));
+	test_line_diffclass("ft::is_integral<unsigned short>::value ", true, bool(ft::is_integral<unsigned short>::value));
+	test_line_diffclass("ft::is_integral<int>::value ", true, bool(ft::is_integral<int>::value));
+	test_line_diffclass("ft::is_integral<unsigned int>::value ", true, bool(ft::is_integral<unsigned int>::value));
+	test_line_diffclass("ft::is_integral<std::string>::value ", false, bool(ft::is_integral<std::string>::value));
+	test_line_diffclass("ft::is_integral<int	*>::value ", false, bool(ft::is_integral<int	*>::value));
 
 	std::cout << "==========enable_if test==============\n";
 	test_line("foo(12.23) ", false, foo(12.23));
