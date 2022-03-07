@@ -18,6 +18,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			typedef BSTNode<K, T>*							pointer;
 			typedef MapIter<K, T, Pointer, Reference>		curr_class;
 			typedef MapIter<K, T, T*, T&>					iterator;
+			typedef	std::bidirectional_iterator_tag			iterator_category;
 
 			//constructors 
 			MapIter(void) : ptr(0){}
@@ -126,6 +127,7 @@ template <typename K, typename T, typename Pointer, typename Reference>
 			typedef BSTNode<K, T>*								pointer;
 			typedef ReverseMapIter<K, T, Pointer, Reference>	curr_class;
 			typedef ReverseMapIter<K, T, T*, T&>				iterator;
+			typedef	std::bidirectional_iterator_tag				iterator_category;
 
 			//constructors 
 			ReverseMapIter(void) : ptr(0){}

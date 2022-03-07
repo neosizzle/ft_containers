@@ -10,11 +10,11 @@ int	main(int argc, char **argv)
 {
 	if (argc < 2)
 	{
-		std::cout << "Usage : " << argv[0] << " map | set | vector | sfinae\n";
+		std::cout << "Usage : " << argv[0] << " map | set | vector | stack | sfinae\n";
 		return 1;
 	}
 	if (std::string(argv[1]).compare(std::string("map")) == 0)
-		run_map_tests();
+		testing();
 	else if (std::string(argv[1]).compare(std::string("set")) == 0)
 		run_set_tests();
 	else if (std::string(argv[1]).compare(std::string("vector")) == 0)
@@ -24,5 +24,5 @@ int	main(int argc, char **argv)
 	else if (std::string(argv[1]).compare(std::string("stack")) == 0)
 		run_stack_tests();
 	else
-		std::cout << "Usage : " << argv[0] << " map | set | vector | sfinae\n";
+		std::cout << "Usage : " << argv[0] << " map | set | vector | stack | sfinae\n";
 }

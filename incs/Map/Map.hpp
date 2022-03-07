@@ -11,7 +11,7 @@ namespace ft
 	// Refer for c++ map reference (https://en.cppreference.com/w/cpp/container/map)
 	// Refer for c++ map source code (https://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-3.4/stl__map_8h-source.html)
 	template <class Key, class T, class Compare = std::less<Key>,
-	class Allocator = std::allocator<ft::pair<const Key, T> >
+	class Allocator = std::allocator<BSTNode<Key, T> > //class Allocator = std::allocator<ft::pair<const Key, T> >
 	>
 	class map
 	{
@@ -28,6 +28,7 @@ namespace ft
 			typedef T*										pointer;
 			typedef	const	T*								const_pointer;
 			typedef size_t									size_type;
+			typedef std::ptrdiff_t							difference_type;
 			typedef BSTNode<key_type, mapped_type>			*node;
 			typedef MapIter<key_type, mapped_type, pointer, reference>						iterator;
 			typedef ReverseMapIter<key_type, mapped_type, pointer, reference>				reverse_iterator;
@@ -64,7 +65,9 @@ namespace ft
 			{
 				node	res;
 
-				res = new BSTNode<key_type, mapped_type>();
+				// res = new BSTNode<key_type, mapped_type>();
+				res = _allocator.allocate(1);
+				new (res) BSTNode<key_type, mapped_type>;
 				res->pair = ft::make_pair(key, value);
 				res->left = 0;
 				res->right = 0;
@@ -81,7 +84,9 @@ namespace ft
 					_free_tree(n->left);
 				if (n->right)
 					_free_tree(n->right);
-				delete n;
+				// delete n;
+				(n)->~BSTNode<key_type, mapped_type>();
+				_allocator.deallocate(n, 1);
 			}
 
 			//node _insert_node(node n, key_type key, mapped_type value)
@@ -141,7 +146,10 @@ namespace ft
 				if (n->is_end)
 				{
 					if (n->parent && n->parent->is_end)
-						delete n;
+					{
+						(n)->~BSTNode<key_type, mapped_type>();
+						_allocator.deallocate(n, 1); // delete n; 
+					}
 					return ; 
 				}
 				else if (n->parent && !n->left && !n->right)
@@ -151,7 +159,8 @@ namespace ft
 					else if (n->parent->right == n)
 						n->parent->right = 0;
 					// std::cout << "1st rule deleting (" << n->pair.first << ", " << n->pair.second << ") \n";
-					delete n;
+					(n)->~BSTNode<key_type, mapped_type>();
+					_allocator.deallocate(n, 1); //delete n;
 					return ;
 				}
 				else if (n->parent && !n->left && n->right)
@@ -164,7 +173,8 @@ namespace ft
 					successor->parent = n->parent;
 					// std::cout << "2nd rule deleting (" << n->pair.first << ", " << n->pair.second << ") \n";
 					// std::cout << "2nd rule parent (" << n->parent->pair.first << ", " << n->parent->pair.second << ") \n";
-					delete n;
+					(n)->~BSTNode<key_type, mapped_type>();
+					_allocator.deallocate(n, 1);//delete n;
 					return ;
 				}
 				else if (n->parent && n->left && !n->right)
@@ -176,7 +186,8 @@ namespace ft
 						n->parent->right = successor;
 					successor->parent = n->parent;
 					// std::cout << "3rd rule deleting (" << n->pair.first << ", " << n->pair.second << ") \n";
-					delete n;
+					(n)->~BSTNode<key_type, mapped_type>();
+					_allocator.deallocate(n, 1); //delete n;
 					return ;
 				}
 				successor = (++iterator(n)).node();

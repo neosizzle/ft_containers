@@ -50,7 +50,8 @@ namespace ft
 			allocator_type get_allocator() const {return allocator_type();}
 
 			template< class InputIt >
-			void assign( InputIt first, InputIt last )
+			void assign(InputIt first, InputIt last,
+				typename ft::enable_if<!ft::is_integral<InputIt>::value, void>::type* = 0)//void * = 0
 			{
 				this->clear();
 				while (first != last)
@@ -58,7 +59,6 @@ namespace ft
 					this->push_back(*first);
 					++first;
 				}
-				
 			}
 
 			template< class InputIt >
@@ -72,8 +72,7 @@ namespace ft
 				// this->_ptr = new value_type[this->_cap]; //using new
 				this->_next_size = sizeof (value_type) * this->_cap* 2;
 				this->assign(first, last);
-			}
-					
+			}		
 
 			//element access
 			reference at( size_type pos );
@@ -109,7 +108,7 @@ namespace ft
 			size_type 	size() const {return this->_curr_len;}
 			size_type 	max_size() const {return  (std::numeric_limits<size_type>::max() / (sizeof(value_type)));};
 			void 		reserve( size_type new_cap );
-			size_type 	capacity() {return this->_cap;}
+			size_type 	capacity() const {return this->_cap;}
 
 			//modifiers
 			void clear();
@@ -179,7 +178,7 @@ namespace ft
 		this->_alloc = alloc;
 		this->_curr_len = count;
 		this->_cap = count;
-		this->_ptr = new value_type[count];
+		this->_ptr = _alloc.allocate(count);//this->_ptr = _alloc.allocate(count);
 		this->_next_size = sizeof (value_type) * count * 2;
 		//fill in null?
 		// for (size_type i = 0; i < count; ++i)
@@ -189,7 +188,14 @@ namespace ft
 	template < typename T, typename Alloc >
 	vector<T, Alloc>::vector( const vector& other )
 	{
-		this->_ptr = 0;
+		if (this->_ptr)
+		{
+			for (size_type i = 0; i < this->_curr_len; ++i) {(this->_ptr + i)->~T();}//use placement new to call type destructors
+			_alloc.deallocate(this->_ptr, this->_curr_len);
+			//delete [] this->_ptr;
+			this->_ptr = 0;
+		}
+		this->_ptr = other._ptr;
 		this->_alloc = other._alloc;
 		this->_curr_len = other._curr_len;
 		this->_cap = other._cap;
@@ -212,21 +218,19 @@ namespace ft
 	template < typename T, typename Alloc >
 	vector<T, Alloc> &vector<T, Alloc>::operator=(const vector& other)
 	{
-		if (this->_ptr)
-		{
-			for (size_type i = 0; i < this->_curr_len; ++i) {(this->_ptr + i)->~T();}//use placement new to call type destructors
-			_alloc.deallocate(this->_ptr, this->_curr_len);
-			// delete [] this->_ptr;
-			this->_ptr = 0;
-		}
-		this->_ptr = _alloc.allocate(other._cap);
-		for (size_type i = 0; i < other._cap; ++i) {new (this->_ptr + i) T;}//use placement new to call type constructors
+		// if (this->_ptr)
+		// {
+		// 	for (size_type i = 0; i < this->_curr_len; ++i) {(this->_ptr + i)->~T();}//use placement new to call type destructors
+		// 	_alloc.deallocate(this->_ptr, this->_curr_len);
+		// 	// delete [] this->_ptr;
+		// 	this->_ptr = 0;
+		// }
+		// this->_ptr = _alloc.allocate(other._cap);
+		// for (size_type i = 0; i < other._cap; ++i) {new (this->_ptr + i) T;}//use placement new to call type constructors
 		// this->_ptr = new value_type[other._cap]; //using new
-		this->_alloc = other._alloc;
-		this->_curr_len = 0;
-		this->_cap = other._cap;
-		this->_next_size = other._next_size; 
+		
 		this->assign(other.begin(), other.end());
+
 		return *this;
 	}
 

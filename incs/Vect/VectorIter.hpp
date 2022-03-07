@@ -15,6 +15,7 @@ class VectorIter
 		typedef VectorIter<K, Pointer, Reference>	curr_class;
 		typedef VectorIter<K, K*, K&>				iterator;
 		typedef	std::ptrdiff_t						difference_type;
+		typedef	std::random_access_iterator_tag		iterator_category;
 
 		//constructors 
 		VectorIter(void) : ptr(0){}

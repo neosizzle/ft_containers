@@ -4,6 +4,13 @@
 #include <time.h>
 #include "TestUtils.hpp"
 
+void	run_map_tests();
+void	testing()
+{
+	
+	run_map_tests();
+}
+
 template <class T1, class T2>
 void	test_init_map(std::string message, int will_throw, T1 key_type, T2 mapped_type)
 {
@@ -82,11 +89,10 @@ void	run_map_tests()
 		{
 			int result = 1 + (rand() % 100);
 			
-			builtin.insert(std::make_pair(result, "veryveryveryveryveryveryveryveryveryveryveryveryveryveryveryverylong str"));
-			mine.insert(ft::make_pair(result, "veryveryveryveryveryveryveryveryveryveryveryveryveryveryveryverylong str"));
+			builtin.insert(std::make_pair(result, SSTR(result)));
+			mine.insert(ft::make_pair(result, SSTR(result)));
 		}
 		test_line_operation_success("mine.insert() multiple", 1);
-
 	}
 	catch(const std::exception& e)
 	{
@@ -115,6 +121,7 @@ void	run_map_tests()
 		msg2.append(SSTR(i));
 		test_line(msg2, builtin_iter->second, mine_iter->second);
 
+		// std::cout << mine_iter->first << ", " <<  mine_iter->second << "\n"; //test increasing order
 		builtin_iter++;
 		mine_iter++;
 	}

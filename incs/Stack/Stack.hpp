@@ -10,6 +10,10 @@ namespace ft
     class Container = ft::vector<T>
 	> class stack
 	{
+		protected:
+			//member objects
+			Container	c;
+
 		public :
 			//member types
 			typedef Container							container_type;
@@ -18,11 +22,7 @@ namespace ft
 			typedef typename Container::reference		reference;
 			typedef typename Container::const_reference	const_reference;
 
-			//member objects
-			Container	c;
-
 			//member functions
-			// stack(){ }
 			stack( const Container& cont = Container() ){this->c = cont;}
 			stack( const stack& other ){this->c =  other.c;}
 			~stack(){}

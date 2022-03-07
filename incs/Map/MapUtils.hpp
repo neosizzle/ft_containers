@@ -14,7 +14,4 @@ struct BSTNode
 	bool is_end; //need extra end node for iter?
 };
 
-//‘BSTNode<std::__cxx11::basic_string<char>, ft::pair<const std::__cxx11::basic_string<char>, int> >*’
-// ‘BSTNode<std::__cxx11::basic_string<char>, int>*’
-
 #endif  //!__MAPUTILS__H__

@@ -110,6 +110,10 @@ void	run_vector_tests()
 	ft::vector <int> swap_mine;
 	swap_builtin.push_back(100);
 	swap_mine.push_back(100);
+	swap_builtin.push_back(10000000);
+	swap_mine.push_back(10000000);
+	swap_builtin.push_back(-100000000);
+	swap_mine.push_back(-100000000);
 	
 	try
 	{
@@ -117,6 +121,11 @@ void	run_vector_tests()
 		mine.swap(swap_mine);
 		test_line_operation_success("mine.swap(swap_mine)", 1);
 		test_line("mine.begin()", *builtin.begin(), *mine.begin());
+		test_line("swap_mine.begin()", *swap_builtin.begin(), *swap_mine.begin());
+		test_line("mine.begin() + 1", *(builtin.begin() + 1), *(mine.begin() + 1));
+		test_line("swap_mine.begin() + 1", *(swap_builtin.begin() + 1), *(swap_mine.begin() + 1));
+		test_line("mine.begin() + 2", *(builtin.begin() + 2), *(mine.begin() + 2));
+		test_line("swap_mine.begin() + 2", *(swap_builtin.begin() + 2), *(swap_mine.begin() + 2));
 	}
 	catch(const std::exception& e)
 	{
@@ -401,6 +410,15 @@ void	run_vector_tests()
 	builtin.swap(swap_builtin);
 	builtin_time = clock() - builtin_time;
 	compare_time("mine.swap(swap_mine)", builtin_time, my_time);
+
+	my_time = clock();
+	mine = swap_mine;
+	my_time = clock() - my_time;
+
+	builtin_time = clock();
+	builtin = swap_builtin;
+	builtin_time = clock() - builtin_time;
+	compare_time("mine = swap_mine", builtin_time, my_time);
 
 	my_time = clock();
 	mine.empty();

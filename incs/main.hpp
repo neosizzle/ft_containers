@@ -5,6 +5,7 @@
 #include <string>
 #include <stdlib.h>
 #include <iostream>
+#include <cmath>
 
 //for map
 #include <utility>

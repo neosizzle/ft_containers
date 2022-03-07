@@ -118,12 +118,23 @@ namespace ft
 	template<typename _Tp>
     struct iterator_traits<const _Tp*>
     {
-		public :
-			typedef		 _Tp                         value_type;
-			typedef		 ptrdiff_t                   difference_type;
-			typedef const _Tp*                        pointer;
-			typedef const _Tp&                        reference;
+		typedef		 _Tp                         value_type;
+		typedef		 ptrdiff_t                   difference_type;
+		typedef const _Tp*                        pointer;
+		typedef const _Tp&                        reference;
     };
+
+	//determine if T is an iterator
+	template <typename T>
+	struct is_iterator {  
+		template <typename U>
+		static char test(typename std::iterator_traits<U>::pointer* x);
+
+		template <typename U>
+		static long test(U* x);
+
+		static const bool value = sizeof(test<T>(0)) == 1;
+	};
 
 	//reverse iterator
 	template< class Iter >

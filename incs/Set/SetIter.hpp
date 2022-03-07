@@ -19,6 +19,7 @@ template <typename K, typename Pointer, typename Reference>
 			typedef RBTNode<K>*								pointer;
 			typedef SetIter<K, Pointer, Reference>			curr_class;
 			typedef SetIter<K, K*, K&>						iterator;
+			typedef	std::bidirectional_iterator_tag			iterator_category;
 
 			//constructors 
 			SetIter(void) : ptr(0){}
@@ -128,6 +129,7 @@ template <typename K, typename Pointer, typename Reference>
 			typedef RBTNode<K>*										pointer;
 			typedef ReverseSetIter<K, Pointer, Reference>			curr_class;
 			typedef ReverseSetIter<K, K*, K&>						iterator;
+			typedef	std::bidirectional_iterator_tag			iterator_category;
 
 
 			//constructors 
