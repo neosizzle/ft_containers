@@ -91,7 +91,7 @@ void	run_vector_tests()
 		builtin.pop_back();
 		mine.pop_back();
 	}
-
+	test_line_operation_success("mine.pop_back() multiple", 1);
 	builtin_iter = builtin.begin();
 	mine_iter = mine.begin();
 	i = -1;
@@ -106,6 +106,12 @@ void	run_vector_tests()
 		mine_iter++;
 	}
 
+	mine.push_back(69);
+	builtin.push_back(69);
+	mine.push_back(420);
+	builtin.push_back(420);
+	mine.push_back(42069);
+	builtin.push_back(42069);
 	std::vector <int> swap_builtin; 
 	ft::vector <int> swap_mine;
 	swap_builtin.push_back(100);

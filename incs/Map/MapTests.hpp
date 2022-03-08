@@ -4,13 +4,6 @@
 #include <time.h>
 #include "TestUtils.hpp"
 
-void	run_map_tests();
-void	testing()
-{
-	
-	run_map_tests();
-}
-
 template <class T1, class T2>
 void	test_init_map(std::string message, int will_throw, T1 key_type, T2 mapped_type)
 {
