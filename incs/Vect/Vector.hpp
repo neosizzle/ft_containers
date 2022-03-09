@@ -166,7 +166,8 @@ namespace ft
 		this->_alloc = alloc;
 		this->_curr_len = count;
 		this->_cap = count;
-		this->_ptr = new value_type[count];
+		this->_ptr = _alloc.allocate(count);//this->_ptr = _alloc.allocate(count);
+		for (size_type i = 0; i < count; ++i) {new (this->_ptr + i) T;} //use placement new to call type constructors
 		this->_next_size = sizeof (value_type) * count * 2;
 		for (size_type i = 0; i < count; ++i)
 			this->_ptr[i] = value;
@@ -179,6 +180,7 @@ namespace ft
 		this->_curr_len = count;
 		this->_cap = count;
 		this->_ptr = _alloc.allocate(count);//this->_ptr = _alloc.allocate(count);
+		for (size_type i = 0; i < count; ++i) {new (this->_ptr + i) T;} //use placement new to call type constructors
 		this->_next_size = sizeof (value_type) * count * 2;
 		//fill in null?
 		// for (size_type i = 0; i < count; ++i)

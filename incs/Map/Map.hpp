@@ -67,7 +67,7 @@ namespace ft
 
 				// res = new BSTNode<key_type, mapped_type>();
 				res = _allocator.allocate(1);
-				new (res) BSTNode<key_type, mapped_type>;
+				_allocator.construct(res, BSTNode<key_type, mapped_type>());
 				res->pair = ft::make_pair(key, value);
 				res->left = 0;
 				res->right = 0;
