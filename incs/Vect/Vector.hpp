@@ -129,10 +129,10 @@ namespace ft
 			void swap( vector& other );
 
 			//comparison operators
-			bool operator==( const vector<T,Allocator>& rhs );
-			bool operator!=( const vector<T,Allocator>& rhs );
+			// bool operator==( const vector<T,Allocator>& rhs );
+			// bool operator!=( const vector<T,Allocator>& rhs );
 			bool operator<=( const vector<T,Allocator>& rhs );
-			bool operator<( const vector<T,Allocator>& rhs );
+			// bool operator<( const vector<T,Allocator>& rhs );
 			bool operator>=( const vector<T,Allocator>& rhs );
 			bool operator>( const vector<T,Allocator>& rhs );
 	};
@@ -530,40 +530,40 @@ namespace ft
 	}
 	
 	//comparison operators
-	template < typename T, typename Alloc >
-	bool	vector<T, Alloc>::operator ==( const vector<T,Alloc>& rhs )
-	{
-		const_iterator first1;
-		const_iterator last1;
-		const_iterator first2;
-		const_iterator last2;
+	// template < typename T, typename Alloc >
+	// bool	vector<T, Alloc>::operator ==( const vector<T,Alloc>& rhs )
+	// {
+	// 	const_iterator first1;
+	// 	const_iterator last1;
+	// 	const_iterator first2;
+	// 	const_iterator last2;
 
-		first1 = this->begin();
-		last1 = this->end();
-		first2 = rhs.begin();
-		last2 = rhs.end();
+	// 	first1 = this->begin();
+	// 	last1 = this->end();
+	// 	first2 = rhs.begin();
+	// 	last2 = rhs.end();
 
-		while (first1 != last1)
-		{
-			if ((first2 == last2) || *first1 != *first2) return false ;
-			first1++;
-			first2++;
-		}
-		return (first2 == last2);
-		return false;
-	}
+	// 	while (first1 != last1)
+	// 	{
+	// 		if ((first2 == last2) || *first1 != *first2) return false ;
+	// 		first1++;
+	// 		first2++;
+	// 	}
+	// 	return (first2 == last2);
+	// 	return false;
+	// }
 
-	template < typename T, typename Alloc >
-	bool	vector<T, Alloc>::operator !=( const vector<T,Alloc>& rhs )
-	{
-		return !(*this == rhs);
-	}
+	// template < typename T, typename Alloc >
+	// bool	vector<T, Alloc>::operator !=( const vector<T,Alloc>& rhs )
+	// {
+	// 	return !(*this == rhs);
+	// }
 
-	template < typename T, typename Alloc >
-	bool	vector<T, Alloc>::operator <( const vector<T,Alloc>& rhs )
-	{
-		return (ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
-	}
+	// template < typename T, typename Alloc >
+	// bool	vector<T, Alloc>::operator <( const vector<T,Alloc>& rhs )
+	// {
+	// 	return (ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
+	// }
 
 	template < typename T, typename Alloc >
 	bool	vector<T, Alloc>::operator <=( const vector<T,Alloc>& rhs )
@@ -582,7 +582,51 @@ namespace ft
 	{
 		return (*this > rhs || *this == rhs);
 	}
+
+	template < typename T, typename Alloc >
+	bool	operator == (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
+	{
+		typename vector<T, Alloc>::const_iterator first1;
+		typename vector<T, Alloc>::const_iterator last1;
+		typename vector<T, Alloc>::const_iterator first2;
+		typename vector<T, Alloc>::const_iterator last2;
+
+		if (lhs.size() != rhs.size())
+			return false;
+		first1 = lhs.begin();
+		last1 = lhs.end();
+		first2 = rhs.begin();
+		last2 = rhs.end();
+
+		while (first1 != last1)
+		{
+			if ((first2 == last2) || *first1 != *first2) return false ;
+			first1++;
+			first2++;
+		}
+		return (first2 == last2);
+		return false;
+	}
+
+	template < typename T, typename Alloc >
+	bool	operator != (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
+	{
+		return !(lhs == rhs);
+	}
+
+	template < typename T, typename Alloc >
+	bool	operator < (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
+	{
+		return !(ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template < typename T, typename Alloc >
+	bool	operator <= (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
+	{
+		return false;
+	}
 }//ft
+
 
 
 #endif  //!__VECTOR__H__

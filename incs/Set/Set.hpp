@@ -512,6 +512,7 @@ namespace ft
 				node		successor;
 				node		parent;
 				bool		uv_black;
+				key_type	temp;
 
 				successor = _get_replace(curr);
 				parent = curr->parent;
@@ -589,7 +590,10 @@ namespace ft
 					if (curr == this->_root)
 					{
 						//replace current value with successor value
-						ft::swap(successor->value, curr->value);
+						// ft::swap(successor->value, curr->value);
+						temp = curr->value;
+						curr->value = successor->value;
+						successor->value = temp;
 
 						//unlink children
 						curr->left = NULL;
@@ -667,7 +671,10 @@ namespace ft
 				// 	n->right = 0;
 				// }
 				// std::cout << "case 2 : curr has 2 children\n";
-				ft::swap(successor->value, curr->value);				
+				// ft::swap(successor->value, curr->value);
+				temp = curr->value;
+				curr->value = successor->value;
+				successor->value = temp;
 				_delete_node(successor);
 			}
 

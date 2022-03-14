@@ -20,7 +20,7 @@ namespace ft
 			//typedefs (refer to sourcecode)
 			typedef Key										key_type;
 			typedef	T										mapped_type;
-			typedef	ft::pair<const key_type, mapped_type>	value_type;
+			typedef	ft::pair<key_type, mapped_type>			value_type;
 			typedef	Compare									key_compare;
 			typedef Allocator								allocator_type;
 			typedef T& 										reference;
@@ -141,7 +141,8 @@ namespace ft
 			//case 3. Node has 2 children. Find inorder predeseccor, swap and delete successor
 			void _delete_node(node n)
 			{
-				node	successor;
+				node		successor;
+				value_type	temp;
 
 				if (n->is_end)
 				{
@@ -200,7 +201,10 @@ namespace ft
 					n->left = 0;
 					n->right = 0;
 				}
-				ft::swap(successor->pair, n->pair);
+				temp = n->pair;
+				n->pair = successor->pair;
+				successor->pair = temp;
+				// ft::swap(successor->pair, n->pair);
 				// std::cout << "4th rule recursing. current pair : (" << n->pair.first << ", " << n->pair.second << ") ";
 				// std::cout << "successor pair : (" << successor->pair.first << ", " << successor->pair.second << ") \n";
 				// std::cout << "successor parent : (" << successor->parent->pair.first << ", " << successor->parent->pair.second << ") \n";
