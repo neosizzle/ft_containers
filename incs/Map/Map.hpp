@@ -311,12 +311,12 @@ namespace ft
 			const_iterator upper_bound( const Key& key ) const;
 
 			//comparison operators
-			bool operator==( const map<Key,T,Compare,Allocator>& rhs );
-			bool operator!=( const map<Key,T,Compare,Allocator>& rhs );
-			bool operator<=( const map<Key,T,Compare,Allocator>& rhs );
-			bool operator<( const map<Key,T,Compare,Allocator>& rhs );
-			bool operator>=( const map<Key,T,Compare,Allocator>& rhs );
-			bool operator>( const map<Key,T,Compare,Allocator>& rhs );
+			// bool operator==( const map<Key,T,Compare,Allocator>& rhs );
+			// bool operator!=( const map<Key,T,Compare,Allocator>& rhs );
+			// bool operator<=( const map<Key,T,Compare,Allocator>& rhs );
+			// bool operator<( const map<Key,T,Compare,Allocator>& rhs );
+			// bool operator>=( const map<Key,T,Compare,Allocator>& rhs );
+			// bool operator>( const map<Key,T,Compare,Allocator>& rhs );
 			
 			//observers
 			key_compare 	key_comp() const;
@@ -651,17 +651,30 @@ namespace ft
 		return (ft::make_pair(this->lower_bound(key), this->upper_bound(key)));
 	}
 
+	//observers
+	template< class Key, class T, class Compare, class Alloc >
+	typename map<Key, T, Compare, Alloc>::key_compare 	map<Key, T, Compare, Alloc>::key_comp() const
+	{
+		return this->_compare;
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	typename map<Key, T, Compare, Alloc>::value_compare 	map<Key, T, Compare, Alloc>::value_comp() const
+	{
+		return value_compare(this->_compare);
+	}
+
 	//comparison operators
 	template< class Key, class T, class Compare, class Alloc >
-	bool map<Key, T, Compare, Alloc>::operator==( const ft::map<Key,T,Compare,Alloc>& rhs )
+	bool operator==(const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs )
 	{
-		const_iterator first1;
-		const_iterator last1;
-		const_iterator first2;
-		const_iterator last2;
+		typename map<Key, T, Compare, Alloc>::const_iterator first1;
+		typename map<Key, T, Compare, Alloc>::const_iterator last1;
+		typename map<Key, T, Compare, Alloc>::const_iterator first2;
+		typename map<Key, T, Compare, Alloc>::const_iterator last2;
 
-		first1 = this->begin();
-		last1 = this->end();
+		first1 = lhs.begin();
+		last1 = lhs.end();
 		first2 = rhs.begin();
 		last2 = rhs.end();
 
@@ -676,48 +689,35 @@ namespace ft
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-	bool map<Key, T, Compare, Alloc>::operator!=( const ft::map<Key,T,Compare,Alloc>& rhs )
+	bool operator!=(const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs )
 	{
-		return !(*this == rhs);
+		return !(lhs == rhs);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-	bool map<Key, T, Compare, Alloc>::operator<( const ft::map<Key,T,Compare,Alloc>& rhs )
+	bool operator<(const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs )
 	{
-		return (ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-	bool map<Key, T, Compare, Alloc>::operator<=( const ft::map<Key,T,Compare,Alloc>& rhs )
+	bool operator<=(const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs )
 	{
-		return (*this < rhs || *this == rhs);
+		return (lhs < rhs || lhs == rhs);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-	bool map<Key, T, Compare, Alloc>::operator>( const ft::map<Key,T,Compare,Alloc>& rhs )
+	bool operator>(const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs )
 	{
-		return !(*this <= rhs);
+		return !(lhs <= rhs);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
-	bool map<Key, T, Compare, Alloc>::operator>=( const ft::map<Key,T,Compare,Alloc>& rhs )
+	bool operator>=(const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs )
 	{
-		return (*this > rhs || *this == rhs);
+		return (lhs > rhs || lhs == rhs);
 	}
 
-	//observers
-	template< class Key, class T, class Compare, class Alloc >
-	typename map<Key, T, Compare, Alloc>::key_compare 	map<Key, T, Compare, Alloc>::key_comp() const
-	{
-		return this->_compare;
-	}
-
-	template< class Key, class T, class Compare, class Alloc >
-	typename map<Key, T, Compare, Alloc>::value_compare 	map<Key, T, Compare, Alloc>::value_comp() const
-	{
-		return value_compare(this->_compare);
-	}
-	
 }//ft
 
 #endif  //!__MAP__H

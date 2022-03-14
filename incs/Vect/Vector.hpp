@@ -127,14 +127,6 @@ namespace ft
 			void resize( size_type count, T value = T() );
 
 			void swap( vector& other );
-
-			//comparison operators
-			// bool operator==( const vector<T,Allocator>& rhs );
-			// bool operator!=( const vector<T,Allocator>& rhs );
-			bool operator<=( const vector<T,Allocator>& rhs );
-			// bool operator<( const vector<T,Allocator>& rhs );
-			bool operator>=( const vector<T,Allocator>& rhs );
-			bool operator>( const vector<T,Allocator>& rhs );
 	};
 
 	//member funcs definitions
@@ -528,60 +520,6 @@ namespace ft
 		other._cap = _cap_temp;
 		other._next_size = _next_size_temp;
 	}
-	
-	//comparison operators
-	// template < typename T, typename Alloc >
-	// bool	vector<T, Alloc>::operator ==( const vector<T,Alloc>& rhs )
-	// {
-	// 	const_iterator first1;
-	// 	const_iterator last1;
-	// 	const_iterator first2;
-	// 	const_iterator last2;
-
-	// 	first1 = this->begin();
-	// 	last1 = this->end();
-	// 	first2 = rhs.begin();
-	// 	last2 = rhs.end();
-
-	// 	while (first1 != last1)
-	// 	{
-	// 		if ((first2 == last2) || *first1 != *first2) return false ;
-	// 		first1++;
-	// 		first2++;
-	// 	}
-	// 	return (first2 == last2);
-	// 	return false;
-	// }
-
-	// template < typename T, typename Alloc >
-	// bool	vector<T, Alloc>::operator !=( const vector<T,Alloc>& rhs )
-	// {
-	// 	return !(*this == rhs);
-	// }
-
-	// template < typename T, typename Alloc >
-	// bool	vector<T, Alloc>::operator <( const vector<T,Alloc>& rhs )
-	// {
-	// 	return (ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
-	// }
-
-	template < typename T, typename Alloc >
-	bool	vector<T, Alloc>::operator <=( const vector<T,Alloc>& rhs )
-	{
-		return (*this < rhs || *this == rhs);
-	}
-
-	template < typename T, typename Alloc >
-	bool	vector<T, Alloc>::operator >( const vector<T,Alloc>& rhs )
-	{
-		return !(*this <= rhs);
-	}
-
-	template < typename T, typename Alloc >
-	bool	vector<T, Alloc>::operator >=( const vector<T,Alloc>& rhs )
-	{
-		return (*this > rhs || *this == rhs);
-	}
 
 	template < typename T, typename Alloc >
 	bool	operator == (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
@@ -617,13 +555,25 @@ namespace ft
 	template < typename T, typename Alloc >
 	bool	operator < (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
 	{
-		return !(ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
 	template < typename T, typename Alloc >
 	bool	operator <= (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
 	{
-		return false;
+		return (lhs < rhs || lhs == rhs);
+	}
+
+	template < typename T, typename Alloc >
+	bool	operator > (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
+	{
+		return !(lhs <= rhs);
+	}
+
+	template < typename T, typename Alloc >
+	bool	operator >= (const vector<T, Alloc>& lhs, const vector<T,Alloc>& rhs )
+	{
+		return (lhs > rhs || lhs == rhs);
 	}
 }//ft
 
