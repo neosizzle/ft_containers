@@ -212,17 +212,11 @@ namespace ft
 	template < typename T, typename Alloc >
 	vector<T, Alloc> &vector<T, Alloc>::operator=(const vector& other)
 	{
-		// if (this->_ptr)
-		// {
-		// 	for (size_type i = 0; i < this->_curr_len; ++i) {(this->_ptr + i)->~T();}//use placement new to call type destructors
-		// 	_alloc.deallocate(this->_ptr, this->_curr_len);
-		// 	// delete [] this->_ptr;
-		// 	this->_ptr = 0;
-		// }
-		// this->_ptr = _alloc.allocate(other._cap);
-		// for (size_type i = 0; i < other._cap; ++i) {new (this->_ptr + i) T;}//use placement new to call type constructors
-		// this->_ptr = new value_type[other._cap]; //using new
-		
+		if (this->_curr_len >= this->_cap)
+		{
+			this->reserve(this->_next_size);
+			this->_next_size *= this->_next_size;
+		}
 		this->assign(other.begin(), other.end());
 
 		return *this;

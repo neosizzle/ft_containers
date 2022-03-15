@@ -4,6 +4,33 @@
 #include <time.h>
 #include "TestUtils.hpp"
 
+// void	testing()
+// {
+// 	//iter invalidation test (change std to ft. both should segfault with fsan but work normal without)
+// 	std::map <int, int> builtin;
+
+// 	builtin.insert(std::make_pair(5, 5));
+// 	builtin.insert(std::make_pair(3, 3));
+// 	builtin.insert(std::make_pair(1, 1));
+// 	builtin.insert(std::make_pair(2, 2));
+// 	builtin.insert(std::make_pair(8, 8));
+// 	builtin.insert(std::make_pair(9, 9));
+// 	builtin.insert(std::make_pair(7, 7));
+
+// 	std::map <int, int>::iterator iter_to_erase;
+// 	iter_to_erase = builtin.begin();
+// 	iter_to_erase++;
+// 	iter_to_erase++;
+
+// 	std::map <int, int>::iterator iter;
+// 	iter = builtin.begin();
+// 	iter++;
+// 	iter++;
+// 	std::cout << iter->second << "\n";
+// 	builtin.erase(iter_to_erase);
+// 	std::cout << iter->second << "\n";
+// }
+
 template <class T1, class T2>
 void	test_init_map(std::string message, int will_throw, T1 key_type, T2 mapped_type)
 {

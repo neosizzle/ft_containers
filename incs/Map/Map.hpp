@@ -54,10 +54,12 @@ namespace ft
 
 		//helpers and attributes
 		private :
-			allocator_type	_allocator;
+			typedef typename Allocator::template rebind<BSTNode<Key, T> >::other node_alloc_type;
+			node_alloc_type	_allocator;
 			node			_root;
 			key_compare		_compare;
 			size_type		_len;
+			
 
 			//node _new_node(key_type key, mapped_type value, node paren)
 			//creates and initializes new node and returns the pointer to that node
@@ -103,7 +105,7 @@ namespace ft
 					n->pair = ft::make_pair(key, value);
 					return (n);
 				}
-				if (key < n->pair.first)
+				if (this->_compare(key, n->pair.first))//key < n->pair.first
 				{
 					if (n->left)
 						return _insert_node(n->left, key, value);
@@ -111,7 +113,7 @@ namespace ft
 						n->left = _new_node(key, value, n, is_end);
 					return n->left;
 				}
-				else if (key > n->pair.first)
+				else if (!this->_compare(key, n->pair.first))//key > n->pair.first
 				{
 					if (n->right)
 						return _insert_node(n->right, key, value);
@@ -128,9 +130,9 @@ namespace ft
 			{
 				if (!n->is_end && n->pair.first == key)
 					return n;
-				if (n->right && key > n->pair.first)
+				if (n->right && !this->_compare(key, n->pair.first))//key > n->pair.first
 					return _find(n->right, key);
-				if (n->left && key < n->pair.first)
+				if (n->left && this->_compare(key, n->pair.first))//key < n->pair.first
 					return _find(n->left, key);
 				return this->_end();
 			}
@@ -309,14 +311,6 @@ namespace ft
 			const_iterator lower_bound( const Key& key ) const;
 			iterator upper_bound( const Key& key ); 
 			const_iterator upper_bound( const Key& key ) const;
-
-			//comparison operators
-			// bool operator==( const map<Key,T,Compare,Allocator>& rhs );
-			// bool operator!=( const map<Key,T,Compare,Allocator>& rhs );
-			// bool operator<=( const map<Key,T,Compare,Allocator>& rhs );
-			// bool operator<( const map<Key,T,Compare,Allocator>& rhs );
-			// bool operator>=( const map<Key,T,Compare,Allocator>& rhs );
-			// bool operator>( const map<Key,T,Compare,Allocator>& rhs );
 			
 			//observers
 			key_compare 	key_comp() const;
