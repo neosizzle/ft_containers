@@ -237,7 +237,7 @@ namespace ft
 		//member functions & access operations
 		public :
 			//Member functions
-			explicit map(const key_compare &comp = key_compare(), const allocator_type alloc = allocator_type());
+			explicit map(const key_compare &comp = key_compare(), const allocator_type alloc = allocator_type());//map(){}; essentially equal
 			map(map<Key, T> &other);
 			~map();
 			map &operator=(map<Key, T> &other);
@@ -257,7 +257,6 @@ namespace ft
 			reverse_iterator	rbegin();
 			reverse_iterator	rend()
 			{
-				//why the fuck is this not root??
 				reverse_iterator	i;
 
 				i = reverse_iterator(this->_root);
@@ -268,7 +267,6 @@ namespace ft
 			const_reverse_iterator	rbegin() const;
 			const_reverse_iterator	rend() const 
 			{
-				//why the fuck is this not root??
 				reverse_iterator	i;
 
 				i = const_reverse_iterator(this->_root);
