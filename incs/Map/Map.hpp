@@ -354,7 +354,7 @@ namespace ft
 
 		n = this->_find(this->_root, k);
 		if (n->is_end)
-			throw std::out_of_range("out_of_range");
+			throw std::length_error("length_error");
 		return n->pair.second;
 	}
 	
@@ -470,33 +470,45 @@ namespace ft
 	ft::pair<typename map<Key, T, Compare, Alloc>::iterator, bool> map<Key, T, Compare, Alloc>::insert( const value_type& value )
 	{
 		iterator	iter;
+		node		res;
 
 		iter = this->find(value.first);
 		if (iter != this->end())
 		{
-			// std::cout << "dup found insert()\n";
 			return (ft::make_pair(iter, false));
 		}
 		++this->_len;
-		// if (this->_len == 1)
-		// {
-		// 	delete this->_root;
-		// 	this->_root = _new_node(value.first, value.second, 0);
-		// 	return (ft::make_pair(iterator(this->_root), true));
-		// }
-		return (ft::make_pair(iterator(this->_insert_node(this->_root, value.first, value.second)), true));
+		try
+		{
+			res = this->_insert_node(this->_root, value.first, value.second);
+		}
+		catch(const std::exception& e)
+		{
+			throw (std::out_of_range("out of range"));
+		}
+		
+		return (ft::make_pair(iterator(res), true));
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
 	typename map<Key, T, Compare, Alloc>::iterator map<Key, T, Compare, Alloc>::insert( iterator hint, const value_type& value )
 	{
 		iterator	iter;
+		node		res;
 
 		iter = this->find(value.first);
 		if (iter != this->end())
 			return (iter);
 		++this->len;
-		return (iterator(this->_insert_node(hint.node(), value.first, value.second)));
+		try
+		{
+			res = this->_insert_node(hint.node(), value.first, value.second);
+		}
+		catch(const std::exception& e)
+		{
+			throw (std::out_of_range("out of range"));
+		}
+		return (iterator(res));
 	}
 
 	template <class Key, class T, class Compare, class Alloc >
