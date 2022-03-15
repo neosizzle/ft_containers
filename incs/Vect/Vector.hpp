@@ -114,12 +114,37 @@ namespace ft
 			void clear();
 			iterator insert( iterator pos, const T& value );
 			void insert( iterator pos, size_type count, const T& value );
-			void insert( iterator pos, iterator first, iterator last);
-			void insert( iterator pos, const_iterator first, const_iterator last);
+
+			template< class InputIt >
+			void insert( iterator pos, InputIt first, InputIt last,
+				typename ft::enable_if<!ft::is_integral<InputIt>::value, void>::type* = 0)//void * = 0
+			{
+				vector<T, Allocator>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
+				iterator			right_begin;	//right side begin iter
+				iterator			right_end;	//right side end iter
+
+				//adjust current length for cutting array
+				this->_curr_len -= this->end() - pos;
+				
+				//populate mid section
+				while (first != last)
+				{
+					this->push_back(*first);
+					first++;
+				}
+				
+				//populate right section
+				right_begin = right.begin();
+				right_end = right.end();
+				while (right_begin != right_end)
+				{
+					this->push_back(*right_begin);
+					right_begin++;
+				}
+			}
+
 			iterator erase( iterator pos );
-			iterator erase( const_iterator pos );
 			iterator erase( iterator first, iterator last );
-			iterator erase( const_iterator first, const_iterator last );
 
 			void push_back( const T& value );
 			void pop_back();
@@ -323,60 +348,6 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	void vector<T, Alloc>::insert( iterator pos, iterator first, iterator last)
-	{
-		vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
-		iterator			right_begin;	//right side begin iter
-		iterator			right_end;	//right side end iter
-
-		//adjust current length for cutting array
-		this->_curr_len -= this->end() - pos;
-		
-		//populate mid section
-		while (first != last)
-		{
-			this->push_back(*first);
-			first++;
-		}
-		
-		//populate right section
-		right_begin = right.begin();
-		right_end = right.end();
-		while (right_begin != right_end)
-		{
-			this->push_back(*right_begin);
-			right_begin++;
-		}
-	}
-
-	template < typename T, typename Alloc >
-	void vector<T, Alloc>::insert( iterator pos, const_iterator first, const_iterator last)
-	{
-		vector<T, Alloc>	right(pos, this->end(), std::allocator<T>()); //right side of new vect
-		iterator			right_begin;	//right side begin iter
-		iterator			right_end;	//right side end iter
-
-		//adjust current length for cutting array
-		this->_curr_len -= this->end() - pos;
-		
-		//populate mid section
-		while (first != last)
-		{
-			this->push_back(*first);
-			first++;
-		}
-		
-		//populate right section
-		right_begin = right.begin();
-		right_end = right.end();
-		while (right_begin != right_end)
-		{
-			this->push_back(*right_begin);
-			right_begin++;
-		}
-	}
-
-	template < typename T, typename Alloc >
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase( iterator pos )
 	{
 		iterator	og; //original position (will soon point to deleted elem)
@@ -396,24 +367,6 @@ namespace ft
 	}
 
 	template < typename T, typename Alloc >
-	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase( const_iterator pos )
-	{
-		const_iterator	og; //original position (will soon point to deleted elem)
-		const_iterator	end; //final element 
-
-		og = pos;
-		end = --this->end();
-
-		//replce current value with next value
-		while (pos != end)
-		{
-			*pos = *(pos + 1);
-			pos++;
-		}
-		this->_curr_len--;
-		return og;
-	};
-	template < typename T, typename Alloc >
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase( iterator first, iterator last )
 	{
 		iterator	res;
@@ -430,19 +383,6 @@ namespace ft
 		this->_curr_len -= (last - first);
 		return res;
 		
-	}
-
-	template < typename T, typename Alloc >
-	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase( const_iterator first, const_iterator last )
-	{
-		const_iterator	res;
-
-		while (first != last)
-		{
-			res = this->erase(first);
-			first++;
-		}
-		return res;
 	}
 
 	template < typename T, typename Alloc >
