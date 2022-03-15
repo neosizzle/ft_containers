@@ -2,12 +2,13 @@
 #define __STACK__H__
 #include "main.hpp"
 #include "Vector.hpp"
+#include <deque>
 
 namespace ft
 {
 	template<
     class T,
-    class Container = ft::vector<T>
+    class Container = std::deque<T>
 	> class stack
 	{
 		protected:
@@ -41,13 +42,25 @@ namespace ft
 			void pop() {this->c.pop_back();}
 
 			//comparison operators
-			bool operator==( const stack<T,Container>& rhs ) {return this->c == rhs.c;}
-			bool operator!=( const stack<T,Container>& rhs ) {return !(*this == rhs);}
-			bool operator<=( const stack<T,Container>& rhs ){return this->c <= rhs.c;}
-			bool operator<( const stack<T,Container>& rhs ) {return this->c < rhs.c;}
-			bool operator>=( const stack<T,Container>& rhs ) {return this->c >= rhs.c;}
-			bool operator>( const stack<T,Container>& rhs ) {return this->c > rhs.c;}
+			template <class T1, class Container1>
+			friend bool operator==(const stack<T1,Container1>& lhs, const stack<T1,Container1>& rhs ) {return lhs.c == rhs.c;}
+
+			template <class T1, class Container1>
+			friend bool operator!=(const stack<T1,Container1>& lhs, const stack<T1,Container1>& rhs ) {return lhs.c != rhs.c;}
+
+			template <class T1, class Container1>
+			friend bool operator<(const stack<T1,Container1>& lhs, const stack<T1,Container1>& rhs ) {return lhs.c < rhs.c;}
+
+			template <class T1, class Container1>
+			friend bool operator<=(const stack<T1,Container1>& lhs, const stack<T1,Container1>& rhs ) {return lhs.c <= rhs.c;}
+
+			template <class T1, class Container1>
+			friend bool operator>(const stack<T1,Container1>& lhs, const stack<T1,Container1>& rhs ) {return lhs.c > rhs.c;}
+
+			template <class T1, class Container1>
+			friend bool operator>=(const stack<T1,Container1>& lhs, const stack<T1,Container1>& rhs ) {return lhs.c >= rhs.c;}
 	};
+
 }//ft
 
 #endif  //!__STACK__H__

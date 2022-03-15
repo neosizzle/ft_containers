@@ -681,7 +681,7 @@ namespace ft
 			//void _init_tree(void)
 			void _init_tree(void)
 			{
-				this->_root = _new_node(key_type(), value_type(), 0, true, BLACK_RBT);\
+				this->_root = _new_node(key_type(), value_type(), 0, true, BLACK_RBT);
 				this->_len = 0;
 				this->_ll_case = false;
 				this->_rl_case = false;
